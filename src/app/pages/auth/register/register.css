@@ -1,134 +1,161 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .game-section {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 74px);
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
   padding: 40px 20px;
-  background-color: #041914;
 }
 
 .register-card {
-  background: #000000;
-  border: 2px solid #ffffff;
-  border-radius: 12px;
-  padding: 40px 35px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 40px 48px;
   width: 100%;
   max-width: 460px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
 }
 
 .h2-title {
-  color: #ffffff;
-  font-size: 1.8em;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  letter-spacing: 1.5px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 32px;
   text-align: center;
-  margin: 0 0 10px 0;
+  letter-spacing: 0.01em;
 }
 
 .register-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
 }
 
-.register-form fieldset {
+fieldset {
   border: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
 }
 
-.register-form label {
-  color: #ffffff;
+label {
+  font-size: 0.8rem;
   font-weight: 600;
-  font-size: 0.95rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-.register-form input {
-  padding: 9px 12px;
-  border-radius: 6px;
-  border: none;
-  width: 100%;
+input {
+  background: var(--bg-primary);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 16px;
   font-size: 0.95rem;
-  box-sizing: border-box;
+  color: var(--text-primary);
   outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  width: 100%;
 }
 
-.register-form input:focus {
-  outline: 2px solid #0c8f71;
+input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(31, 173, 143, 0.15);
+}
+
+input::placeholder {
+  color: var(--text-muted);
 }
 
 .error-msg {
+  font-size: 0.78rem;
   color: #ff6b6b;
-  font-size: 0.8rem;
   margin: 0;
+  padding-left: 4px;
 }
 
 .btn-submit {
-  width: 100%;
   margin-top: 8px;
-  padding: 10px;
-  background-color: rgb(255, 140, 0);
-  color: #ffffff;
+  padding: 12px;
+  background-color: var(--accent);
+  color: #fff;
+  font-size: 0.9rem;
   font-weight: 700;
-  font-size: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-btn);
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  box-shadow: 0 2px 12px var(--accent-glow);
+  width: 100%;
 }
 
 .btn-submit:hover:not(:disabled) {
-  background-color: rgb(220, 115, 0);
+  background-color: var(--accent-dark);
+  box-shadow: 0 4px 20px rgba(31, 173, 143, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-submit:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .btn-submit:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
 .divider {
-  border-color: #0c8f71;
-  width: 100%;
-  margin: 10px 0;
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 4px 0;
 }
 
 .links-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   align-items: center;
-  color: white;
-  font-size: 0.9rem;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
 }
 
 .sr-signup {
-  background: white;
-  color: #0c8f71;
-  padding: 5px 10px;
-  border-radius: 6px;
-  text-decoration: none;
+  color: var(--accent);
   font-weight: 600;
-  margin-left: 6px;
+  text-decoration: none;
+  transition: color var(--transition);
 }
 
 .sr-signup:hover {
-  background: #e0e0e0;
+  color: var(--accent-dark);
+  text-decoration: underline;
 }
 
 .sr-login {
-  color: white;
+  color: var(--text-muted);
+  font-size: 0.8rem;
   text-decoration: none;
-  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: color var(--transition);
 }
 
 .sr-login:hover {
-  text-decoration: underline;
-  color: #0c8f71;
+  color: var(--text-primary);
+}
+
+@media (max-width: 500px) {
+  .register-card {
+    padding: 32px 24px;
+  }
 }

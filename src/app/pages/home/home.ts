@@ -16,9 +16,8 @@ export class HomeComponent implements OnInit {
   btn2Visible: boolean = false;
 
   ngOnInit(): void {
-    // Reproduce la misma lógica de animación escalonada del JS original
     setTimeout(() => this.logoVisible = true, 300);
-    setTimeout(() => this.btn1Visible = true, 1000);
-    setTimeout(() => this.btn2Visible = true, 1500);
+    setTimeout(() => this.btn1Visible = true, 500);
+    setTimeout(() => this.btn2Visible = true, 500);
   }
 }

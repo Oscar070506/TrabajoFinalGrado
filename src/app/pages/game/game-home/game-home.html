@@ -1,1 +1,51 @@
-<p>game-home works!</p>
+<div class="page-layout">
+
+  <div class="catalog-wrapper">
+    <section class="catalog-container">
+
+      @if (loading) {
+        <div class="state-msg">Cargando juegos...</div>
+      }
+
+      @if (error) {
+        <div class="state-msg error">{{ error }}</div>
+      }
+
+      @if (!loading && !error && games.length === 0) {
+        <div class="state-msg">No se encontraron juegos.</div>
+      }
+
+      <section class="catalog-speedrun">
+        @for (game of games; track game.id; let i = $index) {
+          <div class="speedrun-card" (click)="onGameClick(game)" [style.animation-delay]="i * 0.06 + 's'">
+            <div class="speedrun-cover" [style.background-image]="'url(' + getCover(game) + ')'"></div>
+            <div class="speedrun-info">
+              <p class="speedrun-title">{{ getName(game) }}</p>
+            </div>
+          </div>
+        }
+      </section>
+
+      @if (hasMore && !loadingMore) {
+        <button class="btn-load-more" (click)="loadMore()">Cargar más juegos</button>
+      }
+
+      @if (loadingMore) {
+        <div class="state-msg">Cargando más juegos...</div>
+      }
+
+    </section>
+  </div>
+
+  <div class="side-panel">
+    <button class="btn-popular" routerLink="/games/popular-games">
+      <span class="btn-popular-icon">🏆</span>
+      <span class="btn-popular-text">
+        <span class="btn-popular-title">Juegos Populares</span>
+        <span class="btn-popular-sub">Ver el carrusel</span>
+      </span>
+      <span class="btn-popular-arrow">›</span>
+    </button>
+  </div>
+
+</div>

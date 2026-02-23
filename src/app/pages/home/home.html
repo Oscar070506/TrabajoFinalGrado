@@ -1,0 +1,24 @@
+<div class="home-container">
+  <img
+    src="/homeLogo.png"
+    alt="Speedrun's"
+    class="home-logo"
+    [class.show]="logoVisible"
+  />
+  <div class="button-group">
+    <button
+      class="home-button"
+      [class.show]="btn1Visible"
+      routerLink="/login"
+    >
+      Iniciar Sesión
+    </button>
+    <button
+      class="home-button"
+      [class.show]="btn2Visible"
+      routerLink="/register"
+    >
+      Registrarse
+    </button>
+  </div>
+</div>

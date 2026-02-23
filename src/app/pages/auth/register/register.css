@@ -1,0 +1,134 @@
+.game-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 74px);
+  padding: 40px 20px;
+  background-color: #041914;
+}
+
+.register-card {
+  background: #000000;
+  border: 2px solid #ffffff;
+  border-radius: 12px;
+  padding: 40px 35px;
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.h2-title {
+  color: #ffffff;
+  font-size: 1.8em;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  letter-spacing: 1.5px;
+  text-align: center;
+  margin: 0 0 10px 0;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.register-form fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.register-form label {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.register-form input {
+  padding: 9px 12px;
+  border-radius: 6px;
+  border: none;
+  width: 100%;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.register-form input:focus {
+  outline: 2px solid #0c8f71;
+}
+
+.error-msg {
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.btn-submit {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  background-color: rgb(255, 140, 0);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: rgb(220, 115, 0);
+}
+
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.divider {
+  border-color: #0c8f71;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.links-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.sr-signup {
+  background: white;
+  color: #0c8f71;
+  padding: 5px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+.sr-signup:hover {
+  background: #e0e0e0;
+}
+
+.sr-login {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.sr-login:hover {
+  text-decoration: underline;
+  color: #0c8f71;
+}

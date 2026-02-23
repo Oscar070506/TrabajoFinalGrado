@@ -1,0 +1,56 @@
+/* === CONTENEDOR PRINCIPAL === */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 40px;
+  background-color: #041914;
+}
+
+/* === LOGO === */
+.home-logo {
+  width: 700px;
+  max-width: 90vw;
+  opacity: 1;
+  transform: scale(0.8);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.home-logo.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* === GRUPO DE BOTONES === */
+.button-group {
+  display: flex;
+  gap: 30px;
+}
+
+/* === BOTONES === */
+.home-button {
+  padding: 15px 40px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-radius: 12px;
+  border: 2px solid #ffffff;
+  background-color: #0c8f71;
+  color: white;
+  cursor: pointer;
+  opacity: 1;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.home-button.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.home-button:hover {
+  background-color: #0aaf89;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(12, 143, 113, 0.4);
+}

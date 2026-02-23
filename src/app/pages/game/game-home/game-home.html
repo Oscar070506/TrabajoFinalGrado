@@ -1,0 +1,37 @@
+<section class="catalog-container">
+
+  @if (loading) {
+    <div class="state-msg">Cargando juegos...</div>
+  }
+
+  @if (error) {
+    <div class="state-msg error">{{ error }}</div>
+  }
+
+  @if (!loading && !error && games.length === 0) {
+    <div class="state-msg">No se encontraron juegos.</div>
+  }
+
+  <section class="catalog-speedrun">
+    @for (game of games; track game.id) {
+      <div class="speedrun-card" (click)="onGameClick(game)">
+        <div
+          class="speedrun-cover"
+          [style.background-image]="'url(' + getCover(game) + ')'"
+        ></div>
+        <div class="speedrun-info">
+          <p class="speedrun-title">{{ getName(game) }}</p>
+        </div>
+      </div>
+    }
+  </section>
+
+  @if (hasMore && !loadingMore) {
+    <button class="btn-load-more" (click)="loadMore()">Cargar más juegos</button>
+  }
+
+  @if (loadingMore) {
+    <div class="state-msg">Cargando más juegos...</div>
+  }
+
+</section>

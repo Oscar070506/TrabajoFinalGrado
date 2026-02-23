@@ -1,0 +1,45 @@
+<section class="game-section">
+  <div class="login-card">
+    <h2 class="h2-title">Regístrese en Speedrun's</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+
+      <fieldset>
+        <label for="email">Correo Electrónico:</label>
+        <input type="text" id="email" formControlName="email" />
+
+        @if (email.touched && email.hasError('required')) {
+          <p class="error-msg">El correo es obligatorio.</p>
+        } @else if (email.touched && email.hasError('email')) {
+          <p class="error-msg">Introduce un email válido.</p>
+        }
+      </fieldset>
+
+      <fieldset>
+        <label for="clientPassword">Contraseña:</label>
+        <input type="password" id="clientPassword" formControlName="password" />
+
+        @if (password.touched && password.hasError('required')) {
+          <p class="error-msg">La contraseña es obligatoria.</p>
+        } @else if (password.touched && password.hasError('minlength')) {
+          <p class="error-msg">La contraseña debe tener al menos 4 caracteres.</p>
+        }
+      </fieldset>
+
+      <button type="submit" class="btn-submit" [disabled]="loginForm.invalid">
+        Iniciar Sesión
+      </button>
+
+      <hr class="divider" />
+
+      <div class="links-group">
+        <span>¿No tienes una cuenta?
+          <a routerLink="/register" class="sr-signup">Regístrate</a>
+        </span>
+        <a routerLink="/game" class="sr-login">Catálogo</a>
+        <a routerLink="/home" class="sr-login">Inicio</a>
+      </div>
+
+    </form>
+  </div>
+</section>

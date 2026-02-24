@@ -145,11 +145,13 @@ export class GameHomeComponent implements OnInit {
         this.offset += this.PAGE;
         this.hasMore = batch.length === this.PAGE && this.offset < this.MAX;
         this.loadingMore = false;
+        this.cdr.detectChanges();
       },
       error: err => {
         console.error('Error API:', err);
         this.error = `Error ${err.status}: ${err.message}`;
         this.loadingMore = false;
+        this.cdr.detectChanges();
       }
     });
   }

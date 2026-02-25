@@ -37,9 +37,12 @@
         </thead>
         <tbody>
           @for (run of paginated; track $index; let i = $index) {
-            <tr [class.gold]="currentPage === 0 && i === 0"
-                [class.silver]="currentPage === 0 && i === 1"
-                [class.bronze]="currentPage === 0 && i === 2">
+            <tr
+              [class.gold]="currentPage === 0 && i === 0"
+              [class.silver]="currentPage === 0 && i === 1"
+              [class.bronze]="currentPage === 0 && i === 2"
+              [class.clickable]="run?.videos?.links?.[0]?.uri"
+              (click)="openVideo(run)">
               <td class="rank-cell">
                 @if (getTrophy(currentPage * pageSize + i); as trophy) {
                   <img [src]="trophy" [alt]="'Puesto ' + (currentPage * pageSize + i + 1)" class="trophy-icon" />
@@ -64,6 +67,21 @@
       }
     }
 
+  }
+
+  <!-- Modal de vídeo -->
+  @if (activeVideoUrl) {
+    <div class="modal-backdrop" (click)="closeVideo()">
+      <div class="modal-box" (click)="$event.stopPropagation()">
+        <button class="modal-close" (click)="closeVideo()">✕</button>
+        <iframe
+          [src]="activeVideoUrl | safe"
+          frameborder="0"
+          allowfullscreen
+          allow="autoplay; encrypted-media">
+        </iframe>
+      </div>
+    </div>
   }
 
 </div>

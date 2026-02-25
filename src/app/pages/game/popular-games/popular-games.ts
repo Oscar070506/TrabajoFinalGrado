@@ -199,8 +199,8 @@ export class PopularGamesComponent implements OnInit {
     return date ? String(date).substring(0, 4) : '';
   }
 
-  getLeaderboardUrl(game: any): string | null {
-    return game?.links?.find((l: any) => l.rel === 'leaderboard')?.uri ?? null;
+  getLeaderboardUrl(game: any): string {
+    return game?.links?.find((l: any) => l.rel === 'leaderboard')?.uri ?? '';
   }
 
   /**
@@ -211,5 +211,15 @@ export class PopularGamesComponent implements OnInit {
     if (this.currentGame) {
       this.router.navigate(['/game', this.currentGame.id]);
     }
+  }
+
+  activeVideoUrl: string | null = null;
+
+  onVideoOpened(url: string | null): void {
+    this.activeVideoUrl = url;
+  }
+
+  closeVideo(): void {
+    this.activeVideoUrl = null;
   }
 }

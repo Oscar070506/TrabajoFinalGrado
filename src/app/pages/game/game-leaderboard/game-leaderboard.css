@@ -3,14 +3,11 @@
   width: 100%;
 }
 
-/* El contenedor NO tiene background, border ni max-width propios.
-   El panel exterior (.leaderboard-panel en popular-games) ya los gestiona. */
 .leaderboard-container {
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Título */
 .title {
   text-align: center;
   font-size: 1.2rem;
@@ -20,19 +17,14 @@
   letter-spacing: 0.03em;
 }
 
-/* Estados */
-.loading,
-.error,
-.empty {
+.loading, .error, .empty {
   text-align: center;
   font-size: 0.9rem;
   padding: 16px;
   border-radius: var(--radius-card);
 }
 
-.loading {
-  color: var(--text-muted);
-}
+.loading { color: var(--text-muted); }
 
 .error {
   color: #ff6b6b;
@@ -83,15 +75,26 @@
   border-bottom: none;
 }
 
-.leaderboard-table tbody tr:hover {
-  background: rgba(31, 173, 143, 0.08);
-  transition: background 0.25s ease;
+/* Filas top 3 */
+.leaderboard-table tbody tr.gold   { background: rgba(255, 215, 0,   0.07); }
+.leaderboard-table tbody tr.silver { background: rgba(192, 192, 192, 0.07); }
+.leaderboard-table tbody tr.bronze { background: rgba(205, 127, 50,  0.07); }
+
+/* Filas con vídeo */
+.leaderboard-table tbody tr.clickable {
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.leaderboard-table td:first-child,
-.leaderboard-table th:first-child {
+.leaderboard-table tbody tr.clickable:hover {
+  background: rgba(31, 173, 143, 0.12);
+}
+
+/* Posición (#) */
+.rank-cell {
   width: 44px;
   min-width: 44px;
+  text-align: center;
 }
 
 .leaderboard-table td:first-child {
@@ -99,39 +102,11 @@
   color: var(--accent);
 }
 
-@media (max-width: 700px) {
-  .leaderboard-table th,
-  .leaderboard-table td {
-    padding: 10px 6px;
-    font-size: 0.78rem;
-  }
-}
-
-/* Trofeos */
-.rank-cell {
-  width: 44px;
-  min-width: 44px;
-  text-align: center;
-}
-
 .trophy-icon {
   width: 22px;
   height: 22px;
   object-fit: contain;
   vertical-align: middle;
-}
-
-/* Filas destacadas top 3 */
-.leaderboard-table tbody tr.gold {
-  background: rgba(255, 215, 0, 0.07);
-}
-
-.leaderboard-table tbody tr.silver {
-  background: rgba(192, 192, 192, 0.07);
-}
-
-.leaderboard-table tbody tr.bronze {
-  background: rgba(205, 127, 50, 0.07);
 }
 
 /* Paginación */
@@ -174,4 +149,66 @@
   font-size: 0.8rem;
   color: var(--text-muted);
   font-weight: 600;
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: backdropIn 0.2s ease forwards;
+}
+
+@keyframes backdropIn {
+  from { background: rgba(0, 0, 0, 0); }
+  to   { background: rgba(0, 0, 0, 0.78); }
+}
+
+.modal-box {
+  position: relative;
+  width: 760px;
+  max-width: 90vw;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+  animation: modalIn 0.2s ease forwards;
+}
+
+@keyframes modalIn {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+.modal-box iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 101;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.15);
 }

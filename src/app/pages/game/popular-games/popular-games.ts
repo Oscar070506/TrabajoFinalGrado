@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
+import { GameLeaderboardComponent } from '../game-leaderboard/game-leaderboard';
 
 /**
  * @component PopularGamesComponent
@@ -13,7 +14,7 @@ import { Router, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-popular-games',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, GameLeaderboardComponent],
   templateUrl: './popular-games.html',
   styleUrls: ['./popular-games.css']
 })

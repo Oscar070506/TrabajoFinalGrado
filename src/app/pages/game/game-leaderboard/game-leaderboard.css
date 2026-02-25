@@ -1,0 +1,177 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* El contenedor NO tiene background, border ni max-width propios.
+   El panel exterior (.leaderboard-panel en popular-games) ya los gestiona. */
+.leaderboard-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Título */
+.title {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 20px;
+  letter-spacing: 0.03em;
+}
+
+/* Estados */
+.loading,
+.error,
+.empty {
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 16px;
+  border-radius: var(--radius-card);
+}
+
+.loading {
+  color: var(--text-muted);
+}
+
+.error {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.25);
+}
+
+.empty {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Tabla */
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.leaderboard-table thead {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.leaderboard-table th {
+  padding: 12px 10px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-table td {
+  padding: 12px 10px;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.leaderboard-table tbody tr:hover {
+  background: rgba(31, 173, 143, 0.08);
+  transition: background 0.25s ease;
+}
+
+.leaderboard-table td:first-child,
+.leaderboard-table th:first-child {
+  width: 44px;
+  min-width: 44px;
+}
+
+.leaderboard-table td:first-child {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+@media (max-width: 700px) {
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 10px 6px;
+    font-size: 0.78rem;
+  }
+}
+
+/* Trofeos */
+.rank-cell {
+  width: 44px;
+  min-width: 44px;
+  text-align: center;
+}
+
+.trophy-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+/* Filas destacadas top 3 */
+.leaderboard-table tbody tr.gold {
+  background: rgba(255, 215, 0, 0.07);
+}
+
+.leaderboard-table tbody tr.silver {
+  background: rgba(192, 192, 192, 0.07);
+}
+
+.leaderboard-table tbody tr.bronze {
+  background: rgba(205, 127, 50, 0.07);
+}
+
+/* Paginación */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 0 4px;
+}
+
+.page-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid var(--border);
+  color: var(--text-primary);
+  font-size: 1.4rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  padding-bottom: 2px;
+}
+
+.page-btn:hover:not([disabled]) {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(31, 173, 143, 0.1);
+}
+
+.page-btn[disabled] {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}

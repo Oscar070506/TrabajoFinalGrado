@@ -1,1 +1,65 @@
-<p>game-leaderboard works!</p>
+<div class="leaderboard-container">
+
+  @if (loading) {
+    <div class="loading">Cargando leaderboard…</div>
+  }
+
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  @if (!loading && !error) {
+
+    <h2 class="title">Leaderboard</h2>
+
+    @if (leaderboard.length === 0) {
+      <p class="empty">No hay registros disponibles para esta categoría.</p>
+    }
+
+    @if (leaderboard.length > 0) {
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Jugador</th>
+            <th>Tiempo</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (run of paginated; track $index; let i = $index) {
+            <!-- El índice global = página actual * tamaño de página + índice local -->
+            <tr [class.gold]="currentPage === 0 && i === 0"
+                [class.silver]="currentPage === 0 && i === 1"
+                [class.bronze]="currentPage === 0 && i === 2">
+
+              <td class="rank-cell">
+                @if (getTrophy(currentPage * pageSize + i); as trophy) {
+                  <img [src]="trophy" [alt]="'Puesto ' + (currentPage * pageSize + i + 1)" class="trophy-icon" />
+                } @else {
+                  {{ currentPage * pageSize + i + 1 }}
+                }
+              </td>
+
+              <td>{{ getPlayerName(run) }}</td>
+              <td>{{ getTime(run) }}</td>
+              <td>{{ run?.date || '—' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <!-- Paginación -->
+      @if (leaderboard.length > pageSize) {
+        <div class="pagination">
+          <button class="page-btn" (click)="prevPage()" [disabled]="currentPage === 0">&#8249;</button>
+          <span class="page-info">{{ currentPage + 1 }} / {{ Math.ceil(leaderboard.length / pageSize) }}</span>
+          <button class="page-btn" (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= leaderboard.length">&#8250;</button>
+        </div>
+      }
+    }
+
+  }
+
+</div>

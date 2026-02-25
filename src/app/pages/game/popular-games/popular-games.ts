@@ -199,6 +199,10 @@ export class PopularGamesComponent implements OnInit {
     return date ? String(date).substring(0, 4) : '';
   }
 
+  getLeaderboardUrl(game: any): string | null {
+    return game?.links?.find((l: any) => l.rel === 'leaderboard')?.uri ?? null;
+  }
+
   /**
    * @method onGameClick
    * @description Navega al leaderboard del juego actual.

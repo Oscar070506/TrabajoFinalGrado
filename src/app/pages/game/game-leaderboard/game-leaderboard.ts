@@ -1,115 +1,140 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { CategoryFiltersComponent } from '../category-filters/category-filters';
 
 /**
  * @component GameLeaderboardComponent
- * @description Muestra el leaderboard del juego seleccionado, con paginación,
- * trofeos para los tres primeros puestos y actualización automática al cambiar gameId.
+ * @description Muestra el leaderboard de la categoría activa de un juego de speedrun.com.
+ * Carga las categorías `per-game` disponibles, renderiza los filtros de categoría mediante
+ * {@link CategoryFiltersComponent} y actualiza la tabla al cambiar de categoría o de juego.
+ *
+ * @example
+ * <app-game-leaderboard [leaderboardUrl]="url"></app-game-leaderboard>
  */
 @Component({
   selector: 'app-game-leaderboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CategoryFiltersComponent],
   templateUrl: './game-leaderboard.html',
   styleUrls: ['./game-leaderboard.css']
 })
 export class GameLeaderboardComponent implements OnInit, OnChanges {
 
-  /** ID del juego recibido desde el componente padre. */
-  @Input() gameId: string = '';
+  /**
+   * URL directa al leaderboard de la categoría principal del juego.
+   * Se obtiene del campo `links[rel=leaderboard]` del objeto juego
+   * devuelto por la API de speedrun.com.
+   *
+   * @example
+   * "https://www.speedrun.com/api/v1/leaderboards/pd0wx9w1/category/xk94qv4d"
+   */
+  @Input() leaderboardUrl: string | null = null;
 
-  /** Lista completa de runs del leaderboard. */
   leaderboard: any[] = [];
-
-  /** Lista paginada de runs visibles. */
   paginated: any[] = [];
-
-  /** Página actual. */
+  categories: any[] = [];
+  activeCategoryId: string = '';
   currentPage: number = 0;
 
-  /** Número de elementos por página. */
   readonly pageSize: number = 10;
-
-  /** Indica si la carga está en curso. */
   loading: boolean = false;
-
-  /** Mensaje de error. `null` si no hay error. */
   error: string | null = null;
-
   protected readonly Math = Math;
 
-  /** URL base de la API de speedrun.com. */
   private readonly API = 'https://www.speedrun.com/api/v1';
 
-  /**
-   * @constructor
-   * @param {HttpClient} http - Cliente HTTP de Angular.
-   * @param {ChangeDetectorRef} cdr - Detector de cambios.
-   */
-  constructor(
-    private http: HttpClient,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
-  /** @method ngOnInit */
   ngOnInit(): void {
-    if (this.gameId) {
-      this.loadLeaderboard();
-    }
+    if (this.leaderboardUrl) this.init(this.leaderboardUrl);
   }
 
   /**
    * @method ngOnChanges
-   * @description Detecta cambios en @Input y recarga el leaderboard.
-   * @param {SimpleChanges} changes
+   * @description Ciclo de vida de Angular. Detecta cambios en `leaderboardUrl`
+   * y relanza {@link init} para cargar el juego nuevo.
+   * @param {SimpleChanges} changes - Mapa de propiedades que han cambiado.
    */
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['gameId'] && this.gameId) {
-      this.loadLeaderboard();
+    if (changes['leaderboardUrl'] && this.leaderboardUrl) {
+      this.init(this.leaderboardUrl);
     }
   }
 
   /**
-   * @method loadLeaderboard
-   * @description Obtiene las categorías del juego y carga el leaderboard
-   * de la primera categoría disponible.
+   * @method init
+   * @description Punto de entrada principal. Extrae el `gameId` y `categoryId`
+   * de la URL mediante regex, establece la categoría activa y lanza en paralelo
+   * la carga de categorías y del leaderboard inicial.
+   *
+   * @param {string} url - URL del leaderboard con formato
+   * `/leaderboards/{gameId}/category/{categoryId}`.
+   *
+   * @example
+   * this.init("https://www.speedrun.com/api/v1/leaderboards/pd0wx9w1/category/xk94qv4d");
+   * // gameId   → "pd0wx9w1"
+   * // categoryId → "xk94qv4d"
    */
-  loadLeaderboard(): void {
-    this.loading = true;
-    this.error = null;
+  init(url: string): void {
+    const match = url.match(/leaderboards\/([^/]+)\/category\/([^/]+)/);
+    if (!match) return;
+    const gameId    = match[1];
+    const categoryId = match[2];
+    this.activeCategoryId = categoryId;
+    this.loadCategories(gameId);
+    this.fetchLeaderboard(url);
+  }
 
-    this.http.get<any>(`${this.API}/games/${this.gameId}/categories`)
-      .subscribe({
-        next: res => {
-          const categories = res.data;
+  /**
+   * @method loadCategories
+   * @description Obtiene todas las categorías del juego desde la API y filtra
+   * únicamente las de tipo `per-game`, descartando las `per-level` que
+   * requieren un `levelId` adicional y provocarían un error 400.
+   *
+   * @param {string} gameId - ID del juego en speedrun.com.
+   */
+  loadCategories(gameId: string): void {
+    this.http.get<any>(`${this.API}/games/${gameId}/categories`).subscribe({
+      next: res => {
+        this.categories = (res.data ?? []).filter((cat: any) => cat.type === 'per-game');
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        // Si falla la carga de categorías, ocultamos los filtros silenciosamente
+        this.categories = [];
+      }
+    });
+  }
 
-          if (!categories?.length) {
-            this.error = 'Este juego no tiene categorías.';
-            this.loading = false;
-            this.cdr.detectChanges();
-            return;
-          }
-
-          const categoryId = categories[0].id;
-          const url = `${this.API}/leaderboards/${this.gameId}/category/${categoryId}`;
-
-          this.fetchLeaderboard(url);
-        },
-        error: err => {
-          this.error = `Error obteniendo categorías: ${err.message}`;
-          this.loading = false;
-          this.cdr.detectChanges();
-        }
-      });
+  /**
+   * @method onCategorySelected
+   * @description Manejador del evento `categorySelected` emitido por
+   * {@link CategoryFiltersComponent}. Actualiza la categoría activa y
+   * recarga el leaderboard con la nueva URL.
+   *
+   * @param {string} url - URL del leaderboard de la categoría seleccionada.
+   */
+  onCategorySelected(url: string): void {
+    const match = url.match(/category\/([^/]+)/);
+    if (match) this.activeCategoryId = match[1];
+    this.fetchLeaderboard(url);
   }
 
   /**
    * @method fetchLeaderboard
-   * @description Llama al endpoint real del leaderboard y normaliza los datos.
-   * @param {string} url - URL del leaderboard.
+   * @description Realiza la petición HTTP al endpoint del leaderboard y
+   * normaliza la respuesta extrayendo únicamente los objetos `run` del array
+   * `data.runs`. Resetea la paginación a la primera página en cada carga.
+   *
+   * @param {string} url - URL completa del leaderboard a consultar.
    */
   fetchLeaderboard(url: string): void {
+    this.loading  = true;
+    this.error    = null;
+    this.leaderboard = [];
+    this.paginated   = [];
+
     this.http.get<any>(url).subscribe({
       next: res => {
         this.leaderboard = res.data?.runs?.map((r: any) => r.run) ?? [];
@@ -119,7 +144,7 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
         this.cdr.detectChanges();
       },
       error: err => {
-        this.error = `Error cargando leaderboard: ${err.message}`;
+        this.error   = `Error cargando leaderboard: ${err.message}`;
         this.loading = false;
         this.cdr.detectChanges();
       }
@@ -128,17 +153,18 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
 
   /**
    * @method updatePagination
-   * @description Actualiza la lista paginada según la página actual.
+   * @description Recalcula {@link paginated} extrayendo el slice de {@link leaderboard}
+   * correspondiente a la {@link currentPage} actual.
    */
   updatePagination(): void {
-    const start = this.currentPage * this.pageSize;
-    const end   = start + this.pageSize;
-    this.paginated = this.leaderboard.slice(start, end);
+    const start    = this.currentPage * this.pageSize;
+    this.paginated = this.leaderboard.slice(start, start + this.pageSize);
   }
 
   /**
    * @method nextPage
-   * @description Avanza a la siguiente página.
+   * @description Avanza a la página siguiente si existe.
+   * No hace nada si ya estamos en la última página.
    */
   nextPage(): void {
     if ((this.currentPage + 1) * this.pageSize < this.leaderboard.length) {
@@ -150,7 +176,8 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
 
   /**
    * @method prevPage
-   * @description Retrocede a la página anterior.
+   * @description Retrocede a la página anterior si existe.
+   * No hace nada si ya estamos en la primera página.
    */
   prevPage(): void {
     if (this.currentPage > 0) {
@@ -162,9 +189,11 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
 
   /**
    * @method getPlayerName
-   * @description Devuelve el nombre del jugador.
-   * @param {any} run
-   * @returns {string}
+   * @description Extrae el nombre o ID del primer jugador de una run.
+   * Devuelve `'Anónimo'` si el dato no está disponible.
+   *
+   * @param {any} run - Objeto run del leaderboard.
+   * @returns {string} Nombre o ID del jugador.
    */
   getPlayerName(run: any): string {
     return run?.players?.[0]?.id ?? 'Anónimo';
@@ -172,9 +201,14 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
 
   /**
    * @method getTime
-   * @description Convierte el tiempo en segundos a formato HH:MM:SS.
-   * @param {any} run
-   * @returns {string}
+   * @description Convierte el tiempo primario de una run (en segundos)
+   * al formato `HH:MM:SS`.
+   *
+   * @param {any} run - Objeto run del leaderboard.
+   * @returns {string} Tiempo formateado, o `'—'` si no hay dato.
+   *
+   * @example
+   * this.getTime({ times: { primary_t: 83 } }); // → "00:01:23"
    */
   getTime(run: any): string {
     const time = run?.times?.primary_t;
@@ -184,9 +218,15 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
 
   /**
    * @method getTrophy
-   * @description Devuelve la URL del trofeo según la posición.
-   * @param {number} index - Índice global del leaderboard.
-   * @returns {string | null}
+   * @description Devuelve la URL del icono de trofeo correspondiente
+   * a una posición del podio (top 3). Para el resto de posiciones devuelve `null`.
+   *
+   * @param {number} index - Posición global en el leaderboard (base 0).
+   * @returns {string | null} URL del trofeo, o `null` si la posición es > 2.
+   *
+   * @example
+   * this.getTrophy(0); // → "https://www.speedrun.com/images/1st.png"
+   * this.getTrophy(3); // → null
    */
   getTrophy(index: number): string | null {
     if (index === 0) return 'https://www.speedrun.com/images/1st.png';

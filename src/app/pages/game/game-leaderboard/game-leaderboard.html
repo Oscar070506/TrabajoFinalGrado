@@ -1,5 +1,14 @@
 <div class="leaderboard-container">
 
+  <!-- Filtros de categoría -->
+  @if (categories.length > 1) {
+    <app-category-filters
+      [categories]="categories"
+      [activeCategoryId]="activeCategoryId"
+      (categorySelected)="onCategorySelected($event)">
+    </app-category-filters>
+  }
+
   @if (loading) {
     <div class="loading">Cargando leaderboard…</div>
   }
@@ -26,14 +35,11 @@
             <th>Fecha</th>
           </tr>
         </thead>
-
         <tbody>
           @for (run of paginated; track $index; let i = $index) {
-            <!-- El índice global = página actual * tamaño de página + índice local -->
             <tr [class.gold]="currentPage === 0 && i === 0"
                 [class.silver]="currentPage === 0 && i === 1"
                 [class.bronze]="currentPage === 0 && i === 2">
-
               <td class="rank-cell">
                 @if (getTrophy(currentPage * pageSize + i); as trophy) {
                   <img [src]="trophy" [alt]="'Puesto ' + (currentPage * pageSize + i + 1)" class="trophy-icon" />
@@ -41,7 +47,6 @@
                   {{ currentPage * pageSize + i + 1 }}
                 }
               </td>
-
               <td>{{ getPlayerName(run) }}</td>
               <td>{{ getTime(run) }}</td>
               <td>{{ run?.date || '—' }}</td>
@@ -50,7 +55,6 @@
         </tbody>
       </table>
 
-      <!-- Paginación -->
       @if (leaderboard.length > pageSize) {
         <div class="pagination">
           <button class="page-btn" (click)="prevPage()" [disabled]="currentPage === 0">&#8249;</button>

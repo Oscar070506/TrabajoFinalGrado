@@ -29,96 +29,98 @@
 
         <div class="game-panel">
 
-      <div class="panel-header">
-        <img class="panel-cover" [src]="getBackground(currentGame)" [alt]="getName(currentGame)" />
-        <div class="panel-title-block">
-          <h1 class="game-title">{{ getName(currentGame) }}</h1>
+          <div class="panel-header">
+              <img class="panel-cover" [src]="getCover(currentGame)" [alt]="getName(currentGame)" />
+              <div class="panel-title-block">
+              <h1 class="game-title">{{ getName(currentGame) }}</h1>
 
-          @if (currentGame?.names?.japanese) {
-            <p class="game-title-jp">{{ currentGame.names.japanese }}</p>
-          }
+              @if (currentGame?.names?.japanese) {
+                <p class="game-title-jp">{{ currentGame.names.japanese }}</p>
+              }
 
-          @if (getReleaseYear(currentGame)) {
-            <span class="game-year">Lanzamiento: {{ currentGame?.['release-date'] ?? getReleaseYear(currentGame) }}</span>
-          }
+              @if (getReleaseYear(currentGame)) {
+                <span class="game-year">Lanzamiento: {{ currentGame?.['release-date'] ?? getReleaseYear(currentGame) }}</span>
+              }
 
-          @if (currentGame?.weblink) {
-            <a class="game-weblink" [href]="currentGame.weblink" target="_blank">🌐 Ver en speedrun.com</a>
-          }
-        </div>
-      </div>
-
-      <div class="panel-divider"></div>
-
-      <div class="panel-stats">
-        <div class="stat-block">
-          <span class="stat-value">{{ currentGame?._runCount ?? '—' }}</span>
-          <span class="stat-label">Runs recientes</span>
-        </div>
-        <div class="stat-block">
-          <span class="stat-value">{{ currentGame?.boostReceived ?? 0 }}</span>
-          <span class="stat-label">Boosts</span>
-        </div>
-        <div class="stat-block">
-          <span class="stat-value"># {{ currentIndex + 1 }}</span>
-          <span class="stat-label">Ranking popular</span>
-        </div>
-      </div>
-
-      <div class="panel-divider"></div>
-
-      <div class="panel-meta">
-        <div class="meta-row">
-          <span class="meta-key">Plataformas</span>
-          <span class="meta-val">
-            {{ currentGame?.platforms?.length ?? 0 }}
-            plataforma{{ currentGame?.platforms?.length !== 1 ? 's' : '' }}
-          </span>
-        </div>
-
-        <div class="meta-row">
-          <span class="meta-key">Verificación</span>
-          <span class="meta-val">
-            {{ currentGame?.ruleset?.['require-verification'] ? 'Requerida' : 'No requerida' }}
-          </span>
-        </div>
-
-        <div class="meta-row">
-          <span class="meta-key">Vídeo</span>
-          <span class="meta-val">
-            {{ currentGame?.ruleset?.['require-video'] ? 'Requerido' : 'Opcional' }}
-          </span>
-        </div>
-
-        <div class="meta-row">
-          <span class="meta-key">Emulador</span>
-          <span class="meta-val">
-            {{ currentGame?.ruleset?.['emulators-allowed'] ? 'Permitido' : 'No permitido' }}
-          </span>
-        </div>
-
-        <div class="meta-row">
-          <span class="meta-key">Tiempo base</span>
-          <span class="meta-val">
-            {{ currentGame?.ruleset?.['default-time'] ?? '—' }}
-          </span>
-        </div>
-
-        @if (currentGame?.romhack) {
-          <div class="meta-row">
-            <span class="meta-key">Tipo</span>
-            <span class="meta-val meta-badge">ROM Hack</span>
+              @if (currentGame?.weblink) {
+                <a class="game-weblink" [href]="currentGame.weblink" target="_blank">🌐 Ver en speedrun.com</a>
+              }
+            </div>
           </div>
-        }
-      </div>
 
-      <div class="panel-divider"></div>
+          <div class="panel-divider"></div>
 
-    </div>
+          <div class="panel-stats">
+            <div class="stat-block">
+              <span class="stat-value">{{ currentGame?._runCount ?? '—' }}</span>
+              <span class="stat-label">Runs recientes</span>
+            </div>
+            <div class="stat-block">
+              <span class="stat-value">{{ currentGame?.boostReceived ?? 0 }}</span>
+              <span class="stat-label">Boosts</span>
+            </div>
+            <div class="stat-block">
+              <span class="stat-value"># {{ currentIndex + 1 }}</span>
+              <span class="stat-label">Ranking popular</span>
+            </div>
+          </div>
 
-      <div class="leaderboard-panel">
-        <app-game-leaderboard [leaderboardUrl]="getLeaderboardUrl(currentGame)"></app-game-leaderboard>
-      </div>
+          <div class="panel-divider"></div>
+
+          <div class="panel-meta">
+            <div class="meta-row">
+              <span class="meta-key">Plataformas</span>
+              <span class="meta-val">
+                {{ currentGame?.platforms?.length ?? 0 }}
+                plataforma{{ currentGame?.platforms?.length !== 1 ? 's' : '' }}
+              </span>
+            </div>
+
+            <div class="meta-row">
+              <span class="meta-key">Verificación</span>
+              <span class="meta-val">
+                {{ currentGame?.ruleset?.['require-verification'] ? 'Requerida' : 'No requerida' }}
+              </span>
+            </div>
+
+            <div class="meta-row">
+              <span class="meta-key">Vídeo</span>
+              <span class="meta-val">
+                {{ currentGame?.ruleset?.['require-video'] ? 'Requerido' : 'Opcional' }}
+              </span>
+            </div>
+
+            <div class="meta-row">
+              <span class="meta-key">Emulador</span>
+              <span class="meta-val">
+                {{ currentGame?.ruleset?.['emulators-allowed'] ? 'Permitido' : 'No permitido' }}
+              </span>
+            </div>
+
+            <div class="meta-row">
+              <span class="meta-key">Tiempo base</span>
+              <span class="meta-val">
+                {{ currentGame?.ruleset?.['default-time'] ?? '—' }}
+              </span>
+            </div>
+
+            @if (currentGame?.romhack) {
+              <div class="meta-row">
+                <span class="meta-key">Tipo</span>
+                <span class="meta-val meta-badge">ROM Hack</span>
+              </div>
+            }
+          </div>
+
+          <div class="panel-divider"></div>
+
+        </div>
+
+        <div class="leaderboard-panel">
+          <app-game-leaderboard
+            [leaderboardUrl]="getLeaderboardUrl(currentGame)">
+          </app-game-leaderboard>
+        </div>
 
       </div>
 

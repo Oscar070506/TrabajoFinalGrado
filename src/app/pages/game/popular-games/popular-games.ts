@@ -62,7 +62,6 @@ export class PopularGamesComponent implements OnInit {
    * @method fetchPopularGames
    * @description Obtiene 200 runs recientes con embed=game, cuenta runs
    * por juego y construye el top 20 más activo.
-   * @returns {void}
    */
   fetchPopularGames(): void {
     this.loading = true;
@@ -151,8 +150,6 @@ export class PopularGamesComponent implements OnInit {
   /**
    * @method getBackground
    * @description Devuelve la imagen de fondo del juego (mayor resolución).
-   * Usa el background del tema si existe, si no la portada large.
-   * Fuerza https para evitar bloqueo de contenido mixto.
    * @param {any} game
    * @returns {string}
    */
@@ -199,6 +196,11 @@ export class PopularGamesComponent implements OnInit {
     return date ? String(date).substring(0, 4) : '';
   }
 
+  /**
+   * @method getLeaderboardUrl
+   * @param {any} game
+   * @returns {string}
+   */
   getLeaderboardUrl(game: any): string {
     return game?.links?.find((l: any) => l.rel === 'leaderboard')?.uri ?? '';
   }
@@ -211,15 +213,5 @@ export class PopularGamesComponent implements OnInit {
     if (this.currentGame) {
       this.router.navigate(['/game', this.currentGame.id]);
     }
-  }
-
-  activeVideoUrl: string | null = null;
-
-  onVideoOpened(url: string | null): void {
-    this.activeVideoUrl = url;
-  }
-
-  closeVideo(): void {
-    this.activeVideoUrl = null;
   }
 }

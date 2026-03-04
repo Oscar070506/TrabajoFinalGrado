@@ -1,59 +1,47 @@
-# TrabajoFinalGrado
+# Trabajo Final de Grado — Speedrun Tracker
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.5.
+## Objetivo
 
-## Development server
+Avanzar con el trabajo final del grado agregándole funcionalidad mínima.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## Requisitos e instalación
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Es necesario tener instalado **VSCode** con las extensiones mínimas para funcionar con HTML, CSS y JavaScript.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Estructura
 
-```bash
-ng generate component component-name
-```
+He optado por cambiar totalmente la estructura del proyecto para hacerlo más escalable con **Angular**, dado que si se diese el caso podría crecer de forma más ordenada.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+En dicha estructura se han añadido los siguientes elementos, todos conceptos básicos de Angular vistos en clase:
 
-```bash
-ng generate --help
-```
+- **Componentes** — bloques de UI reutilizables
+- **Pages** — vistas principales de la aplicación
+- **Servicios** — lógica compartida entre componentes
 
-## Building
+Adicionalmente, se han incluido elementos pensados para mejorar el flujo de trabajo a posteriori:
 
-To build the project run:
+- **Pipes** — para transformar datos en el template de forma limpia
+- **Guards** — para el cifrado de contraseñas
+- **Interceptors** — por si se opta por añadir tokens de autenticación en un futuro
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Funcionalidades básicas añadidas
 
-## Running unit tests
+Mediante llamadas a la API de **speedrun.com** se han implementado las siguientes funcionalidades:
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+- **Popular Games** — página que muestra los juegos más activos en tiempo real, ordenados por número de runs verificadas recientes
+- **Leaderboards por juego** — cada juego muestra su ranking con los mejores tiempos, incluyendo trofeos para el top 3
+- **Filtro por categoría** — el leaderboard se puede filtrar por las categorías `per-game` o `per-level` disponibles de cada juego
+- **Vídeo de la run** — al pulsar cualquier entrada del ranking se abre un popup con el vídeo de YouTube de esa partida concreta
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
+## Funcionalidades a implementar
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Completar el resto de pages incluidas en la estructura del proyecto
+- Estudiar e implementar un sistema de modal propio que mejore la calidad de los popups y se adecúe al estilo visual de la página

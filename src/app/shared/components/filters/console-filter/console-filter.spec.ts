@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SearchBar } from './search-bar';
+import { ConsoleFilter } from './console-filter';
 
-describe('SearchBar', () => {
-  let component: SearchBar;
-  let fixture: ComponentFixture<SearchBar>;
+describe('ConsoleFilter', () => {
+  let component: ConsoleFilter;
+  let fixture: ComponentFixture<ConsoleFilter>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SearchBar]
+      imports: [ConsoleFilter]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SearchBar);
+    fixture = TestBed.createComponent(ConsoleFilter);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

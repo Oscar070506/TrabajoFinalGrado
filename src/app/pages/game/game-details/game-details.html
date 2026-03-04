@@ -1,0 +1,123 @@
+<div class="carousel-wrapper">
+
+  @if (loading) {
+    <div class="state-msg">Cargando juego...</div>
+  }
+
+  @if (error) {
+    <div class="state-msg error">{{ error }}</div>
+  }
+
+  @if (!loading && !error && game) {
+
+    <div class="carousel-slide" [class.animating]="animating">
+
+      <div class="slide-bg"
+        [style.background-image]="'url(' + getBackground(game) + ')'">
+      </div>
+
+      <div class="slide-fade slide-fade--left"></div>
+      <div class="slide-fade slide-fade--right"></div>
+
+      <!-- Botón volver -->
+      <button class="carousel-btn carousel-btn--prev" (click)="goBack()">‹</button>
+
+      <div class="slide-layout">
+
+        <div class="game-panel">
+
+          <div class="panel-header">
+            <img class="panel-cover" [src]="getCover(game)" [alt]="getName(game)" />
+            <div class="panel-title-block">
+              <h1 class="game-title">{{ getName(game) }}</h1>
+
+              @if (game?.names?.japanese) {
+                <p class="game-title-jp">{{ game.names.japanese }}</p>
+              }
+
+              @if (getReleaseYear(game)) {
+                <span class="game-year">Lanzamiento: {{ game?.['release-date'] ?? getReleaseYear(game) }}</span>
+              }
+
+              @if (game?.weblink) {
+                <a class="game-weblink" [href]="game.weblink" target="_blank">🌐 Ver en speedrun.com</a>
+              }
+            </div>
+          </div>
+
+          <div class="panel-divider"></div>
+
+          <div class="panel-stats">
+            <div class="stat-block">
+              <span class="stat-value">{{ game?.boostReceived ?? 0 }}</span>
+              <span class="stat-label">Boosts</span>
+            </div>
+            <div class="stat-block">
+              <span class="stat-value">{{ game?.platforms?.length ?? 0 }}</span>
+              <span class="stat-label">Plataformas</span>
+            </div>
+          </div>
+
+          <div class="panel-divider"></div>
+
+          <div class="panel-meta">
+            <div class="meta-row">
+              <span class="meta-key">Plataformas</span>
+              <span class="meta-val">
+                {{ game?.platforms?.length ?? 0 }}
+                plataforma{{ game?.platforms?.length !== 1 ? 's' : '' }}
+              </span>
+            </div>
+
+            <div class="meta-row">
+              <span class="meta-key">Verificación</span>
+              <span class="meta-val">
+                {{ game?.ruleset?.['require-verification'] ? 'Requerida' : 'No requerida' }}
+              </span>
+            </div>
+
+            <div class="meta-row">
+              <span class="meta-key">Vídeo</span>
+              <span class="meta-val">
+                {{ game?.ruleset?.['require-video'] ? 'Requerido' : 'Opcional' }}
+              </span>
+            </div>
+
+            <div class="meta-row">
+              <span class="meta-key">Emulador</span>
+              <span class="meta-val">
+                {{ game?.ruleset?.['emulators-allowed'] ? 'Permitido' : 'No permitido' }}
+              </span>
+            </div>
+
+            <div class="meta-row">
+              <span class="meta-key">Tiempo base</span>
+              <span class="meta-val">
+                {{ game?.ruleset?.['default-time'] ?? '—' }}
+              </span>
+            </div>
+
+            @if (game?.romhack) {
+              <div class="meta-row">
+                <span class="meta-key">Tipo</span>
+                <span class="meta-val meta-badge">ROM Hack</span>
+              </div>
+            }
+          </div>
+
+          <div class="panel-divider"></div>
+
+        </div>
+
+        <div class="leaderboard-panel">
+          <app-game-leaderboard
+            [leaderboardUrl]="getLeaderboardUrl(game)">
+          </app-game-leaderboard>
+        </div>
+
+      </div>
+
+    </div>
+  }
+
+</div>

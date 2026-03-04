@@ -1,0 +1,9 @@
+<div class="filter-wrapper">
+  <select class="order-select" (change)="onSelect($event)">
+    @for (option of options; track $index) {
+      <option [value]="$index" [selected]="$index === activeIndex">
+        {{ option.label }}
+      </option>
+    }
+  </select>
+</div>

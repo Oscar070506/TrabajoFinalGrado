@@ -1,1 +1,10 @@
-<p>loading-spinner works!</p>
+<div class="spinner-wrapper" [class.hidden]="!visible">
+  <div class="spinner">
+    <div class="spinner-ring"></div>
+    <div class="spinner-ring"></div>
+    <div class="spinner-ring"></div>
+  </div>
+  @if (message) {
+    <p class="spinner-msg">{{ message }}</p>
+  }
+</div>

@@ -1,11 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
+/**
+ * @component LoadingSpinnerComponent
+ * @description Spinner de carga reutilizable con mensaje opcional.
+ *
+ * @example
+ * <app-loading-spinner [visible]="loading" message="Cargando juegos..."></app-loading-spinner>
+ */
 @Component({
   selector: 'app-loading-spinner',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './loading-spinner.html',
-  styleUrl: './loading-spinner.css',
+  styleUrls: ['./loading-spinner.css']
 })
-export class LoadingSpinner {
+export class LoadingSpinnerComponent {
+  /** Controla si el spinner es visible. */
+  @Input() visible: boolean = true;
 
+  /** Mensaje opcional bajo el spinner. */
+  @Input() message: string = '';
 }

@@ -1,0 +1,8 @@
+<div class="filter-wrapper">
+  <select class="platform-select" (change)="onSelect($event)">
+    <option value="">Todas las plataformas</option>
+    @for (platform of platforms; track platform.id) {
+      <option [value]="platform.id">{{ platform.name }}</option>
+    }
+  </select>
+</div>

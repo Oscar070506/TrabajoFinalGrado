@@ -3,6 +3,28 @@
   <div class="catalog-wrapper">
     <section class="catalog-container">
 
+      <div class="filters-row">
+        <app-console-filter (platformSelected)="onPlatformSelected($event)"></app-console-filter>
+        <app-order-filter (orderChanged)="onOrderChanged($event)"></app-order-filter>
+      </div>
+
+      <div class="search-wrapper">
+
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input
+          class="search-input"
+          type="text"
+          placeholder="Buscar juego..."
+          [(ngModel)]="searchQuery"
+          (input)="onSearch()"
+        />
+        @if (searchQuery) {
+          <button class="search-clear" (click)="clearSearch()">✕</button>
+        }
+      </div>
+
       @if (loading) {
         <div class="state-msg">Cargando juegos...</div>
       }
@@ -26,7 +48,7 @@
         }
       </section>
 
-      @if (hasMore && !loadingMore) {
+      @if (hasMore && !loadingMore && !searchQuery) {
         <button class="btn-load-more" (click)="loadMore()">Cargar más juegos</button>
       }
 

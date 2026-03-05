@@ -1,0 +1,17 @@
+@if (getAvatarUrl()) {
+  <img
+    class="avatar-img"
+    [src]="getAvatarUrl()"
+    [alt]="user?.names?.international"
+    [style.width.px]="size"
+    [style.height.px]="size"
+  />
+} @else {
+  <div
+    class="avatar-placeholder"
+    [style.width.px]="size"
+    [style.height.px]="size"
+    [style.font-size.px]="size * 0.4">
+    {{ getInitial() }}
+  </div>
+}

@@ -119,6 +119,7 @@ export class GameHomeComponent implements OnInit {
         this.games   = res.data ?? [];
         this.hasMore = false;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: err => {
         this.error   = `Error ${err.status}: ${err.message}`;
@@ -199,6 +200,7 @@ export class GameHomeComponent implements OnInit {
 
         this.hasMore = false;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: err => {
         this.error   = `Error ${err.status}: ${err.message}`;
@@ -221,6 +223,7 @@ export class GameHomeComponent implements OnInit {
         this.offset += this.PAGE;
         this.hasMore = batch.length === this.PAGE && this.offset < this.MAX;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: err => {
         this.error   = `Error ${err.status}: ${err.message}`;
@@ -243,6 +246,7 @@ export class GameHomeComponent implements OnInit {
         this.offset     += this.PAGE;
         this.hasMore     = batch.length === this.PAGE && this.offset < this.MAX;
         this.loadingMore = false;
+        this.cdr.detectChanges();
       },
       error: err => {
         this.error       = `Error ${err.status}: ${err.message}`;

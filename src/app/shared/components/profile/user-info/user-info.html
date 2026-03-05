@@ -1,0 +1,54 @@
+<div class="user-info">
+
+  <div class="user-info-header">
+
+    <app-user-avatar [user]="user" [size]="96"></app-user-avatar>
+
+    <div class="user-info-main">
+
+      <div class="user-name-row">
+        <h1 class="user-name" [ngStyle]="getNameStyle()">
+          {{ user?.names?.international ?? 'Usuario' }}
+        </h1>
+        @if (user?.pronouns) {
+          <span class="user-pronouns">{{ user.pronouns }}</span>
+        }
+        <span class="user-role">{{ getRole() }}</span>
+      </div>
+
+      <div class="user-meta">
+
+        @if (getCountry()) {
+          <span class="meta-item">
+            <span class="meta-flag">{{ getCountryFlag() }}</span>
+            {{ getCountry() }}
+          </span>
+        }
+
+        <span class="meta-item">
+          <span class="meta-icon">📅</span>
+          Miembro desde {{ getSignupDate() }}
+        </span>
+
+        <span class="meta-item">
+          <span class="meta-icon">⏱️</span>
+          {{ getLastActivityLabel() }}
+        </span>
+
+      </div>
+
+      @if (getSocialLinks().length > 0) {
+        <div class="user-socials">
+          @for (link of getSocialLinks(); track link.label) {
+            <a class="social-link" [href]="link.url" target="_blank" rel="noopener">
+                <img [src]="link.favicon" [alt]="link.label" class="social-favicon" />
+                {{ link.label }}
+            </a>
+            }
+        </div>
+      }
+
+    </div>
+  </div>
+
+</div>

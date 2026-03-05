@@ -1,0 +1,34 @@
+:host {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.avatar-img {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid var(--border);
+  display: block;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.avatar-img:hover {
+  border-color: var(--border-accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.avatar-placeholder {
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+  transition: border-color var(--transition);
+}
+
+.avatar-placeholder:hover {
+  border-color: var(--border-accent);
+}

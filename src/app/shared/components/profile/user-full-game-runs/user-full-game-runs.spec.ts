@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CategoryTabs } from './category-tabs';
+import { UserFullGameRuns } from './user-full-game-runs';
 
-describe('CategoryTabs', () => {
-  let component: CategoryTabs;
-  let fixture: ComponentFixture<CategoryTabs>;
+describe('UserFullGameRuns', () => {
+  let component: UserFullGameRuns;
+  let fixture: ComponentFixture<UserFullGameRuns>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CategoryTabs]
+      imports: [UserFullGameRuns]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CategoryTabs);
+    fixture = TestBed.createComponent(UserFullGameRuns);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

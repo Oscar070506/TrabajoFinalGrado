@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { CategoryFiltersComponent } from '../category-filters/category-filters';
+import { CategoryFiltersComponent } from '../../../pages/game/category-filters/category-filters';
+import { RouterModule } from '@angular/router';
 
 /**
  * @component GameLeaderboardComponent
@@ -16,7 +17,7 @@ import { CategoryFiltersComponent } from '../category-filters/category-filters';
 @Component({
   selector: 'app-game-leaderboard',
   standalone: true,
-  imports: [CommonModule, CategoryFiltersComponent],
+  imports: [CommonModule, CategoryFiltersComponent, RouterModule],
   templateUrl: './game-leaderboard.html',
   styleUrls: ['./game-leaderboard.css']
 })
@@ -24,11 +25,7 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
 
   /**
    * URL directa al leaderboard de la categoría principal del juego.
-   * Se obtiene del campo `links[rel=leaderboard]` del objeto juego
-   * devuelto por la API de speedrun.com.
-   *
-   * @example
-   * "https://www.speedrun.com/api/v1/leaderboards/pd0wx9w1/category/xk94qv4d"
+   * @example "https://www.speedrun.com/api/v1/leaderboards/pd0wx9w1/category/xk94qv4d"
    */
   @Input() leaderboardUrl: string = '';
 
@@ -55,6 +52,12 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
 
   /** Mensaje de error. `null` cuando no hay error activo. */
   error: string | null = null;
+
+  /**
+   * Mapa de jugadores embebidos en la respuesta del leaderboard.
+   * Clave: ID del jugador. Valor: objeto player de la API.
+   */
+  private players: Record<string, any> = {};
 
   /** @protected Referencia a `Math` expuesta al template para `Math.ceil()`. */
   protected readonly Math = Math;
@@ -90,10 +93,8 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
   /**
    * @method init
    * @description Extrae `gameId` y `categoryId` de la URL, carga las categorías
-   * y lanza el leaderboard. Si la URL directa falla con 400, hace fallback
-   * a la primera categoría `per-game` disponible del juego.
-   *
-   * @param {string} url - URL con formato `/leaderboards/{gameId}/category/{categoryId}`.
+   * y lanza el leaderboard con fallback si es necesario.
+   * @param {string} url
    */
   init(url: string): void {
     const match = url.match(/leaderboards\/([^/]+)\/category\/([^/]+)/);
@@ -104,7 +105,6 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
     this.loading = true;
     this.error   = null;
 
-    // Cargamos categorías y leaderboard en paralelo
     this.loadCategories(gameId, () => {
       this.fetchLeaderboardWithFallback(url, gameId);
     });
@@ -112,11 +112,8 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
 
   /**
    * @method loadCategories
-   * @description Obtiene las categorías `per-game` del juego y ejecuta
-   * el callback una vez cargadas.
-   *
-   * @param {string} gameId - ID del juego.
-   * @param {() => void} callback - Se ejecuta tras cargar las categorías.
+   * @param {string} gameId
+   * @param {() => void} callback
    */
   loadCategories(gameId: string, callback: () => void): void {
     this.http.get<any>(`${this.API}/games/${gameId}/categories`).subscribe({
@@ -134,38 +131,35 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
 
   /**
    * @method fetchLeaderboardWithFallback
-   * @description Intenta cargar el leaderboard con la URL directa.
-   * Si devuelve 400 (categoría per-level), hace fallback a la primera
-   * categoría per-game disponible en {@link categories}.
-   *
-   * @param {string} url - URL directa del leaderboard.
-   * @param {string} gameId - ID del juego, usado para construir la URL de fallback.
+   * @description Intenta cargar el leaderboard con embed=players.
+   * Si devuelve 400, hace fallback a la primera categoría per-game.
+   * @param {string} url
+   * @param {string} gameId
    */
   fetchLeaderboardWithFallback(url: string, gameId: string): void {
-    this.http.get<any>(url).subscribe({
+    this.http.get<any>(url, { params: { embed: 'players' } }).subscribe({
       next: res => {
         this.processLeaderboardResponse(res);
       },
       error: err => {
-      if (err.status === 400 && this.categories.length > 0) {
-        const firstCategory = this.categories[0];
-        const fallbackUrl   = `${this.API}/leaderboards/${gameId}/category/${firstCategory.id}`;
-        this.activeCategoryId = firstCategory.id;
-        this.cdr.detectChanges();
-        this.fetchLeaderboard(fallbackUrl);
-      } else {
-        this.error   = err.status === 400 ? null : `Error cargando leaderboard: ${err.message}`;
-        this.loading = false;
-        this.cdr.detectChanges();
+        if (err.status === 400 && this.categories.length > 0) {
+          const firstCategory   = this.categories[0];
+          const fallbackUrl     = `${this.API}/leaderboards/${gameId}/category/${firstCategory.id}`;
+          this.activeCategoryId = firstCategory.id;
+          this.cdr.detectChanges();
+          this.fetchLeaderboard(fallbackUrl);
+        } else {
+          this.error   = err.status === 400 ? null : `Error cargando leaderboard: ${err.message}`;
+          this.loading = false;
+          this.cdr.detectChanges();
+        }
       }
-    }
     });
   }
 
   /**
    * @method onCategorySelected
-   * @description Manejador del evento `categorySelected` de {@link CategoryFiltersComponent}.
-   * @param {string} url - URL del leaderboard de la categoría seleccionada.
+   * @param {string} url
    */
   onCategorySelected(url: string): void {
     const match = url.match(/category\/([^/]+)/);
@@ -175,8 +169,9 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
 
   /**
    * @method fetchLeaderboard
-   * @description Llama al endpoint del leaderboard y normaliza los datos.
-   * @param {string} url - URL completa del leaderboard.
+   * @description Llama al endpoint con `embed=players` para obtener
+   * los datos de jugadores en la misma respuesta.
+   * @param {string} url
    */
   fetchLeaderboard(url: string): void {
     this.loading     = true;
@@ -184,7 +179,7 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
     this.leaderboard = [];
     this.paginated   = [];
 
-    this.http.get<any>(url).subscribe({
+    this.http.get<any>(url, { params: { embed: 'players' } }).subscribe({
       next: res => this.processLeaderboardResponse(res),
       error: err => {
         this.error   = `Error cargando leaderboard: ${err.message}`;
@@ -196,10 +191,18 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
 
   /**
    * @method processLeaderboardResponse
-   * @description Normaliza la respuesta del leaderboard y actualiza la paginación.
+   * @description Normaliza la respuesta, extrae el mapa de jugadores
+   * embebidos y actualiza la paginación.
    * @param {any} res - Respuesta cruda de la API.
    */
   processLeaderboardResponse(res: any): void {
+    // Construye el mapa id → player desde los jugadores embebidos
+    const playerList: any[] = res.data?.players?.data ?? [];
+    this.players = {};
+    for (const p of playerList) {
+      if (p?.id) this.players[p.id] = p;
+    }
+
     this.leaderboard = res.data?.runs?.map((r: any) => r.run) ?? [];
     this.currentPage = 0;
     this.updatePagination();
@@ -229,8 +232,7 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
 
   /**
    * @method openVideo
-   * @description Abre el vídeo de la run en una ventana emergente del navegador.
-   * @param {any} run - Objeto run del leaderboard.
+   * @param {any} run
    */
   openVideo(run: any): void {
     const url = run?.videos?.links?.[0]?.uri;
@@ -240,20 +242,58 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
 
   /**
    * @method getPlayerName
+   * @description Busca el nombre del primer jugador de la run
+   * en el mapa `players` obtenido via embed.
    * @param {any} run
    * @returns {string}
    */
   getPlayerName(run: any): string {
-    return run?.players?.[0]?.id ?? 'Anónimo';
+    const player = run?.players?.[0];
+    if (!player) return 'Anónimo';
+
+    // Jugador registrado → buscar en el mapa
+    if (player.rel === 'user') {
+      const user = this.players[player.id];
+      return user?.names?.international ?? user?.names?.japanese ?? player.id;
+    }
+
+    // Jugador invitado → el nombre viene directamente en el objeto
+    if (player.rel === 'guest') {
+      return player.name ?? 'Invitado';
+    }
+
+    return 'Anónimo';
+  }
+
+  getPlayerId(run: any): string {
+    const player = run?.players?.[0];
+    if (!player || player.rel !== 'user') return '';
+    return player.id;
+  }
+
+  getPlayerColor(run: any): string {
+    const player = run?.players?.[0];
+    if (!player || player.rel !== 'user') return 'var(--text-primary)';
+    
+    const user  = this.players[player.id];
+    const style = user?.['name-style'];
+    
+    if (style?.style === 'solid') {
+      return style?.color?.light ?? 'var(--text-primary)';
+    }
+    
+    // gradient → usa el color de inicio
+    if (style?.style === 'gradient') {
+      return style?.['color-from']?.light ?? 'var(--text-primary)';
+    }
+    
+    return 'var(--text-primary)';
   }
 
   /**
    * @method getTime
    * @param {any} run
    * @returns {string} Tiempo en formato HH:MM:SS.
-   *
-   * @example
-   * this.getTime({ times: { primary_t: 83 } }); // → "00:01:23"
    */
   getTime(run: any): string {
     const time = run?.times?.primary_t;
@@ -264,11 +304,7 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
   /**
    * @method getTrophy
    * @param {number} index - Posición global (base 0).
-   * @returns {string | null} URL del trofeo o `null`.
-   *
-   * @example
-   * this.getTrophy(0); // → "https://www.speedrun.com/images/1st.png"
-   * this.getTrophy(3); // → null
+   * @returns {string | null}
    */
   getTrophy(index: number): string | null {
     if (index === 0) return 'https://www.speedrun.com/images/1st.png';

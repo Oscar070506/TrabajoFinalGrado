@@ -52,7 +52,14 @@
                   {{ currentPage * pageSize + i + 1 }}
                 }
               </td>
-              <td>{{ getPlayerName(run) }}</td>
+              
+              <td>
+                @if (getPlayerId(run)) {
+                  <a [style.font-weight]="getPlayerColor(run) === 'var(--text-primary)' ? 'normal' : 'bold'" [style.color]="getPlayerColor(run)" [routerLink]="['/user', getPlayerId(run)]">{{ getPlayerName(run) }}</a>
+                } @else {
+                  {{ getPlayerName(run) }}
+                }
+              </td>
               <td>{{ getTime(run) }}</td>
               <td>{{ run?.date || '—' }}</td>
             </tr>

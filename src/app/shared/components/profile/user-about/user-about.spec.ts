@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RunRow } from './run-row';
+import { UserAbout } from './user-about';
 
-describe('RunRow', () => {
-  let component: RunRow;
-  let fixture: ComponentFixture<RunRow>;
+describe('UserAbout', () => {
+  let component: UserAbout;
+  let fixture: ComponentFixture<UserAbout>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RunRow]
+      imports: [UserAbout]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RunRow);
+    fixture = TestBed.createComponent(UserAbout);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

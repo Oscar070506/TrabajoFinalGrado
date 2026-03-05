@@ -1,0 +1,88 @@
+<div class="runs-wrapper">
+
+  @if (loading) {
+    <div class="loading">Cargando runs...</div>
+  }
+
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  @if (!loading && !error && groupedGames.length === 0) {
+    <div class="loading">No hay runs disponibles.</div>
+  }
+
+  @for (group of groupedGames; track group.game?.id) {
+
+    <div class="leaderboard-container">
+
+      <div class="game-bg"
+        [style.background-image]="getBackground(group.game) ? 'url(' + getBackground(group.game) + ')' : 'none'">
+      </div>
+
+      <div class="game-header">
+        <img class="game-cover" [src]="getCover(group.game)" [alt]="getGameName(group.game)" />
+        <div class="game-header-info">
+          <h2 class="title">{{ getGameName(group.game) }}</h2>
+          <span class="game-run-count">{{ group.runs.length }} run{{ group.runs.length !== 1 ? 's' : '' }}</span>
+        </div>
+      </div>
+
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Categoría</th>
+            <th>Tiempo</th>
+            <th>Fecha</th>
+            <th>Plataforma</th>
+            <th>Vídeo</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (entry of group.runs; track entry.run.id; let i = $index) {
+            <tr
+              [class.gold]="entry.place === 1"
+              [class.silver]="entry.place === 2"
+              [class.bronze]="entry.place === 3"
+              [class.clickable]="entry.run?.videos?.links?.[0]?.uri"
+              (click)="openVideo(entry); $event.stopPropagation()">
+
+              <td class="rank-cell">
+                @if (getTrophy(entry.place - 1); as trophy) {
+                  <img [src]="trophy" class="trophy-icon" [alt]="'#' + entry.place" />
+                } @else {
+                  #{{ entry.place }}
+                }
+              </td>
+
+              <td>{{ getCategoryName(entry) }}</td>
+              <td>{{ getTime(entry) }}</td>
+              <td>{{ getDate(entry) }}</td>
+
+              <td>
+                @if (isEmulated(entry)) {
+                  <span class="badge-emu">EMU</span>
+                } @else {
+                  <span class="badge-platform">PC</span>
+                }
+              </td>
+
+              <td>
+                @if (entry.run?.videos?.links?.length > 0) {
+                  <button class="btn-video" (click)="openVideo(entry); $event.stopPropagation()">▶</button>
+                } @else {
+                  <span>—</span>
+                }
+              </td>
+
+            </tr>
+          }
+        </tbody>
+      </table>
+
+    </div>
+
+  }
+
+</div>

@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { GameLeaderboardComponent } from '../game-leaderboard/game-leaderboard';
+import { GameLeaderboardComponent } from '../../../shared/components/game-leaderboard/game-leaderboard';
 
 /**
  * @component GameDetailsComponent

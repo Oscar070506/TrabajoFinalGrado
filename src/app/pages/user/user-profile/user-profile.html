@@ -1,1 +1,16 @@
-<p>user-profile works!</p>
+<div class="profile-page">
+
+  @if (loading) {
+    <div class="state-msg">Cargando perfil...</div>
+  }
+
+  @if (error) {
+    <div class="state-msg error">{{ error }}</div>
+  }
+
+  @if (!loading && !error && user) {
+    <app-user-info [user]="user"></app-user-info>
+    <app-user-tabs [userId]="user.id"></app-user-tabs>
+  }
+
+</div>

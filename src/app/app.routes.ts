@@ -7,6 +7,7 @@ import { GameDetailsComponent } from './pages/game/game-details/game-details';
 import { PopularGamesComponent } from './pages/game/popular-games/popular-games';
 import { NotFoundErrorCtor } from 'rxjs/internal/util/NotFoundError';
 import { SearchBarComponent } from './pages/search/search';
+import { UserProfileComponent } from './pages/user/user-profile/user-profile';
 
 export const routes: Routes = [
   { path: '',                   redirectTo: 'home', pathMatch: 'full' },
@@ -24,5 +25,7 @@ export const routes: Routes = [
   // Búsqueda
   { path: 'search',             component: SearchBarComponent },
 
+  // Perfil 
+  { path: 'user/:id', component: UserProfileComponent }
 
 ];

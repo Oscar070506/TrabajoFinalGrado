@@ -1,0 +1,63 @@
+<div class="about-wrapper">
+
+  @if (loading) {
+    <div class="state-msg">Cargando estadísticas...</div>
+  }
+
+  @if (error) {
+    <div class="state-msg error">{{ error }}</div>
+  }
+
+  @if (!loading && !error) {
+
+    <div class="stats-section">
+      <h3 class="section-title">Speedrun Stats</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">Total runs</span>
+          <span class="stat-value">{{ totalRuns }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Full game runs</span>
+          <span class="stat-value">{{ fullGameRuns }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Level runs</span>
+          <span class="stat-value">{{ levelRuns }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Juegos únicos</span>
+          <span class="stat-value">{{ uniqueGames }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Categorías únicas</span>
+          <span class="stat-value">{{ uniqueCategories }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Tiempo total</span>
+          <span class="stat-value">{{ formatTime(totalTimeSecs) }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Primera run</span>
+          <span class="stat-value">{{ formatDate(firstRun) }}</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Última run</span>
+          <span class="stat-value">{{ formatDate(lastRun) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-section">
+      <h3 class="section-title">Community Stats</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">Juegos moderados</span>
+          <span class="stat-value">{{ gamesMod }}</span>
+        </div>
+      </div>
+    </div>
+
+  }
+
+</div>

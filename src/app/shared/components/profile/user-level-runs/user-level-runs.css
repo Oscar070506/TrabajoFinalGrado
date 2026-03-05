@@ -1,0 +1,163 @@
+:host { display: block; }
+
+.runs-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.loading {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  padding: 32px 0;
+  text-align: center;
+}
+
+.error { color: #ff6b6b; padding: 16px 0; text-align: center; }
+
+/* ── Contenedor por juego (igual que leaderboard-container) ── */
+.leaderboard-container {
+  position: relative;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Fondo del juego oscurecido */
+.game-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Todo el contenido por encima del fondo */
+.game-header,
+.leaderboard-table {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Cabecera ─────────────────────── */
+.game-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.game-cover {
+  width: 48px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.game-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.game-run-count {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* ── Tabla (igual que leaderboard-table) ── */
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.leaderboard-table th {
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.leaderboard-table td {
+  padding: 10px 12px;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.leaderboard-table tr:last-child td { border-bottom: none; }
+
+.leaderboard-table tr {
+  transition: background var(--transition);
+}
+
+.leaderboard-table tr:hover { background: rgba(255,255,255,0.03); }
+
+.leaderboard-table tr.gold   { background: rgba(255, 200, 0,   0.06); }
+.leaderboard-table tr.silver { background: rgba(180, 180, 180, 0.06); }
+.leaderboard-table tr.bronze { background: rgba(180, 100, 40,  0.06); }
+.leaderboard-table tr.clickable { cursor: pointer; }
+
+.rank-cell { font-weight: 700; white-space: nowrap; }
+
+.trophy-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.badge-emu {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 200, 0, 0.15);
+  color: #ffc800;
+  border: 1px solid rgba(255, 200, 0, 0.3);
+}
+
+.badge-platform {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(31, 173, 143, 0.1);
+  color: var(--accent);
+  border: 1px solid var(--border-accent);
+}
+
+.btn-video {
+  background: rgba(31, 173, 143, 0.1);
+  border: 1px solid var(--border-accent);
+  color: var(--accent);
+  border-radius: 6px;
+  padding: 3px 10px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.btn-video:hover {
+  background: rgba(31, 173, 143, 0.2);
+  transform: scale(1.05);
+}

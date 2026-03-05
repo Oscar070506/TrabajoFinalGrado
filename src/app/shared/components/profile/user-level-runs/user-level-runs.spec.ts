@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GameCard } from './game-card';
+import { UserLevelRuns } from './user-level-runs';
 
-describe('GameCard', () => {
-  let component: GameCard;
-  let fixture: ComponentFixture<GameCard>;
+describe('UserLevelRuns', () => {
+  let component: UserLevelRuns;
+  let fixture: ComponentFixture<UserLevelRuns>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GameCard]
+      imports: [UserLevelRuns]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GameCard);
+    fixture = TestBed.createComponent(UserLevelRuns);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

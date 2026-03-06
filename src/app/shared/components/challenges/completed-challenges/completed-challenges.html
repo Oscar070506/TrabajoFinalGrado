@@ -1,0 +1,107 @@
+<div class="challenges-page">
+
+  @if (loading) {
+    <div class="state-loading">
+      <div class="spinner"></div>
+      <span>Cargando challenges...</span>
+    </div>
+  }
+
+  @if (error) {
+    <div class="state-error">{{ error }}</div>
+  }
+
+  @if (!loading && !error) {
+    <div class="challenges-scroll">
+
+      @for (c of challenges; track c.challenge.id) {
+
+        <section class="challenge-slide">
+
+          <div class="slide-bg"
+            [style.background-image]="getBackground(c) ? 'url(' + getBackground(c) + ')' : 'none'">
+          </div>
+          <div class="slide-fade-top"></div>
+          <div class="slide-fade-bottom"></div>
+
+          <div class="slide-layout">
+
+            <!-- Izquierda: reglas -->
+            <div class="rules-panel">
+              <h3 class="rules-title">Reglas del Challenge</h3>
+              <div class="rules-content">{{ c.challenge.challengeRules }}</div>
+            </div>
+
+            <!-- Centro: info + top 3 -->
+            <div class="slide-content">
+
+              <div class="slide-header">
+                @if (getLogo(c)) {
+                  <img class="challenge-logo" [src]="getLogo(c)" [alt]="getChallengeName(c)" />
+                } @else {
+                  <h2 class="challenge-game">{{ getGameName(c) }}</h2>
+                }
+                <div class="challenge-meta">
+                  <span class="challenge-name">{{ getChallengeName(c) }}</span>
+                  @if (isCompleted(c)) {
+                    <span class="badge-completed">Completado</span>
+                  }
+                </div>
+              </div>
+
+              @if (getPrizePool(c)) {
+                <div class="prize-pool">
+                  <span class="prize-label">Prize Pool</span>
+                  <span class="prize-amount">{{ getPrizePool(c) }}</span>
+                </div>
+              }
+
+              <div class="top3">
+                @for (entry of getTop3(c); track entry.place) {
+                  <div class="top3-entry"
+                    [class.first]="entry.place === 1"
+                    [class.second]="entry.place === 2"
+                    [class.third]="entry.place === 3">
+
+                    @if (getAvatar(entry.user)) {
+                      <img class="top3-avatar" [src]="getAvatar(entry.user)" [alt]="entry.user?.name" />
+                    } @else {
+                      <div class="top3-avatar-placeholder">{{ entry.user?.name?.charAt(0) ?? '?' }}</div>
+                    }
+
+                    @if (getTrophy(entry.place - 1); as trophy) {
+                      <img [src]="trophy" class="trophy-icon" [alt]="'#' + entry.place" />
+                    } @else {
+                      <span>#{{ entry.place }}</span>
+                    }
+
+                    <span class="top3-name">{{ entry.user?.name ?? 'Desconocido' }}</span>
+
+                    @if (entry.prize) {
+                      <span class="top3-prize">{{ entry.prize }}</span>
+                    }
+
+                  </div>
+                }
+              </div>
+
+              <a class="btn-challenge" [href]="getChallengeLink(c)" target="_blank" rel="noopener">
+                Ver challenge
+              </a>
+
+            </div>
+
+            <div class="earners-panel">
+              <app-top-earners></app-top-earners>
+            </div>
+
+          </div>
+
+        </section>
+
+      }
+
+    </div>
+  }
+
+</div>

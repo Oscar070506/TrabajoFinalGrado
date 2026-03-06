@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { UserAvatarComponent } from '../user-avatar/user-avatar';
+import { LucideAngularModule, Calendar, Clock, Twitch, Youtube, Twitter, Globe } from 'lucide-angular';
 
 /**
  * @component UserInfoComponent
@@ -15,7 +16,7 @@ import { UserAvatarComponent } from '../user-avatar/user-avatar';
 @Component({
   selector: 'app-user-info',
   standalone: true,
-  imports: [CommonModule, UserAvatarComponent],
+  imports: [CommonModule, UserAvatarComponent, LucideAngularModule],
   templateUrl: './user-info.html',
   styleUrls: ['./user-info.css']
 })
@@ -26,6 +27,13 @@ export class UserInfoComponent implements OnInit {
 
   /** Fecha de la run más reciente del usuario (última actividad). */
   lastActivity: string | null = null;
+
+  readonly Calendar = Calendar;
+  readonly Clock    = Clock;
+  readonly Twitch   = Twitch;
+  readonly Youtube  = Youtube;
+  readonly Twitter  = Twitter;
+  readonly Globe    = Globe;
 
   private readonly API = 'https://www.speedrun.com/api/v1';
 
@@ -142,12 +150,12 @@ export class UserInfoComponent implements OnInit {
    * @description Devuelve las redes sociales disponibles del usuario.
    * @returns {{ label: string; icon: string; url: string }[]}
    */
-  getSocialLinks(): { label: string; favicon: string; url: string }[] {
+  getSocialLinks(): { label: string; icon: any; url: string }[] {
     const links = [];
-    if (this.user?.twitch?.uri)  links.push({ label: 'Twitch',  favicon: 'https://www.google.com/s2/favicons?domain=twitch.tv&sz=16',  url: this.user.twitch.uri });
-    if (this.user?.youtube?.uri) links.push({ label: 'YouTube', favicon: 'https://www.google.com/s2/favicons?domain=youtube.com&sz=16', url: this.user.youtube.uri });
-    if (this.user?.twitter?.uri) links.push({ label: 'Twitter', favicon: 'https://www.google.com/s2/favicons?domain=twitter.com&sz=16', url: this.user.twitter.uri });
-    if (this.user?.weblink)      links.push({ label: 'Perfil',  favicon: 'https://www.google.com/s2/favicons?domain=speedrun.com&sz=16', url: this.user.weblink });
+    if (this.user?.twitch?.uri)  links.push({ label: 'Twitch',  icon: this.Twitch,  url: this.user.twitch.uri });
+    if (this.user?.youtube?.uri) links.push({ label: 'YouTube', icon: this.Youtube, url: this.user.youtube.uri });
+    if (this.user?.twitter?.uri) links.push({ label: 'Twitter', icon: this.Twitter, url: this.user.twitter.uri });
+    if (this.user?.weblink)      links.push({ label: 'Perfil',  icon: this.Globe,   url: this.user.weblink });
     return links;
   }
 

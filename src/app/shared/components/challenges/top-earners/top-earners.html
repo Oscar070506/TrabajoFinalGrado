@@ -1,0 +1,76 @@
+<div class="leaderboard-container">
+
+  <div class="leaderboard-header">
+    <h2 class="leaderboard-title">Top Earners</h2>
+  </div>
+
+  @if (loading) {
+    <div class="state-msg">Cargando...</div>
+  }
+
+  @if (error) {
+    <div class="state-msg error">{{ error }}</div>
+  }
+
+  @if (!loading && !error) {
+    <table class="leaderboard-table">
+      <thead>
+        <tr>
+          <th class="col-rank">#</th>
+          <th class="col-player">Player</th>
+          <th class="col-achievements">Achievements</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (earner of paginated; track earner.userId; let i = $index) {
+          <tr class="leaderboard-row"
+            [class.gold-row]="currentPage * 10 + i === 0"
+            [class.silver-row]="currentPage * 10 + i === 1"
+            [class.bronze-row]="currentPage * 10 + i === 2"
+            [routerLink]="['/user', earner.userId]">
+
+            <td class="col-rank">
+              @if (getTrophy(currentPage * 10 + i); as trophy) {
+                <img [src]="trophy" class="trophy-icon" [alt]="'#' + (currentPage * 10 + i + 1)" />
+              } @else {
+                {{ currentPage * 10 + i + 1 }}
+              }
+            </td>
+
+            <td class="col-player">
+              <div class="player-cell">
+                @if (earner.avatar) {
+                  <img class="player-avatar" [src]="earner.avatar" [alt]="earner.name" />
+                } @else {
+                  <div class="player-avatar-placeholder">{{ earner.name.charAt(0) }}</div>
+                }
+                <span class="player-name">{{ earner.name }}</span>
+              </div>
+            </td>
+
+            <td class="col-achievements">
+              <div class="achievements-cell">
+                <span class="total-amount">{{ formatAmount(earner.totalAmount) }}</span>
+                <div class="medals">
+                    <img [src]="getTrophy(0)" class="trophy-icon" /> {{ earner.gold }}
+                    <img [src]="getTrophy(1)" class="trophy-icon" /> {{ earner.silver }}
+                    <img [src]="getTrophy(2)" class="trophy-icon" /> {{ earner.bronze }}
+                </div>
+              </div>
+            </td>
+
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    @if (earners.length > pageSize) {
+      <div class="pagination">
+        <button class="page-btn" (click)="prevPage()" [disabled]="currentPage === 0">‹</button>
+        <span class="page-info">{{ currentPage + 1 }} / {{ Math.ceil(earners.length / pageSize) }}</span>
+        <button class="page-btn" (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= earners.length">›</button>
+      </div>
+    }
+  }
+
+</div>

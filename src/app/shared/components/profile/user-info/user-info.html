@@ -26,12 +26,12 @@
         }
 
         <span class="meta-item">
-          <span class="meta-icon">📅</span>
+          <lucide-icon [img]="Calendar" size="14" color="var(--text-muted)"></lucide-icon>
           Miembro desde {{ getSignupDate() }}
         </span>
 
         <span class="meta-item">
-          <span class="meta-icon">⏱️</span>
+          <lucide-icon [img]="Clock" size="14" color="var(--text-muted)"></lucide-icon>
           {{ getLastActivityLabel() }}
         </span>
 
@@ -41,10 +41,10 @@
         <div class="user-socials">
           @for (link of getSocialLinks(); track link.label) {
             <a class="social-link" [href]="link.url" target="_blank" rel="noopener">
-                <img [src]="link.favicon" [alt]="link.label" class="social-favicon" />
-                {{ link.label }}
+              <lucide-icon [img]="link.icon" size="14" color="var(--text-muted)"></lucide-icon>
+              {{ link.label }}
             </a>
-            }
+          }
         </div>
       }
 

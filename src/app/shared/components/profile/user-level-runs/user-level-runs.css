@@ -157,7 +157,6 @@
   transition: background var(--transition), transform var(--transition);
 }
 
-.btn-video:hover {
-  background: rgba(31, 173, 143, 0.2);
-  transform: scale(1.05);
+.leaderboard-table tr:hover {
+  background: rgba(31, 173, 143, 0.12);
 }

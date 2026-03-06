@@ -5,27 +5,29 @@ import { RegisterComponent } from './pages/auth/register/register';
 import { GameHomeComponent } from './pages/game/game-home/game-home';
 import { GameDetailsComponent } from './pages/game/game-details/game-details';
 import { PopularGamesComponent } from './pages/game/popular-games/popular-games';
-import { NotFoundErrorCtor } from 'rxjs/internal/util/NotFoundError';
-import { SearchBarComponent } from './pages/search/search';
+import { SearchBarComponent } from './shared/components/filters/search/search';
 import { UserProfileComponent } from './pages/user/user-profile/user-profile';
+import { ChallengesComponent } from './pages/game/challenges/challenges';
 
 export const routes: Routes = [
-  { path: '',                   redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home',               component: HomeComponent },
+  { path: '',                    redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home',                component: HomeComponent },
 
   // Auth
-  { path: 'login',              component: LoginComponent },
-  { path: 'register',           component: RegisterComponent },
+  { path: 'login',               component: LoginComponent },
+  { path: 'register',            component: RegisterComponent },
 
   // Catálogo y juegos
-  { path: 'game',               component: GameHomeComponent },
-  { path: 'game/:id',           component: GameDetailsComponent },
+  { path: 'game',                component: GameHomeComponent },
+  { path: 'game/:id',            component: GameDetailsComponent },
   { path: 'games/popular-games', component: PopularGamesComponent },
 
   // Búsqueda
-  { path: 'search',             component: SearchBarComponent },
+  { path: 'search',              component: SearchBarComponent },
 
-  // Perfil 
-  { path: 'user/:id', component: UserProfileComponent }
+  // Perfil
+  { path: 'user/:id',            component: UserProfileComponent },
 
+  // Challenges
+  { path: 'challenges',          component: ChallengesComponent }
 ];

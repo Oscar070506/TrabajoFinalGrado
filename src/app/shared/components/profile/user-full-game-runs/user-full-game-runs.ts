@@ -119,7 +119,10 @@ export class UserFullGameRuns implements OnInit {
   }
 
   getBackground(game: any): string {
-    return game?.assets?.background?.uri ?? '';
+    return game?.assets?.background?.uri
+        ?? game?.assets?.['cover-large']?.uri
+        ?? game?.assets?.['cover-medium']?.uri
+        ?? '';
   }
 
   getCover(game: any): string {

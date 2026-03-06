@@ -3,73 +3,40 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject, forkJoin, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, catchError } from 'rxjs/operators';
 import { ConsoleFilterComponent } from '../../../shared/components/filters/console-filter/console-filter';
 import { OrderFilterComponent } from '../../../shared/components/filters/order-filter/order-filter';
+import { LucideAngularModule, Trophy, Target } from 'lucide-angular';
 
-/**
- * @component GameHomeComponent
- * @description Componente principal del catálogo de juegos.
- * Consume la API pública de speedrun.com para listar juegos
- * con soporte de paginación incremental, búsqueda en tiempo real,
- * filtrado por plataforma, ordenación dinámica y rango de años.
- */
 @Component({
   selector: 'app-game-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, ConsoleFilterComponent, OrderFilterComponent],
+  imports: [CommonModule, RouterModule, FormsModule, ConsoleFilterComponent, OrderFilterComponent, LucideAngularModule],
   templateUrl: './game-home.html',
   styleUrls: ['./game-home.css']
 })
 export class GameHomeComponent implements OnInit {
 
-  /** Lista acumulada de juegos cargados desde la API. */
   games: any[] = [];
-
-  /**
-   * Lista de juegos tras aplicar el filtro de fechas.
-   * Es la que se usa en el HTML con `@for`.
-   */
   displayedGames: any[] = [];
-
-  /** Indica si la primera carga está en curso. */
   loading: boolean = false;
-
-  /** Indica si una carga adicional (paginación) está en curso. */
   loadingMore: boolean = false;
-
-  /** Mensaje de error. `null` si no hay error. */
   error: string | null = null;
-
-  /** Controla si el botón "Cargar más" debe mostrarse. */
   hasMore: boolean = false;
-
-  /** Texto de búsqueda introducido por el usuario. */
   searchQuery: string = '';
-
-  /** ID de la plataforma actualmente seleccionada. `null` = todas. */
   activePlatformId: string | null = null;
-
-  /**
-   * Orden activo. Se actualiza desde {@link OrderFilterComponent}.
-   * El valor especial `'active-players'` activa la doble llamada a /runs.
-   */
   activeOrder = { orderby: 'active-players', direction: 'desc' };
-
-  /**
-   * Rango de años activo. Se actualiza desde {@link DateFilterComponent}.
-   * El filtrado se aplica sobre `games` para producir `displayedGames`.
-   */
   dateRange = { from: 1970, to: new Date().getFullYear() };
 
-  /** Offset actual para la paginación de la API. */
+  /**
+   * Mapa gameId → número de runs recientes (jugadores activos).
+   * Se rellena siempre en paralelo a la carga de juegos.
+   */
+  gameRunCounts: Record<string, number> = {};
+
   private offset = 0;
-
-  /** Subject para gestionar el debounce de la búsqueda. */
   private search$ = new Subject<string>();
-
-  /** Bandera interna para evitar doble inicialización. */
   private initialized = false;
 
   private readonly API      = 'https://www.speedrun.com/api/v1/games';
@@ -77,6 +44,9 @@ export class GameHomeComponent implements OnInit {
   private readonly PAGE     = 51;
   private readonly MAX      = 204;
   private readonly HEADERS  = new HttpHeaders({ 'Accept': 'application/json' });
+
+  readonly Trophy = Trophy;
+  readonly Target = Target;
 
   constructor(
     private http: HttpClient,
@@ -97,16 +67,9 @@ export class GameHomeComponent implements OnInit {
     });
   }
 
-  // ── Búsqueda ──────────────────────────────────────────────────────────────
+  onSearch(): void { this.search$.next(this.searchQuery.trim()); }
 
-  onSearch(): void {
-    this.search$.next(this.searchQuery.trim());
-  }
-
-  clearSearch(): void {
-    this.searchQuery = '';
-    this.resetGames();
-  }
+  clearSearch(): void { this.searchQuery = ''; this.resetGames(); }
 
   searchGames(q: string): void {
     this.loading = true;
@@ -119,6 +82,8 @@ export class GameHomeComponent implements OnInit {
         this.games   = res.data ?? [];
         this.hasMore = false;
         this.loading = false;
+        // Carga conteos de runs para los juegos buscados
+        this.fetchRunCountsForGames(this.games.map(g => g.id));
         this.cdr.detectChanges();
       },
       error: err => {
@@ -128,8 +93,6 @@ export class GameHomeComponent implements OnInit {
       }
     });
   }
-
-  // ── Filtros ───────────────────────────────────────────────────────────────
 
   onPlatformSelected(platformId: string | null): void {
     this.activePlatformId = platformId;
@@ -151,8 +114,6 @@ export class GameHomeComponent implements OnInit {
     this.fetchGames();
   }
 
-  // ── Carga de datos ────────────────────────────────────────────────────────
-
   fetchGames(): void {
     if (this.activeOrder.orderby === 'active-players') {
       this.fetchByActivePlayers();
@@ -167,18 +128,12 @@ export class GameHomeComponent implements OnInit {
 
     this.http.get<any>(this.RUNS_API, {
       headers: this.HEADERS,
-      params: {
-        status:    'verified',
-        orderby:   'verify-date',
-        direction: 'desc',
-        max:       200,
-        embed:     'game'
-      }
+      params: { status: 'verified', orderby: 'verify-date', direction: 'desc', max: 200, embed: 'game' }
     }).subscribe({
       next: response => {
-        const runs: any[] = response.data ?? [];
-        const countMap    = new Map<string, number>();
-        const gameCache   = new Map<string, any>();
+        const runs: any[]  = response.data ?? [];
+        const countMap     = new Map<string, number>();
+        const gameCache    = new Map<string, any>();
 
         for (const run of runs) {
           const gameData = run?.game?.data;
@@ -194,9 +149,12 @@ export class GameHomeComponent implements OnInit {
           if (!gameCache.has(gameId)) gameCache.set(gameId, gameData);
         }
 
+        // Guardar conteos en el mapa global
+        countMap.forEach((count, id) => { this.gameRunCounts[id] = count; });
+
         this.games = [...countMap.entries()]
           .sort((a, b) => b[1] - a[1])
-          .map(([id, count]) => ({ ...gameCache.get(id), _runCount: count }));
+          .map(([id]) => gameCache.get(id));
 
         this.hasMore = false;
         this.loading = false;
@@ -213,16 +171,32 @@ export class GameHomeComponent implements OnInit {
   private fetchByParams(): void {
     this.loading = true;
     this.error   = null;
-    this.http.get<any>(this.API, {
-      headers: this.HEADERS,
-      params:  this.buildParams(this.offset)
+
+    // Llamada principal a juegos + llamada a runs recientes en paralelo
+    forkJoin({
+      games: this.http.get<any>(this.API, {
+        headers: this.HEADERS,
+        params:  this.buildParams(this.offset)
+      }),
+      runs: this.http.get<any>(this.RUNS_API, {
+        headers: this.HEADERS,
+        params: { status: 'verified', orderby: 'verify-date', direction: 'desc', max: 200 }
+      }).pipe(catchError(() => of({ data: [] })))
     }).subscribe({
-      next: response => {
-        const batch  = response.data ?? [];
-        this.games   = [...this.games, ...batch];
-        this.offset += this.PAGE;
-        this.hasMore = batch.length === this.PAGE && this.offset < this.MAX;
-        this.loading = false;
+      next: ({ games, runs }) => {
+        const batch: any[] = games.data ?? [];
+        this.games         = [...this.games, ...batch];
+        this.offset       += this.PAGE;
+        this.hasMore       = batch.length === this.PAGE && this.offset < this.MAX;
+        this.loading       = false;
+
+        // Construir mapa de conteos desde runs recientes
+        const runList: any[] = runs.data ?? [];
+        for (const run of runList) {
+          const gid = run?.game;
+          if (gid) this.gameRunCounts[gid] = (this.gameRunCounts[gid] ?? 0) + 1;
+        }
+
         this.cdr.detectChanges();
       },
       error: err => {
@@ -241,11 +215,11 @@ export class GameHomeComponent implements OnInit {
       params:  this.buildParams(this.offset)
     }).subscribe({
       next: response => {
-        const batch      = response.data ?? [];
-        this.games       = [...this.games, ...batch];
-        this.offset     += this.PAGE;
-        this.hasMore     = batch.length === this.PAGE && this.offset < this.MAX;
-        this.loadingMore = false;
+        const batch: any[]  = response.data ?? [];
+        this.games          = [...this.games, ...batch];
+        this.offset        += this.PAGE;
+        this.hasMore        = batch.length === this.PAGE && this.offset < this.MAX;
+        this.loadingMore    = false;
         this.cdr.detectChanges();
       },
       error: err => {
@@ -253,6 +227,27 @@ export class GameHomeComponent implements OnInit {
         this.loadingMore = false;
         this.cdr.detectChanges();
       }
+    });
+  }
+
+  /**
+   * Obtiene el conteo de runs recientes para una lista de gameIds.
+   * Usado tras una búsqueda donde no hay datos de runs embebidos.
+   */
+  private fetchRunCountsForGames(gameIds: string[]): void {
+    if (!gameIds.length) return;
+    this.http.get<any>(this.RUNS_API, {
+      headers: this.HEADERS,
+      params: { status: 'verified', orderby: 'verify-date', direction: 'desc', max: 200 }
+    }).pipe(catchError(() => of({ data: [] }))).subscribe(res => {
+      const runs: any[] = res.data ?? [];
+      for (const run of runs) {
+        const gid = run?.game;
+        if (gid && gameIds.includes(gid)) {
+          this.gameRunCounts[gid] = (this.gameRunCounts[gid] ?? 0) + 1;
+        }
+      }
+      this.cdr.detectChanges();
     });
   }
 
@@ -267,7 +262,10 @@ export class GameHomeComponent implements OnInit {
     return params;
   }
 
-  // ── Helpers ───────────────────────────────────────────────────────────────
+  /** @method getActivePlayers - Devuelve el conteo de runs recientes para un juego */
+  getActivePlayers(game: any): number {
+    return this.gameRunCounts[game?.id] ?? 0;
+  }
 
   getCover(game: any): string {
     const isBlank = (uri: string) => !uri || uri.includes('no-cover.png');

@@ -1,10 +1,12 @@
 import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 /**
- * @component UserFullGameRunsComponent
- * @description Muestra las personal bests de full game del usuario
+ * @component UserLevelRuns
+ * @description Muestra las personal bests de level runs del usuario
  * agrupadas por juego, con el background del juego como fondo oscurecido.
  */
 @Component({
@@ -34,15 +36,16 @@ export class UserLevelRuns implements OnInit {
     this.loading = true;
     this.error   = null;
 
-    // embed=game.assets para obtener background y cover, y category para el nombre
-    this.http.get<any>(`${this.API}/users/${this.userId}/personal-bests`, {
-      params: { embed: 'game,category' }
-    }).subscribe({
+    this.http.get<any>(`${this.API}/users/${this.userId}/personal-bests`).subscribe({
       next: res => {
         const data = (res.data ?? []).filter((d: any) => !!d.run?.level);
-        this.groupedGames = this.groupByGame(data);
-        this.loading = false;
-        this.cdr.detectChanges();
+        if (data.length === 0) {
+          this.groupedGames = [];
+          this.loading = false;
+          this.cdr.detectChanges();
+          return;
+        }
+        this.enrichData(data);
       },
       error: err => {
         this.error   = `Error ${err.status}: ${err.message}`;
@@ -52,25 +55,73 @@ export class UserLevelRuns implements OnInit {
     });
   }
 
+  private enrichData(data: any[]): void {
+    const gameIds     = [...new Set(data.map((d: any) => d.run.game))];
+    const categoryIds = [...new Set(data.map((d: any) => d.run.category))];
+    const levelIds    = [...new Set(data.map((d: any) => d.run.level).filter(Boolean))];
+
+    const gameCalls     = gameIds.map(id =>
+      this.http.get<any>(`${this.API}/games/${id}`).pipe(catchError(() => of(null)))
+    );
+    const categoryCalls = categoryIds.map(id =>
+      this.http.get<any>(`${this.API}/categories/${id}`).pipe(catchError(() => of(null)))
+    );
+    const levelCalls    = levelIds.map(id =>
+      this.http.get<any>(`${this.API}/levels/${id}`).pipe(catchError(() => of(null)))
+    );
+
+    forkJoin([...gameCalls, ...categoryCalls, ...levelCalls]).subscribe({
+      next: results => {
+        const gameMap:     Record<string, any> = {};
+        const categoryMap: Record<string, any> = {};
+        const levelMap:    Record<string, any> = {};
+
+        results.slice(0, gameIds.length).forEach((r, i) => {
+          if (r?.data) gameMap[gameIds[i]] = r.data;
+        });
+        results.slice(gameIds.length, gameIds.length + categoryIds.length).forEach((r, i) => {
+          if (r?.data) categoryMap[categoryIds[i]] = r.data;
+        });
+        results.slice(gameIds.length + categoryIds.length).forEach((r, i) => {
+          if (r?.data) levelMap[levelIds[i]] = r.data;
+        });
+
+        const enriched = data.map((d: any) => ({
+          ...d,
+          gameData:     gameMap[d.run.game]         ?? null,
+          categoryData: categoryMap[d.run.category] ?? null,
+          levelData:    levelMap[d.run.level]        ?? null
+        }));
+
+        this.groupedGames = this.groupByGame(enriched);
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: err => {
+        this.error   = `Error cargando detalles: ${err.message}`;
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   private groupByGame(data: any[]): { game: any; runs: any[] }[] {
     const map = new Map<string, { game: any; runs: any[] }>();
-
     for (const entry of data) {
-      // Con embed=game, los datos del juego vienen en entry.run.game.data
-      const game   = entry.run?.game?.data ?? null;
-      const gameId = game?.id ?? entry.run?.game ?? 'unknown';
-
+      const gameId = entry.run.game;
       if (!map.has(gameId)) {
-        map.set(gameId, { game, runs: [] });
+        map.set(gameId, { game: entry.gameData, runs: [] });
       }
       map.get(gameId)!.runs.push(entry);
     }
-
     return [...map.values()];
   }
 
   getBackground(game: any): string {
-    return game?.assets?.background?.uri ?? '';
+    return game?.assets?.background?.uri
+        ?? game?.assets?.['cover-large']?.uri
+        ?? game?.assets?.['cover-medium']?.uri
+        ?? '';
   }
 
   getCover(game: any): string {
@@ -85,10 +136,15 @@ export class UserLevelRuns implements OnInit {
 
   /**
    * @method getCategoryName
-   * @description Con embed=category los datos vienen en entry.run.category.data.name
+   * @description Muestra "Nivel — Categoría" para level runs.
    */
   getCategoryName(entry: any): string {
-    return entry.run?.category?.data?.name ?? '—';
+    const level    = entry.levelData?.name;
+    const category = entry.categoryData?.name;
+    if (level && category) return `${level} — ${category}`;
+    if (level)             return level;
+    if (category)          return category;
+    return '—';
   }
 
   getTime(entry: any): string {
@@ -105,11 +161,6 @@ export class UserLevelRuns implements OnInit {
     });
   }
 
-  /**
-   * @method getTrophy
-   * @param {number} index - Posición global (base 0).
-   * @returns {string | null}
-   */
   getTrophy(index: number): string | null {
     if (index === 0) return 'https://www.speedrun.com/images/1st.png';
     if (index === 1) return 'https://www.speedrun.com/images/2nd.png';

@@ -149,6 +149,7 @@
 .side-panel {
   display: flex;
   flex-direction: column;
+  gap: 12px;
   padding-top: 8px;
 }
 
@@ -281,3 +282,31 @@
   gap: 16px;
   margin-bottom: 24px;
 } 
+
+.speedrun-active-players {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7rem;
+  color: var(--text-secondary, #aaa);
+  margin: 2px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.active-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4caf50;
+  flex-shrink: 0;
+  box-shadow: 0 0 4px #4caf50aa;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.8); }
+}

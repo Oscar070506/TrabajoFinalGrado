@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { CategoryFiltersComponent } from '../../../pages/game/category-filters/category-filters';
+import { CategoryFiltersComponent } from '../filters/category-filters/category-filters';
 import { RouterModule } from '@angular/router';
 
 /**

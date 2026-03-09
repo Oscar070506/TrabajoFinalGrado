@@ -13,7 +13,14 @@
       </li>
       <li>
         <a routerLink="/games/popular-games" routerLinkActive="active" class="nav-link">
-          <span class="nav-link-icon">🏆</span> Populares
+          <lucide-icon [img]="Trophy" size="16" color="var(--accent)"></lucide-icon>
+           Populares
+        </a>
+      </li>
+      <li>
+        <a routerLink="/challenges" routerLinkActive="active" class="nav-link">
+          <lucide-icon [img]="Target" size="16" color="var(--accent)"></lucide-icon>
+          Challenges
         </a>
       </li>
     </ul>
@@ -22,23 +29,5 @@
       <a routerLink="/login" class="btn-nav btn-ghost">Iniciar sesión</a>
       <a routerLink="/register" class="btn-nav btn-accent">Registrarse</a>
     </div>
-
-    <button class="burger" (click)="toggleMenu()">
-      <span [class.open]="menuOpen"></span>
-      <span [class.open]="menuOpen"></span>
-      <span [class.open]="menuOpen"></span>
-    </button>
-
   </div>
-
-  @if (menuOpen) {
-    <div class="mobile-menu">
-      <a routerLink="/game"               (click)="toggleMenu()" class="mobile-link">🎮 Juegos</a>
-      <a routerLink="/games/popular-games" (click)="toggleMenu()" class="mobile-link">🏆 Populares</a>
-      <a routerLink="/search"             (click)="toggleMenu()" class="mobile-link">🔍 Buscar</a>
-      <div class="mobile-divider"></div>
-      <a routerLink="/login"              (click)="toggleMenu()" class="mobile-link">Iniciar sesión</a>
-      <a routerLink="/register"           (click)="toggleMenu()" class="mobile-link accent">Registrarse</a>
-    </div>
-  }
 </nav>

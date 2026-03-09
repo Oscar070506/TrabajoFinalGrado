@@ -4,16 +4,11 @@
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── LAYOUT ─────────────────────────────────────── */
 .page-layout {
   display: flex;
   flex-direction: row;
@@ -28,7 +23,7 @@
   background-color: #161a1d;
   display: flex;
   justify-content: flex-start;
-  padding: 40px 48px 60px 48px;
+  padding: 40px 32px 60px 32px;
   border-radius: var(--radius-card);
   border: 1.5px solid var(--border);
   width: fit-content;
@@ -37,37 +32,40 @@
 .catalog-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 1400px;
+  align-items: center;
+  width: 90%;
 }
 
+/* ── GRID ────────────────────────────────────────── */
 .catalog-speedrun {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 373px);
   gap: 14px;
   padding: 20px 0;
+  width: 100%;
 }
 
+/* ── CARD ────────────────────────────────────────── */
 .speedrun-card {
   display: flex;
   align-items: center;
   background: var(--bg-card);
   border-radius: var(--radius-card);
   height: 90px;
-  width: 420px;
+  width: 100%;
   border: 1.5px solid var(--border);
   cursor: pointer;
   overflow: hidden;
   opacity: 0;
   animation: fadeInUp 0.4s ease forwards;
-  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  transition: background var(--transition), border-color var(--transition),
+              box-shadow var(--transition), transform var(--transition);
 }
 
 .speedrun-card:hover {
   background: var(--bg-card-hover);
   border-color: var(--border-accent);
-  box-shadow: 0 4px 24px var(--accent-glow), 0 1px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 24px var(--accent-glow), 0 1px 4px rgba(0,0,0,0.5);
   transform: translateY(-2px);
 }
 
@@ -78,8 +76,8 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 55%, rgba(0, 0, 0, 0));
-  mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 55%, rgba(0, 0, 0, 0));
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 55%, rgba(0,0,0,0));
+  mask-image: linear-gradient(to right, rgba(0,0,0,1) 55%, rgba(0,0,0,0));
 }
 
 .speedrun-info {
@@ -87,6 +85,7 @@
   flex-direction: column;
   padding-left: 14px;
   gap: 5px;
+  min-width: 0;
 }
 
 .speedrun-title {
@@ -96,17 +95,41 @@
   margin: 0;
   letter-spacing: 0.01em;
   line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.speedrun-year {
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--accent);
-  margin: 0;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+/* ── JUGADORES ACTIVOS ───────────────────────────── */
+.speedrun-active-players {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7rem;
+  color: var(--text-secondary, #aaa);
+  margin: 2px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+.active-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4caf50;
+  flex-shrink: 0;
+  box-shadow: 0 0 4px #4caf50aa;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.8); }
+}
+
+/* ── ESTADOS ─────────────────────────────────────── */
 .state-msg {
   color: var(--text-muted);
   font-size: 1rem;
@@ -114,10 +137,9 @@
   text-align: left;
 }
 
-.state-msg.error {
-  color: #ff6b6b;
-}
+.state-msg.error { color: #ff6b6b; }
 
+/* ── LOAD MORE ───────────────────────────────────── */
 .btn-load-more {
   margin: 32px 0 0;
   display: block;
@@ -137,107 +159,95 @@
 
 .btn-load-more:hover {
   background-color: var(--accent-dark);
-  box-shadow: 0 4px 20px rgba(31, 173, 143, 0.35);
+  box-shadow: 0 4px 20px rgba(31,173,143,0.35);
   transform: translateY(-1px);
 }
 
-.btn-load-more:active {
-  transform: translateY(0);
-  box-shadow: none;
-}
+.btn-load-more:active { transform: translateY(0); box-shadow: none; }
 
 .side-panel {
+  position: sticky;
+  top: 90px; 
+  width: 220px;
+  height: 400px; 
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding-top: 8px;
+  flex-shrink: 0;
 }
 
-.btn-popular {
+.btn-popular,
+.btn-challenge {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 14px;
-  background: var(--bg-card);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+  background-color: rgba(0, 0, 0, 0.55);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-card);
-  padding: 18px 20px;
+  padding: 22px 20px;
   cursor: pointer;
-  width: 220px;
+  width: 100%;
   transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
   text-align: left;
 }
 
-.btn-popular:hover {
+.btn-popular { background-image: url("/popularGames.png"); }
+.btn-challenge { background-image: url("/challengeGames.png"); }
+
+.btn-popular:hover,
+.btn-challenge:hover {
   border-color: var(--border-accent);
   box-shadow: 0 4px 24px var(--accent-glow);
   transform: translateY(-2px);
 }
 
-.btn-popular-icon {
+.btn-popular-icon,
+.btn-challenge-icon {
   font-size: 1.6rem;
   flex-shrink: 0;
 }
 
-.btn-popular-text {
+.btn-popular-text,
+.btn-challenge-text {
   display: flex;
   flex-direction: column;
   gap: 3px;
   flex: 1;
 }
 
-.btn-popular-title {
+.btn-popular-title,
+.btn-challenge-title {
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: 0.01em;
 }
 
-.btn-popular-sub {
+.btn-popular-sub,
+.btn-challenge-sub {
   font-size: 0.75rem;
-  color: var(--text-muted);
+  color: rgb(163, 163, 163);
+  font-weight: bold;
 }
 
-.btn-popular-arrow {
+.btn-popular-arrow,
+.btn-challenge-arrow {
   font-size: 1.4rem;
   color: var(--accent);
   flex-shrink: 0;
 }
 
-@media (max-width: 1400px) {
-  .catalog-speedrun {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 900px) {
-  .page-layout {
-    flex-direction: column;
-    padding: 24px 16px;
-  }
-
-  .catalog-wrapper {
-    padding: 24px 16px;
-    width: 100%;
-  }
-
-  .catalog-speedrun {
-    grid-template-columns: 1fr;
-  }
-
-  .speedrun-card {
-    width: 90vw;
-  }
-
-  .btn-popular {
-    width: 100%;
-  }
-}
-
+/* ── SEARCH ──────────────────────────────────────── */
 .search-wrapper {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255,255,255,0.05);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-btn);
   padding: 0 14px;
@@ -245,9 +255,7 @@
   transition: border-color var(--transition);
 }
 
-.search-wrapper:focus-within {
-  border-color: var(--border-accent);
-}
+.search-wrapper:focus-within { border-color: var(--border-accent); }
 
 .search-icon { color: var(--text-muted); display: flex; }
 
@@ -276,37 +284,31 @@
 
 .search-clear:hover { color: var(--text-primary); }
 
+/* ── FILTERS ─────────────────────────────────────── */
 .filters-row {
   display: flex;
   align-items: center;
   gap: 16px;
   margin-bottom: 24px;
-} 
-
-.speedrun-active-players {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.7rem;
-  color: var(--text-secondary, #aaa);
-  margin: 2px 0 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.active-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #4caf50;
-  flex-shrink: 0;
-  box-shadow: 0 0 4px #4caf50aa;
-  animation: pulse-dot 2s infinite;
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media (max-width: 1400px) {
+  .catalog-speedrun { grid-template-columns: repeat(2, 1fr); }
 }
 
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.6; transform: scale(0.8); }
+@media (max-width: 900px) {
+  .page-layout {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 16px;
+  }
+
+  .catalog-wrapper { padding: 24px 16px; width: 100%; }
+  .catalog-speedrun { grid-template-columns: 1fr; }
+  .speedrun-card { width: 100%; }
+
+  .side-panel { width: 100%; flex-direction: row; }
+  .btn-popular,
+  .btn-challenge { flex: 1; }
 }

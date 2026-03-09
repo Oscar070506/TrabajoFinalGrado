@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-login',
@@ -13,21 +14,41 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
 
   loginForm: FormGroup;
+  serverError = '';
+  loading     = false;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb:     FormBuilder,
+    private router: Router,
+    private auth:   AuthService
+  ) {
     this.loginForm = this.fb.group({
       email:    ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]]
     });
   }
 
-  // Getters para acceder a los controles desde el HTML de forma limpia
   get email()    { return this.loginForm.get('email')!; }
   get password() { return this.loginForm.get('password')!; }
 
   onSubmit(): void {
-    // Aquí irá la llamada real al servicio de auth cuando lo implementes
-    alert(`¡Bienvenido ${this.email.value}! Redirigiendo al catálogo...`);
-    this.router.navigate(['/game']);
+    if (this.loginForm.invalid) return;
+
+    this.serverError = '';
+    this.loading     = true;
+
+    this.auth.login({
+      email:    this.email.value,
+      password: this.password.value
+    }).subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigate(['/game']);
+      },
+      error: (err) => {
+        this.loading     = false;
+        this.serverError = err.error?.error ?? 'Credenciales incorrectas.';
+      }
+    });
   }
 }

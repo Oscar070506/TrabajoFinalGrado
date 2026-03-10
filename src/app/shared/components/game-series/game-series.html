@@ -1,0 +1,28 @@
+<div class="series-page">
+
+  <div class="series-header">
+    <button class="btn-back" (click)="goBack()">← Volver</button>
+    @if (seriesName) {
+      <h1 class="series-title">{{ seriesName }}</h1>
+    }
+  </div>
+
+  @if (loading) { <div class="state-msg">Cargando juegos de la serie...</div> }
+  @if (error)   { <div class="state-msg error">{{ error }}</div> }
+
+  @if (!loading && games.length === 0 && !error) {
+    <div class="state-msg">Esta serie no tiene juegos disponibles.</div>
+  }
+
+  <section class="series-games-grid">
+    @for (game of games; track game.id; let i = $index) {
+      <div class="speedrun-card" (click)="onGameClick(game)" [style.animation-delay]="i * 0.05 + 's'">
+        <div class="speedrun-cover" [style.background-image]="'url(' + getCover(game) + ')'"></div>
+        <div class="speedrun-info">
+          <p class="speedrun-title">{{ getName(game) }}</p>
+        </div>
+      </div>
+    }
+  </section>
+
+</div>

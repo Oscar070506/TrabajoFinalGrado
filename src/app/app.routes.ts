@@ -8,6 +8,8 @@ import { PopularGamesComponent } from './pages/game/popular-games/popular-games'
 import { SearchBarComponent } from './shared/components/filters/search/search';
 import { UserProfileComponent } from './pages/user/user-profile/user-profile';
 import { ChallengesComponent } from './pages/game/challenges/challenges';
+import { NotFound } from './pages/not-found/not-found';
+import { GameSeries } from './shared/components/game-series/game-series';
 
 export const routes: Routes = [
   { path: '',                    redirectTo: 'home', pathMatch: 'full' },
@@ -29,5 +31,11 @@ export const routes: Routes = [
   { path: 'user/:id',            component: UserProfileComponent },
 
   // Challenges
-  { path: 'challenges',          component: ChallengesComponent }
+  { path: 'challenges',          component: ChallengesComponent },
+
+  // Game Series
+  {path: 'series',               component: GameSeries },
+
+  // 404
+  { path: '**',                  component: NotFound }
 ];

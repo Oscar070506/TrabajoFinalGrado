@@ -3,62 +3,106 @@
   <div class="catalog-wrapper">
     <section class="catalog-container">
 
-      <div class="filters-row">
-        <app-console-filter (platformSelected)="onPlatformSelected($event)"></app-console-filter>
-        <app-order-filter (orderChanged)="onOrderChanged($event)"></app-order-filter>
+      <div class="tabs-row">
+        <button class="tab-btn" [class.active]="activeTab === 'games'" (click)="setTab('games')">Juegos</button>
+        <button class="tab-btn" [class.active]="activeTab === 'series'" (click)="setTab('series')">Series</button>
       </div>
 
-      <div class="search-wrapper">
-        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-        </svg>
-        <input
-          class="search-input"
-          type="text"
-          placeholder="Buscar juego..."
-          [(ngModel)]="searchQuery"
-          (input)="onSearch()"
-        />
-        @if (searchQuery) {
-          <button class="search-clear" (click)="clearSearch()">✕</button>
+      @if (activeTab === 'games') {
+
+        <div class="filters-row">
+          <app-console-filter (platformSelected)="onPlatformSelected($event)"></app-console-filter>
+          <app-order-filter (orderChanged)="onOrderChanged($event)"></app-order-filter>
+        </div>
+
+        <div class="search-wrapper">
+          <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input
+            class="search-input"
+            type="text"
+            placeholder="Buscar juego..."
+            [(ngModel)]="searchQuery"
+            (input)="onSearch()"
+          />
+          @if (searchQuery) {
+            <button class="search-clear" (click)="clearSearch()">✕</button>
+          }
+        </div>
+
+        @if (loading) { <div class="state-msg">Cargando juegos...</div> }
+        @if (error)   { <div class="state-msg error">{{ error }}</div> }
+        @if (!loading && !error && games.length === 0) {
+          <div class="state-msg">No se encontraron juegos.</div>
         }
-      </div>
 
-      @if (loading) {
-        <div class="state-msg">Cargando juegos...</div>
-      }
-
-      @if (error) {
-        <div class="state-msg error">{{ error }}</div>
-      }
-
-      @if (!loading && !error && games.length === 0) {
-        <div class="state-msg">No se encontraron juegos.</div>
-      }
-
-      <section class="catalog-speedrun">
-        @for (game of games; track game.id; let i = $index) {
-          <div class="speedrun-card" (click)="onGameClick(game)" [style.animation-delay]="i * 0.06 + 's'">
-            <div class="speedrun-cover" [style.background-image]="'url(' + getCover(game) + ')'"></div>
-            <div class="speedrun-info">
-              <p class="speedrun-title">{{ getName(game) }}</p>
-              @if (getActivePlayers(game) > 0) {
-                <p class="speedrun-active-players">
-                  <span class="active-dot"></span>
-                  {{ getActivePlayers(game) }} jugador{{ getActivePlayers(game) !== 1 ? 'es' : '' }} activo{{ getActivePlayers(game) !== 1 ? 's' : '' }}
-                </p>
-              }
+        <section class="catalog-speedrun">
+          @for (game of games; track game.id; let i = $index) {
+            <div class="speedrun-card" (click)="onGameClick(game)" [style.animation-delay]="i * 0.06 + 's'">
+              <div class="speedrun-cover" [style.background-image]="'url(' + getCover(game) + ')'"></div>
+              <div class="speedrun-info">
+                <p class="speedrun-title">{{ getName(game) }}</p>
+                @if (getActivePlayers(game) > 0) {
+                  <p class="speedrun-active-players">
+                    <span class="active-dot"></span>
+                    {{ getActivePlayers(game) }} jugador{{ getActivePlayers(game) !== 1 ? 'es' : '' }} activo{{ getActivePlayers(game) !== 1 ? 's' : '' }}
+                  </p>
+                }
+              </div>
             </div>
-          </div>
-        }
-      </section>
+          }
+        </section>
 
-      @if (hasMore && !loadingMore && !searchQuery) {
-        <button class="btn-load-more" (click)="loadMore()">Cargar más juegos</button>
+        @if (hasMore && !loadingMore && !searchQuery) {
+          <button class="btn-load-more" (click)="loadMore()">Cargar más juegos</button>
+        }
+        @if (loadingMore) {
+          <div class="state-msg">Cargando más juegos...</div>
+        }
       }
 
-      @if (loadingMore) {
-        <div class="state-msg">Cargando más juegos...</div>
+      @if (activeTab === 'series') {
+
+        <div class="search-wrapper">
+          <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input
+            class="search-input"
+            type="text"
+            placeholder="Buscar serie..."
+            [(ngModel)]="seriesQuery"
+            (input)="onSeriesSearch()"
+          />
+          @if (seriesQuery) {
+            <button class="search-clear" (click)="clearSeriesSearch()">✕</button>
+          }
+        </div>
+
+        @if (loadingSeries) { <div class="state-msg">Cargando series...</div> }
+
+        <section class="series-grid">
+          @for (s of filteredSeries; track s.id; let i = $index) {
+            <div class="series-card" [style.animation-delay]="i * 0.04 + 's'">
+              <div class="series-cover" [style.background-image]="'url(' + getSeriesCover(s) + ')'">
+                @if (getActiveSeriesPlayers(s) > 0) {
+                <div class="series-active-badge">
+                  <span class="active-dot"></span>
+                  {{ getActiveSeriesPlayers(s) }} boost{{ getActiveSeriesPlayers(s) !== 1 ? 's' : '' }}
+                </div>
+              }
+              </div>
+              <div class="series-info">
+                <p class="series-name">{{ getSeriesName(s) }}</p>
+              </div>
+            </div>
+          }
+        </section>
+
+        @if (!loadingSeries && filteredSeries.length === 0) {
+          <div class="state-msg">No se encontraron series.</div>
+        }
       }
 
     </section>

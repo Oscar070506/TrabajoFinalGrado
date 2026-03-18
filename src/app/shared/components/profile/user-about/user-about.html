@@ -35,15 +35,15 @@
         </div>
         <div class="stat-card">
           <span class="stat-label">Tiempo total</span>
-          <span class="stat-value">{{ formatTime(totalTimeSecs) }}</span>
+          <span class="stat-value">{{ totalTimeSecs | formatTime }}</span>
         </div>
         <div class="stat-card">
           <span class="stat-label">Primera run</span>
-          <span class="stat-value">{{ formatDate(firstRun) }}</span>
+          <span class="stat-value">{{ firstRun | timeAgo }}</span>
         </div>
         <div class="stat-card">
           <span class="stat-label">Última run</span>
-          <span class="stat-value">{{ formatDate(lastRun) }}</span>
+          <span class="stat-value">{{ lastRun | timeAgo }}</span>
         </div>
       </div>
     </div>

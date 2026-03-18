@@ -1,0 +1,139 @@
+.footer {
+  background-color: #0f1214;
+  border-top: 1.5px solid var(--border, #1e2428);
+  padding: 48px 48px 24px;
+  margin-top: auto;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: row;
+  gap: 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+/* ── Brand ── */
+.footer-brand {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-logo-icon {
+  font-size: 1.4rem;
+}
+
+.footer-logo-text {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--text-primary, #fff);
+  letter-spacing: 0.08em;
+}
+
+/* ── Columns ── */
+.footer-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-heading {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--text-primary, #fff);
+  letter-spacing: 0.1em;
+  margin: 0 0 4px;
+}
+
+.footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-links a {
+  font-size: 0.82rem;
+  color: var(--accent, #1fad8f);
+  text-decoration: none;
+  transition: color 0.2s, opacity 0.2s;
+  opacity: 0.85;
+}
+
+.footer-links a:hover {
+  opacity: 1;
+  color: var(--text-primary, #fff);
+}
+
+/* ── GitHub link ── */
+.footer-github-link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.footer-github-icon {
+  flex-shrink: 0;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+.footer-github-link:hover .footer-github-icon {
+  opacity: 1;
+}
+
+/* ── Bottom bar ── */
+.footer-bottom {
+  max-width: 1200px;
+  margin: 32px auto 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--border, #1e2428);
+  font-size: 0.75rem;
+  color: var(--text-muted, #555);
+  text-align: center;
+}
+
+.footer-logo-img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .footer {
+    padding: 32px 20px 20px;
+  }
+
+  .footer-inner {
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+
+  .footer-brand {
+    flex: 1 1 100%;
+  }
+
+  .footer-col {
+    flex: 1 1 40%;
+  }
+}
+
+@media (max-width: 500px) {
+  .footer-col {
+    flex: 1 1 100%;
+  }
+}

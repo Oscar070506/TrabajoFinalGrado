@@ -3,8 +3,8 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subject, forkJoin, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, catchError } from 'rxjs/operators';
+import { Observable, Subject, forkJoin, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, catchError, switchMap } from 'rxjs/operators';
 import { ConsoleFilterComponent } from '../../../shared/components/filters/console-filter/console-filter';
 import { OrderFilterComponent } from '../../../shared/components/filters/order-filter/order-filter';
 import { LucideAngularModule, Trophy, Target } from 'lucide-angular';
@@ -142,13 +142,9 @@ export class GameHomeComponent implements OnInit {
    */
   fetchSeries(): void {
     this.loadingSeries = true;
-
-    this.http.get<any>(this.SERIES_API, {
-      headers: this.HEADERS,
-      params: { max: 200 }
-    }).subscribe({
-      next: res => {
-        this.allSeries = (res.data ?? []).sort((a: any, b: any) => 
+    this.fetchAllSeries$(0, []).subscribe({
+      next: series => {
+        this.allSeries      = series.sort((a: any, b: any) =>
           new Date(b.created ?? 0).getTime() - new Date(a.created ?? 0).getTime()
         );
         this.filteredSeries = [...this.allSeries];
@@ -159,6 +155,21 @@ export class GameHomeComponent implements OnInit {
     });
   }
 
+  private fetchAllSeries$(offset: number, accumulated: any[]): Observable<any[]> {
+    return this.http.get<any>(this.SERIES_API, {
+      headers: this.HEADERS,
+      params: { max: '200', offset: String(offset) }
+    }).pipe(
+      switchMap(res => {
+        const page = res.data ?? [];
+        const all  = [...accumulated, ...page];
+        return page.length === 200
+          ? this.fetchAllSeries$(offset + 200, all)
+          : of(all);
+      }),
+      catchError(() => of(accumulated))
+    );
+}
   getActiveSeriesPlayers(s: any): number {
     return s?.boostReceived ?? 0;
   }

@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .footer {
   background-color: #0f1214;
   border-top: 1.5px solid var(--border, #1e2428);
@@ -14,7 +19,6 @@
   align-items: flex-start;
 }
 
-/* ── Brand ── */
 .footer-brand {
   flex: 1.2;
   display: flex;

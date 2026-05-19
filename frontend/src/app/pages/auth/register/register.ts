@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth';
+
 
 function passwordMatchValidator(form: AbstractControl): ValidationErrors | null {
   const pw  = form.get('password')?.value;
@@ -41,7 +42,8 @@ export class RegisterComponent {
   constructor(
     private fb:     FormBuilder,
     private router: Router,
-    private auth:   AuthService
+    private auth:   AuthService,
+    private cdr:    ChangeDetectorRef
   ) {
     this.registerForm = this.fb.group(
       {
@@ -77,20 +79,21 @@ export class RegisterComponent {
 
   onSubmit(): void {
     if (this.registerForm.invalid) return;
-
     this.serverError = '';
     this.loading     = true;
-
     const { username, email, password } = this.registerForm.value;
-
     this.auth.register({ username, email, password }).subscribe({
       next: () => {
         this.loading = false;
         this.router.navigate(['/game']);
       },
       error: (err) => {
-        this.loading     = false;
-        this.serverError = err.error?.error ?? 'Error al registrarse. Inténtalo de nuevo.';
+        this.loading = false;
+        const e = err.error;
+        if (e?.email?.[0])         this.serverError = 'Este correo ya está registrado.';
+        else if (e?.username?.[0]) this.serverError = 'Este nombre de usuario ya está en uso.';
+        else                       this.serverError = e?.error ?? 'Error al registrarse. Inténtalo de nuevo.';
+        this.cdr.detectChanges();
       }
     });
   }

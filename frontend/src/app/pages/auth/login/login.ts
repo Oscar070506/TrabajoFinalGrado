@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -20,7 +20,8 @@ export class LoginComponent {
   constructor(
     private fb:     FormBuilder,
     private router: Router,
-    private auth:   AuthService
+    private auth:   AuthService,
+    private cdr: ChangeDetectorRef
   ) {
     this.loginForm = this.fb.group({
       email:    ['', [Validators.required, Validators.email]],
@@ -32,23 +33,22 @@ export class LoginComponent {
   get password() { return this.loginForm.get('password')!; }
 
   onSubmit(): void {
-    if (this.loginForm.invalid) return;
-
-    this.serverError = '';
-    this.loading     = true;
-
-    this.auth.login({
-      email:    this.email.value,
-      password: this.password.value
-    }).subscribe({
-      next: () => {
-        this.loading = false;
-        this.router.navigate(['/game']);
-      },
-      error: (err) => {
-        this.loading     = false;
-        this.serverError = err.error?.error ?? 'Credenciales incorrectas.';
-      }
+      if (this.loginForm.invalid) return;
+      this.serverError = '';
+      this.loading     = true;
+      this.auth.login({
+        email:    this.email.value,
+        password: this.password.value
+      }).subscribe({
+        next: () => {
+          this.loading = false;
+          this.router.navigate(['/game']);
+        },
+        error: (err) => {
+          this.loading     = false;
+          this.serverError = err.error?.error ?? 'Credenciales incorrectas.';
+          this.cdr.detectChanges();
+        }
     });
   }
 }

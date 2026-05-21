@@ -24,7 +24,6 @@ export class UserTabsComponent {
   /** ID del usuario para pasarlo a cada subcomponente. */
   @Input() userId: string = '';
 
-  /** Pestaña actualmente activa. */
   activeTab: string = 'full-game-runs';
 
   /**

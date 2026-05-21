@@ -8,7 +8,6 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── LAYOUT ─────────────────────────────────────── */
 .page-layout {
   display: flex;
   flex-direction: row;
@@ -37,7 +36,6 @@
   width: 100%;
 }
 
-/* ── GRID ────────────────────────────────────────── */
 .catalog-speedrun {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -46,7 +44,6 @@
   width: 100%;
 }
 
-/* ── CARD ────────────────────────────────────────── */
 .speedrun-card {
   display: flex;
   align-items: center;
@@ -101,7 +98,6 @@
   text-overflow: ellipsis;
 }
 
-/* ── JUGADORES ACTIVOS ───────────────────────────── */
 .speedrun-active-players {
   display: flex;
   align-items: center;
@@ -130,7 +126,6 @@
   50%       { opacity: 0.6; transform: scale(0.8); }
 }
 
-/* ── ESTADOS ─────────────────────────────────────── */
 .state-msg {
   color: var(--text-muted);
   font-size: 1rem;
@@ -140,7 +135,6 @@
 
 .state-msg.error { color: #ff6b6b; }
 
-/* ── LOAD MORE ───────────────────────────────────── */
 .btn-load-more {
   margin: 32px 0 0;
   display: block;
@@ -166,7 +160,6 @@
 
 .btn-load-more:active { transform: translateY(0); box-shadow: none; }
 
-/* ── SIDE PANEL ──────────────────────────────────── */
 .side-panel {
   display: flex;
   flex-direction: column;
@@ -176,7 +169,6 @@
   align-self: flex-start; 
 }
 
-/* ── BOTONES PANEL (base compartida) ─────────────── */
 .btn-popular,
 .btn-challenge {
   flex: none;
@@ -243,7 +235,6 @@
   flex-shrink: 0;
 }
 
-/* ── SEARCH ──────────────────────────────────────── */
 .search-wrapper {
   display: flex;
   align-items: center;
@@ -285,7 +276,6 @@
 
 .search-clear:hover { color: var(--text-primary); }
 
-/* ── FILTERS ─────────────────────────────────────── */
 .filters-row {
   display: flex;
   align-items: center;
@@ -293,7 +283,6 @@
   margin-bottom: 24px;
 }
 
-/* ── RESPONSIVE ──────────────────────────────────── */
 @media (max-width: 1400px) {
   .catalog-speedrun { grid-template-columns: repeat(2, 1fr); }
 }
@@ -314,7 +303,6 @@
   .btn-challenge { flex: 1; }
 }
 
-/* ── TABS ────────────────────────────────────────── */
 .tabs-row {
   display: flex;
   gap: 4px;
@@ -344,11 +332,9 @@
   border-bottom-color: var(--accent);
 }
 
-/* ── SERIES GRID ─────────────────────────────────── */
-/* ── SERIES GRID ─────────────────────────────────── */
 .series-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* era repeat(4, 280px) */
+  grid-template-columns: repeat(5, 1fr); 
   gap: 14px;
   padding: 16px 0;
   width: 100%;
@@ -384,7 +370,7 @@
   opacity: 0;
   animation: fadeInUp 0.4s ease forwards;
   transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
-  position: relative; /* necesario para el overlay */
+  position: relative; 
 }
 
 .series-card:hover {
@@ -395,7 +381,7 @@
 
 .series-cover {
   width: 100%;
-  height: 160px; /* un poco más de alto para lucir mejor */
+  height: 160px;
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
@@ -424,7 +410,7 @@
 .series-name {
   font-size: 13px;
   font-weight: 700;
-  color: #ffffff; /* blanco en lugar del accent */
+  color: #ffffff; 
   margin: 0;
   white-space: nowrap;
   overflow: hidden;

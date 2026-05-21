@@ -1,6 +1,5 @@
 :host { display: block; }
 
-/* ── Barra de tabs ─────────────────── */
 .tabs-bar {
   display: flex;
   gap: 2px;

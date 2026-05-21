@@ -30,7 +30,6 @@
   justify-content: center;
 }
 
-/* ── Fondo ───────────────────────── */
 .slide-bg {
   position: absolute;
   inset: 0;
@@ -58,26 +57,22 @@
   z-index: 1;
 }
 
-/* ── Layout: 3 columnas, altura fija ─ */
 .slide-layout {
   position: relative;
   z-index: 2;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
   width: 100%;
   height: 100vh;
-  padding: 0 24px;
+  padding: 40px 24px;
   box-sizing: border-box;
+  align-items: center;
 }
 
-/* ── Panel izquierdo ─────────────── */
 .rules-panel {
-  width: 500px;
-  flex-shrink: 0;
   height: 72vh;
+  width: 100%;
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.78);
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -88,6 +83,7 @@
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,0.2) transparent;
 }
+
 .rules-panel::-webkit-scrollbar { width: 4px; }
 .rules-panel::-webkit-scrollbar-track { background: transparent; }
 .rules-panel::-webkit-scrollbar-thumb {
@@ -113,9 +109,8 @@
   white-space: pre-wrap;
 }
 
-/* ── Centro ──────────────────────── */
+
 .slide-content {
-  flex: 1;
   height: 72vh;
   display: flex;
   flex-direction: column;
@@ -126,18 +121,15 @@
   min-width: 0;
 }
 
-/* ── Panel derecho ───────────────── */
 .earners-panel {
-  width: 340px;
-  flex-shrink: 0;
   height: 72vh;
+  width: 100%;
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
-/* ── Cabecera ────────────────────── */
 .slide-header {
   display: flex;
   flex-direction: column;
@@ -186,7 +178,6 @@
   letter-spacing: 0.08em;
 }
 
-/* ── Prize pool ──────────────────── */
 .prize-pool {
   display: flex;
   flex-direction: column;
@@ -211,7 +202,6 @@
   line-height: 1;
 }
 
-/* ── Top 3 ───────────────────────── */
 .top3 {
   display: flex;
   align-items: flex-end;
@@ -229,20 +219,23 @@
   align-items: center;
   gap: 7px;
   padding: 14px 16px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(10, 12, 14, 0.85);
+  border: 1px solid rgba(255,255,255,0.18);
   border-radius: 16px;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
   min-width: 100px;
   transition: transform 0.2s ease;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
 }
+
 
 .top3-entry.first {
   transform: scale(1.08);
-  background: rgba(255, 200, 0, 0.12);
-  border-color: rgba(255, 200, 0, 0.3);
-  box-shadow: 0 0 32px rgba(255,200,0,0.15);
+  background: rgba(10, 12, 14, 0.9);
+  border-color: rgba(255, 200, 0, 0.5);
+  box-shadow: 0 0 40px rgba(255,200,0,0.25), 0 4px 24px rgba(0,0,0,0.7);
 }
+
 .top3-entry.first .top3-avatar {
   width: 60px; height: 60px;
   border-color: rgba(255,200,0,0.6);
@@ -251,17 +244,21 @@
 
 .top3-entry.second {
   transform: scale(0.92);
-  background: rgba(180,180,180,0.1);
-  border-color: rgba(180,180,180,0.25);
+  background: rgba(10, 12, 14, 0.85);
+  border-color: rgba(180,180,180,0.4);
+  box-shadow: 0 0 24px rgba(180,180,180,0.1), 0 4px 20px rgba(0,0,0,0.6);
 }
+
 .top3-entry.second .top3-avatar { width: 46px; height: 46px; border-color: rgba(180,180,180,0.5); }
 .top3-entry.second .top3-prize { color: #c0c0c0; }
 
 .top3-entry.third {
   transform: scale(0.88);
-  background: rgba(180,100,40,0.1);
-  border-color: rgba(180,100,40,0.25);
+  background: rgba(10, 12, 14, 0.85);
+  border-color: rgba(180,100,40,0.4);
+  box-shadow: 0 0 24px rgba(180,100,40,0.1), 0 4px 20px rgba(0,0,0,0.6);
 }
+
 .top3-entry.third .top3-avatar { width: 42px; height: 42px; border-color: rgba(180,100,40,0.5); }
 .top3-entry.third .top3-prize { color: #cd7f32; }
 
@@ -309,22 +306,22 @@
 .btn-challenge {
   padding: 9px 24px;
   border-radius: 24px;
-  background: rgba(255,255,255,0.1);
-  border: 1.5px solid rgba(255,255,255,0.2);
-  color: #fff;
+  background: rgba(31, 173, 143, 0.2);
+  border: 1.5px solid var(--border-accent);
+  color: var(--accent);
   font-size: 0.83rem;
   font-weight: 700;
   text-decoration: none;
   backdrop-filter: blur(4px);
   transition: background 0.2s, border-color 0.2s, transform 0.2s;
 }
+
 .btn-challenge:hover {
-  background: rgba(255,255,255,0.18);
-  border-color: rgba(255,255,255,0.4);
+  background: rgba(31, 173, 143, 0.35);
+  border-color: var(--accent);
   transform: translateY(-2px);
 }
 
-/* ── Loading ─────────────────────── */
 .state-loading {
   height: 100vh;
   display: flex;

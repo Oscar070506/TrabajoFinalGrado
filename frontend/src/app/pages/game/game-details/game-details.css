@@ -58,10 +58,9 @@
 
 .slide-fade--right {
   right: 0;
-  background: linear-gradient(to left, rgba(14, 17, 19, 0.98) 0%, rgba(14, 17, 19, 0.7) 100%);
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.85) 0%, rgba(14, 17, 19, 0.7) 100%);
 }
 
-/* Botón volver — mismo estilo que los botones del carrusel */
 .carousel-btn {
   position: absolute;
   top: 50%;
@@ -99,7 +98,6 @@
   box-sizing: border-box;
 }
 
-/* GAME PANEL */
 .game-panel {
   background: rgba(14, 17, 19, 0.88);
   border: 1.5px solid var(--border);
@@ -117,12 +115,11 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: 24px;
+  right: 65px;
   z-index: 2;
   max-height: 90vh;
   overflow-y: auto;
 }
-
 .panel-header {
   display: flex;
   gap: 16px;
@@ -251,7 +248,6 @@
   font-size: 0.65rem;
 }
 
-/* LEADERBOARD PANEL */
 .leaderboard-panel {
   position: absolute;
   top: 80px;
@@ -274,7 +270,6 @@
 .leaderboard-panel::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
 .leaderboard-panel::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
 
-/* RESPONSIVE */
 @media (max-width: 900px) {
   .leaderboard-panel {
     position: static;

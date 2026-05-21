@@ -87,7 +87,6 @@ export class UserFullGameRuns implements OnInit {
           if (r?.data) categoryMap[categoryIds[i]] = r.data;
         });
 
-        // Inyectar en cada entry
         const enriched = data.map((d: any) => ({
           ...d,
           gameData:     gameMap[d.run.game]     ?? null,

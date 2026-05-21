@@ -300,12 +300,11 @@
   transform: scale(1.3);
 }
 
-/* PANEL DEL LEADERBOARD — posicionado entre los dos botones */
 .leaderboard-panel {
   position: absolute;
-  top: 80px;            /* bajar desde la parte superior */
-  left: 100px;           /* después del botón prev (24px + 56px botón) */
-  right: 680px;         /* espacio para el game-panel (360px) + margen (260px) */
+  top: 80px;          
+  left: 100px;           
+  right: 680px;         
   max-height: 80vh;
   overflow-y: auto;
   overflow-x: hidden;
@@ -374,7 +373,6 @@
   }
 }
 
-/* game-panel posicionado absolutamente a la derecha */
 .slide-layout .game-panel {
   position: absolute;
   top: 200px;

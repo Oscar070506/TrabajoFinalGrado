@@ -3,14 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { forkJoin, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 
-/**
- * @component TopEarnersComponent
- * @description Leaderboard global de los jugadores que más han ganado
- * en todos los challenges de speedrun.com, calculado sumando
- * las ganancias de cada usuario en cada challenge.
- */
 @Component({
   selector: 'app-top-earners',
   standalone: true,
@@ -20,11 +14,11 @@ import { catchError } from 'rxjs/operators';
 })
 export class TopEarnersComponent implements OnInit {
 
-  /** Lista de top earners ordenada por ganancias totales. */
   earners: {
     userId: string;
     name: string;
     avatar: string;
+    nameStyle: any;
     totalAmount: number;
     gold: number;
     silver: number;
@@ -40,6 +34,7 @@ export class TopEarnersComponent implements OnInit {
   loading: boolean = false;
   error: string | null = null;
 
+  private readonly API_V1 = 'https://www.speedrun.com/api/v1';
   private readonly API_V2 = 'https://www.speedrun.com/api/v2';
   private readonly BASE   = 'https://www.speedrun.com';
 
@@ -69,11 +64,34 @@ export class TopEarnersComponent implements OnInit {
 
     forkJoin(calls).subscribe({
       next: results => {
-        this.earners = this.calculateEarners(results.filter(r => r !== null));
-        this.currentPage = 0;
-        this.updatePagination();
-        this.loading = false;
-        this.cdr.detectChanges();
+        const earners = this.calculateEarners(results.filter(r => r !== null));
+        const userIds = earners.map(e => e.userId);
+
+        const v1Calls = userIds.map(id =>
+          this.http.get<any>(`${this.API_V1}/users/${id}`)
+            .pipe(catchError(() => of(null)))
+        );
+
+        forkJoin(v1Calls).subscribe({
+          next: v1Users => {
+            earners.forEach((earner, i) => {
+              const v1 = v1Users[i]?.data;
+              earner.nameStyle = v1?.['name-style'] ?? null;
+            });
+            this.earners = earners;
+            this.currentPage = 0;
+            this.updatePagination();
+            this.loading = false;
+            this.cdr.detectChanges();
+          },
+          error: () => {
+            this.earners = earners;
+            this.currentPage = 0;
+            this.updatePagination();
+            this.loading = false;
+            this.cdr.detectChanges();
+          }
+        });
       },
       error: err => {
         this.error   = `Error: ${err.message}`;
@@ -83,16 +101,12 @@ export class TopEarnersComponent implements OnInit {
     });
   }
 
-  /**
-   * @method calculateEarners
-   * @description Suma ganancias por usuario en todos los challenges
-   * y calcula medallas de oro, plata y bronce.
-   */
   private calculateEarners(challenges: any[]): any[] {
     const earnerMap = new Map<string, {
       userId: string;
       name: string;
       avatar: string;
+      nameStyle: any;
       totalAmount: number;
       gold: number;
       silver: number;
@@ -119,6 +133,7 @@ export class TopEarnersComponent implements OnInit {
             userId,
             name,
             avatar,
+            nameStyle: null,
             totalAmount: 0,
             gold: 0,
             silver: 0,
@@ -147,6 +162,14 @@ export class TopEarnersComponent implements OnInit {
 
   formatAmount(cents: number): string {
     return `$${(cents / 100).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+  }
+
+  getNameColor(earner: any): string {
+    const style = earner?.nameStyle;
+    if (!style) return 'var(--accent)';
+    if (style.style === 'solid') return style.color?.light ?? 'var(--accent)';
+    if (style.style === 'gradient') return style['color-from']?.light ?? 'var(--accent)';
+    return 'var(--accent)';
   }
 
   updatePagination(): void {

@@ -15,7 +15,6 @@
 
 .error { color: #ff6b6b; padding: 16px 0; text-align: center; }
 
-/* ── Contenedor por juego (igual que leaderboard-container) ── */
 .leaderboard-container {
   position: relative;
   background: var(--bg-card);
@@ -28,7 +27,6 @@
   gap: 16px;
 }
 
-/* Fondo del juego oscurecido */
 .game-bg {
   position: absolute;
   inset: 0;
@@ -39,14 +37,12 @@
   z-index: 0;
 }
 
-/* Todo el contenido por encima del fondo */
 .game-header,
 .leaderboard-table {
   position: relative;
   z-index: 1;
 }
 
-/* ── Cabecera ─────────────────────── */
 .game-header {
   display: flex;
   align-items: center;
@@ -80,7 +76,6 @@
   color: var(--text-muted);
 }
 
-/* ── Tabla (igual que leaderboard-table) ── */
 .leaderboard-table {
   width: 100%;
   border-collapse: collapse;

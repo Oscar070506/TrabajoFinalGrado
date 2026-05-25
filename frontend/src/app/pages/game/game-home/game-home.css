@@ -9,17 +9,19 @@
 }
 
 .page-layout {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  background-color: var(--bg-primary);
   min-height: 100vh;
   padding: 54px 32px 32px 32px;
   gap: 32px;
 }
 
 .catalog-wrapper {
-  background-color: #161a1d;
+  position: relative;
+  z-index: 1;
+  background-color: #0d0f11c1;
   display: flex;
   justify-content: flex-start;
   padding: 40px 48px 60px 48px;
@@ -47,7 +49,7 @@
 .speedrun-card {
   display: flex;
   align-items: center;
-  background: var(--bg-card);
+  background: rgba(17, 20, 22, 0.95);
   border-radius: var(--radius-card);
   height: 90px;
   width: 100%;
@@ -161,6 +163,8 @@
 .btn-load-more:active { transform: translateY(0); box-shadow: none; }
 
 .side-panel {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 12px;

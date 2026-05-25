@@ -1,13 +1,11 @@
-<section class="game-section">
-  <div class="login-card">
+<section class="game-section" style="position: relative;">
+  <div class="bg-gradient"></div>
+  <div class="login-card" style="position: relative; z-index: 1;">
     <h2 class="h2-title">Inicia Sesión en Speedrun's</h2>
-
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-
       <fieldset>
         <label for="email">Correo Electrónico:</label>
         <input type="text" id="email" formControlName="email" />
-
         @if (email.touched) {
           @if (email.hasError('required')) {
             <p class="error-msg">El correo es obligatorio.</p>
@@ -16,11 +14,9 @@
           }
         }
       </fieldset>
-
       <fieldset>
         <label for="clientPassword">Contraseña:</label>
         <input type="password" id="clientPassword" formControlName="password" />
-
         @if (password.touched) {
           @if (password.hasError('required')) {
             <p class="error-msg">La contraseña es obligatoria.</p>
@@ -29,24 +25,18 @@
           }
         }
       </fieldset>
-
-      <!-- ERROR DEL SERVIDOR (credenciales incorrectas, etc.) -->
       @if (serverError) {
         <p class="error-msg server-error">{{ serverError }}</p>
       }
-
       <button type="submit" class="btn-submit" [disabled]="loginForm.invalid || loading">
         {{ loading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
       </button>
-
       <hr class="divider" />
-
       <div class="links-group">
         <span>¿No tienes una cuenta?
           <a routerLink="/register" class="sr-signup">Regístrate</a>
         </span>
       </div>
-
     </form>
   </div>
 </section>

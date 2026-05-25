@@ -33,7 +33,7 @@
 
         @if (loading) { <div class="state-msg">Cargando juegos...</div> }
         @if (error)   { <div class="state-msg error">{{ error }}</div> }
-        @if (!loading && !error && games.length === 0) {
+        @if (!loading && !error && games.length === 0 && activeOrder.orderby !== 'active-players') {
           <div class="state-msg">No se encontraron juegos.</div>
         }
 

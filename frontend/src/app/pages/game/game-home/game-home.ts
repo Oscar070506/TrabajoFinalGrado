@@ -284,21 +284,21 @@ export class GameHomeComponent implements OnInit {
           const gameData = run?.game?.data;
           const gameId   = gameData?.id;
           if (!gameId) continue;
-
-          // Filtra por plataforma si hay una activa
           if (this.activePlatformId && !gameData?.platforms?.includes(this.activePlatformId)) continue;
-
           countMap.set(gameId, (countMap.get(gameId) ?? 0) + 1);
           if (!gameCache.has(gameId)) gameCache.set(gameId, gameData);
         }
 
-        // Guarda los conteos en el mapa global para mostrarlos en las cards
         countMap.forEach((count, id) => { this.gameRunCounts[id] = count; });
-
-        // Ordena los juegos de mayor a menor número de runs
-        this.games   = [...countMap.entries()].sort((a, b) => b[1] - a[1]).map(([id]) => gameCache.get(id));
+        this.games = [...countMap.entries()].sort((a, b) => b[1] - a[1]).map(([id]) => gameCache.get(id));
         this.hasMore = false;
         this.loading = false;
+
+        if (this.games.length === 0) {
+          this.activeOrder = { orderby: 'created', direction: 'desc' };
+          this.fetchByParams();
+        }
+
         this.cdr.detectChanges();
       },
       error: err => {

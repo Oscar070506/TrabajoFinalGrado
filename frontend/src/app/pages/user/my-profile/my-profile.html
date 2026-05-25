@@ -1,0 +1,9 @@
+<div class="profile-page">
+  <div class="bg-gradient"></div>
+  @if (user) {
+    <div style="position: relative; z-index: 1; width: 100%;">
+      <app-user-info [user]="user"></app-user-info>
+    <app-user-tabs [userId]="user.id" [isLocal]="true"></app-user-tabs>    
+    </div>
+  }
+</div>

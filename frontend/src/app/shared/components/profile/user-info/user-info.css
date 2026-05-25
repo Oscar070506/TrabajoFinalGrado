@@ -118,3 +118,8 @@
   height: 16px;
   border-radius: 2px;
 }
+
+app-user-info {
+  position: relative;
+  z-index: 1;
+}

@@ -418,5 +418,8 @@ export class GameHomeComponent implements OnInit {
   }
 
   /** Navega a la página de detalle del juego seleccionado */
-  onGameClick(game: any): void { this.router.navigate(['/game', game.id]); }
+  onGameClick(game: any): void {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    this.router.navigate(['/game', game.id]);
+  }
 }

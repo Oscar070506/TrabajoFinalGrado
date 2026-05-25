@@ -21,6 +21,8 @@ import { UserAbout } from '../user-about/user-about';
 })
 export class UserTabsComponent {
 
+  @Input() isLocal: boolean = false;
+
   /** ID del usuario para pasarlo a cada subcomponente. */
   @Input() userId: string = '';
 

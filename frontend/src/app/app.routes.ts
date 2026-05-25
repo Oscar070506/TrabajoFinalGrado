@@ -7,6 +7,7 @@ import { GameDetailsComponent } from './pages/game/game-details/game-details';
 import { PopularGamesComponent } from './pages/game/popular-games/popular-games';
 import { SearchBarComponent } from './shared/components/filters/search/search';
 import { UserProfileComponent } from './pages/user/user-profile/user-profile';
+import { MyProfileComponent } from './pages/user/my-profile/my-profile';
 import { ChallengesComponent } from './pages/game/challenges/challenges';
 import { NotFound } from './pages/not-found/not-found';
 import { GameSeries } from './shared/components/game-series/game-series';
@@ -14,28 +15,15 @@ import { GameSeries } from './shared/components/game-series/game-series';
 export const routes: Routes = [
   { path: '',                    redirectTo: 'home', pathMatch: 'full' },
   { path: 'home',                component: HomeComponent },
-
-  // Auth
   { path: 'login',               component: LoginComponent },
   { path: 'register',            component: RegisterComponent },
-
-  // Catálogo y juegos
   { path: 'game',                component: GameHomeComponent },
   { path: 'game/:id',            component: GameDetailsComponent },
   { path: 'games/popular-games', component: PopularGamesComponent },
-
-  // Búsqueda
   { path: 'search',              component: SearchBarComponent },
-
-  // Perfil
+  { path: 'profile',             component: MyProfileComponent },
   { path: 'user/:id',            component: UserProfileComponent },
-
-  // Challenges
   { path: 'challenges',          component: ChallengesComponent },
-
-  // Game Series
-  {path: 'series',               component: GameSeries },
-
-  // 404
+  { path: 'series',              component: GameSeries },
   { path: '**',                  component: NotFound }
 ];

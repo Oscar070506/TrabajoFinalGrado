@@ -27,7 +27,6 @@ import { LucideAngularModule, Trophy, Target } from 'lucide-angular';
 })
 export class GameHomeComponent implements OnInit {
 
-  // ── Tabs ─────────────────────────────────────────
   /** Tab activa: 'games' o 'series' */
   activeTab: 'games' | 'series' = 'games';
 
@@ -72,7 +71,6 @@ export class GameHomeComponent implements OnInit {
   gameRunCounts: Record<string, number> = {};
   seriesRunCounts: Record<string, number> = {};
 
-  // ── Estado de series ──────────────────────────────
   /** Lista completa de series cargadas desde la API */
   allSeries: any[] = [];
 
@@ -85,7 +83,6 @@ export class GameHomeComponent implements OnInit {
   /** Texto de búsqueda de series introducido por el usuario */
   seriesQuery = '';
 
-  // ── Paginación y control interno ──────────────────
   /** Offset actual para la paginación de juegos */
   private offset = 0;
 
@@ -98,8 +95,8 @@ export class GameHomeComponent implements OnInit {
   private readonly API        = 'https://www.speedrun.com/api/v1/games';
   private readonly RUNS_API   = 'https://www.speedrun.com/api/v1/runs';
   private readonly SERIES_API = 'https://www.speedrun.com/api/v1/series';
-  private readonly PAGE       = 51;   // Juegos por página
-  private readonly MAX        = 204;  // Máximo total de juegos a cargar
+  private readonly PAGE       = 51; 
+  private readonly MAX        = 204;  
   private readonly HEADERS    = new HttpHeaders({ 'Accept': 'application/json' });
 
   readonly Trophy = Trophy;
@@ -115,13 +112,11 @@ export class GameHomeComponent implements OnInit {
     if (this.initialized) return;
     this.initialized = true;
 
-    // Suscripción al Subject de búsqueda con debounce de 400ms
     this.search$.pipe(debounceTime(400), distinctUntilChanged()).subscribe(q => {
       if (q.length >= 2) this.searchGames(q);
       else if (q.length === 0) this.resetGames();
     });
 
-    // Carga inicial de juegos
     this.fetchGames();
   }
 
@@ -289,21 +284,21 @@ export class GameHomeComponent implements OnInit {
           const gameData = run?.game?.data;
           const gameId   = gameData?.id;
           if (!gameId) continue;
-
-          // Filtra por plataforma si hay una activa
           if (this.activePlatformId && !gameData?.platforms?.includes(this.activePlatformId)) continue;
-
           countMap.set(gameId, (countMap.get(gameId) ?? 0) + 1);
           if (!gameCache.has(gameId)) gameCache.set(gameId, gameData);
         }
 
-        // Guarda los conteos en el mapa global para mostrarlos en las cards
         countMap.forEach((count, id) => { this.gameRunCounts[id] = count; });
-
-        // Ordena los juegos de mayor a menor número de runs
-        this.games   = [...countMap.entries()].sort((a, b) => b[1] - a[1]).map(([id]) => gameCache.get(id));
+        this.games = [...countMap.entries()].sort((a, b) => b[1] - a[1]).map(([id]) => gameCache.get(id));
         this.hasMore = false;
         this.loading = false;
+
+        if (this.games.length === 0) {
+          this.activeOrder = { orderby: 'created', direction: 'desc' };
+          this.fetchByParams();
+        }
+
         this.cdr.detectChanges();
       },
       error: err => {
@@ -327,7 +322,7 @@ export class GameHomeComponent implements OnInit {
       runs:  this.http.get<any>(this.RUNS_API, {
         headers: this.HEADERS,
         params: { status: 'verified', orderby: 'verify-date', direction: 'desc', max: 200 }
-      }).pipe(catchError(() => of({ data: [] })))  // Si falla /runs no bloquea la carga de juegos
+      }).pipe(catchError(() => of({ data: [] }))) 
     }).subscribe({
       next: ({ games, runs }) => {
         const batch: any[] = games.data ?? [];
@@ -423,5 +418,8 @@ export class GameHomeComponent implements OnInit {
   }
 
   /** Navega a la página de detalle del juego seleccionado */
-  onGameClick(game: any): void { this.router.navigate(['/game', game.id]); }
+  onGameClick(game: any): void {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    this.router.navigate(['/game', game.id]);
+  }
 }

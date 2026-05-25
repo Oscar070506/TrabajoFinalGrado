@@ -17,6 +17,8 @@ export class UserAbout implements OnInit {
 
   @Input() userId: string = '';
 
+  @Input() isLocal: boolean = false;
+
   loading: boolean = false;
   error: string | null = null;
 
@@ -35,7 +37,7 @@ export class UserAbout implements OnInit {
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    if (this.userId) this.fetchAll();
+    if (this.userId && !this.isLocal) this.fetchAll();
   }
 
   fetchAll(): void {

@@ -1,6 +1,5 @@
 :host { display: block; }
 
-/* ── Barra de tabs ─────────────────── */
 .tabs-bar {
   display: flex;
   gap: 2px;
@@ -30,4 +29,11 @@
 .tab-btn.active {
   color: var(--accent);
   border-bottom-color: var(--accent);
+}
+
+.empty-tab-msg {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  padding: 48px 0;
+  text-align: center;
 }

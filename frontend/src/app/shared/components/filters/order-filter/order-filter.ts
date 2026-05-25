@@ -44,6 +44,11 @@ export class OrderFilterComponent implements OnInit {
     this.orderChanged.emit(this.options[0]);
   }
 
+  onNoActivePlayers(): void {
+     this.activeIndex = 1;
+     this.orderChanged.emit(this.options[1]);
+  }   
+
   /**
    * @method onSelect
    * @description Emite el orden seleccionado al componente padre.

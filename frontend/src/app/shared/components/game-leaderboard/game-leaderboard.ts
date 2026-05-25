@@ -282,7 +282,6 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
       return style?.color?.light ?? 'var(--text-primary)';
     }
     
-    // gradient → usa el color de inicio
     if (style?.style === 'gradient') {
       return style?.['color-from']?.light ?? 'var(--text-primary)';
     }

@@ -22,11 +22,9 @@ import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/
 })
 export class GameSeries implements OnInit {
 
-  // ── Identidad de la serie ─────────────────────────
   seriesId   = '';
   seriesName = '';
 
-  // ── Estado de juegos ──────────────────────────────
   /** Lista completa de juegos de la serie (todas las páginas) */
   allGames: any[] = [];
 
@@ -42,7 +40,6 @@ export class GameSeries implements OnInit {
   /** Texto de búsqueda introducido por el usuario */
   searchQuery = '';
 
-  // ── Control interno ───────────────────────────────
   /** Subject para el debounce de la búsqueda */
   private search$ = new Subject<string>();
 
@@ -74,7 +71,6 @@ export class GameSeries implements OnInit {
     this.fetchAll();
   }
 
-  // ── Carga de datos ────────────────────────────────
 
   /**
    * Orquestador principal. Lanza en paralelo la carga del nombre
@@ -94,7 +90,6 @@ export class GameSeries implements OnInit {
         this.cdr.detectChanges();
       });
 
-    // Juegos con paginación completa
     this.fetchAllGames$(0, []).subscribe({
       next: games => {
         this.allGames      = games;
@@ -133,7 +128,6 @@ export class GameSeries implements OnInit {
       );
   }
 
-  // ── Búsqueda y filtrado local ─────────────────────
 
   /** Emite el valor del input al Subject con debounce */
   onSearch(): void { this.search$.next(this.searchQuery.trim()); }
@@ -154,8 +148,6 @@ export class GameSeries implements OnInit {
       : [...this.allGames];
     this.cdr.detectChanges();
   }
-
-  // ── Helpers de plantilla ──────────────────────────
 
   /** Devuelve la mejor URL de portada disponible */
   getCover(game: any): string {

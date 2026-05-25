@@ -37,7 +37,6 @@
   font-style: italic;
 }
 
-/* Tabla */
 .leaderboard-table {
   width: 100%;
   border-collapse: collapse;
@@ -75,12 +74,10 @@
   border-bottom: none;
 }
 
-/* Filas top 3 */
 .leaderboard-table tbody tr.gold   { background: rgba(255, 215, 0,   0.07); }
 .leaderboard-table tbody tr.silver { background: rgba(192, 192, 192, 0.07); }
 .leaderboard-table tbody tr.bronze { background: rgba(205, 127, 50,  0.07); }
 
-/* Filas con vídeo */
 .leaderboard-table tbody tr.clickable {
   cursor: pointer;
   transition: background 0.2s;
@@ -90,7 +87,6 @@
   background: rgba(31, 173, 143, 0.12);
 }
 
-/* Posición (#) */
 .rank-cell {
   width: 44px;
   min-width: 44px;
@@ -109,7 +105,6 @@
   vertical-align: middle;
 }
 
-/* Paginación */
 .pagination {
   display: flex;
   align-items: center;

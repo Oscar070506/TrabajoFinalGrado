@@ -1,10 +1,8 @@
 <nav class="navbar">
   <div class="navbar-inner">
-
     <a class="navbar-logo" routerLink="/home">
       <img src="/homeLogo.png" alt="Speedrun's" class="home-logo">
     </a>
-
     <ul class="navbar-links">
       <li>
         <a routerLink="/game" routerLinkActive="active" class="nav-link">
@@ -14,7 +12,7 @@
       <li>
         <a routerLink="/games/popular-games" routerLinkActive="active" class="nav-link">
           <lucide-icon [img]="Trophy" size="16" color="var(--accent)"></lucide-icon>
-           Populares
+          Populares
         </a>
       </li>
       <li>
@@ -24,10 +22,35 @@
         </a>
       </li>
     </ul>
-
     <div class="navbar-actions">
-      <a routerLink="/login" class="btn-nav btn-ghost">Iniciar sesión</a>
-      <a routerLink="/register" class="btn-nav btn-accent">Registrarse</a>
+      @if (currentUser) {
+        <div class="user-menu">
+          <button class="user-avatar-btn"
+            (click)="toggleUserMenu()"
+            [title]="currentUser.username"
+            [style.background]="currentUser.favoriteColor ? currentUser.favoriteColor + '33' : 'rgba(31,173,143,0.2)'"
+            [style.border-color]="currentUser.favoriteColor ?? 'var(--accent)'"
+            [style.color]="currentUser.favoriteColor ?? 'var(--accent)'">
+            {{ currentUser.username.charAt(0).toUpperCase() }}
+          </button>
+          @if (userMenuOpen) {
+            <div class="user-dropdown">
+              <a routerLink="/profile" class="dropdown-item" (click)="userMenuOpen = false">
+                <lucide-icon [img]="User" size="15"></lucide-icon>
+                Mi perfil
+              </a>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item dropdown-item--danger" (click)="logout()">
+                <lucide-icon [img]="LogOut" size="15"></lucide-icon>
+                Cerrar sesión
+              </button>
+            </div>
+          }
+        </div>
+      } @else {
+        <a routerLink="/login" class="btn-nav btn-ghost">Iniciar sesión</a>
+        <a routerLink="/register" class="btn-nav btn-accent">Registrarse</a>
+      }
     </div>
   </div>
 </nav>

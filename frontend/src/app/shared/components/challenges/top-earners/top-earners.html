@@ -44,8 +44,7 @@
                 } @else {
                   <div class="player-avatar-placeholder">{{ earner.name.charAt(0) }}</div>
                 }
-                <span class="player-name">{{ earner.name }}</span>
-              </div>
+              <span class="player-name" [style.color]="getNameColor(earner)">{{ earner.name }}</span>              </div>
             </td>
 
             <td class="col-achievements">

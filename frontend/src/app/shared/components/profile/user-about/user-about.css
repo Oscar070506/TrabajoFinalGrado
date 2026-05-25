@@ -15,7 +15,6 @@
 
 .state-msg.error { color: #ff6b6b; }
 
-/* ── Sección ─────────────────────── */
 .stats-section {
   display: flex;
   flex-direction: column;
@@ -33,7 +32,6 @@
   border-bottom: 1px solid var(--border);
 }
 
-/* ── Grid de stats ───────────────── */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));

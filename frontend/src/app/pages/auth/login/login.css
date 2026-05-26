@@ -82,6 +82,15 @@ input::placeholder {
   padding-left: 4px;
 }
 
+.game-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
 .btn-submit {
   margin-top: 8px;
   padding: 12px;

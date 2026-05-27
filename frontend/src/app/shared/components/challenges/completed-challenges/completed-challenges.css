@@ -306,7 +306,7 @@
 .btn-challenge {
   padding: 9px 24px;
   border-radius: 24px;
-  background: rgba(31, 173, 143, 0.2);
+  background: var(--accent-glow);
   border: 1.5px solid var(--border-accent);
   color: var(--accent);
   font-size: 0.83rem;
@@ -317,9 +317,10 @@
 }
 
 .btn-challenge:hover {
-  background: rgba(31, 173, 143, 0.35);
+  background: var(--accent-glow);
   border-color: var(--accent);
   transform: translateY(-2px);
+  filter: brightness(1.4);
 }
 
 .state-loading {

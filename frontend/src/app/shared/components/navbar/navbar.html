@@ -22,6 +22,9 @@
         </a>
       </li>
     </ul>
+<button class="btn-nav btn-ghost btn-daltonism" (click)="toggleDaltonism()" [title]="daltonismActive ? 'Desactivar modo daltónico' : 'Activar modo daltónico'">
+  <lucide-icon [img]="daltonismActive ? EyeOff : Eye" size="16" color="var(--accent)"></lucide-icon>
+</button>
     <div class="navbar-actions">
       @if (currentUser) {
         <div class="user-menu">

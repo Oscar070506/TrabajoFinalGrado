@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { CategoryFiltersComponent } from '../filters/category-filters/category-filters';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-game-leaderboard',
   standalone: true,
-  imports: [CommonModule, CategoryFiltersComponent, RouterModule],
+  imports: [CommonModule, CategoryFiltersComponent, RouterModule, TranslateModule],
   templateUrl: './game-leaderboard.html',
   styleUrls: ['./game-leaderboard.css']
 })

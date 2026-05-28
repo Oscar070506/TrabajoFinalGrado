@@ -4,8 +4,8 @@
     <section class="catalog-container">
 
       <div class="tabs-row">
-        <button class="tab-btn" [class.active]="activeTab === 'games'" (click)="setTab('games')">Juegos</button>
-        <button class="tab-btn" [class.active]="activeTab === 'series'" (click)="setTab('series')">Series</button>
+        <button class="tab-btn" [class.active]="activeTab === 'games'" (click)="setTab('games')">{{ 'GAME.TABS.GAMES' | translate }}</button>
+        <button class="tab-btn" [class.active]="activeTab === 'series'" (click)="setTab('series')">{{ 'GAME.TABS.SERIES' | translate }}</button>
       </div>
 
       @if (activeTab === 'games') {
@@ -22,7 +22,7 @@
           <input
             class="search-input"
             type="text"
-            placeholder="Buscar juego..."
+            [placeholder]="'GAME.SEARCH' | translate"
             [(ngModel)]="searchQuery"
             (input)="onSearch()"
           />
@@ -31,10 +31,10 @@
           }
         </div>
 
-        @if (loading) { <div class="state-msg">Cargando juegos...</div> }
+        @if (loading) { <div class="state-msg">{{ 'GAME.LOADING' | translate }}</div> }
         @if (error)   { <div class="state-msg error">{{ error }}</div> }
         @if (!loading && !error && games.length === 0 && activeOrder.orderby !== 'active-players') {
-          <div class="state-msg">No se encontraron juegos.</div>
+          <div class="state-msg">{{ 'GAME.NOT_FOUND' | translate }}</div>
         }
 
         <section class="catalog-speedrun">
@@ -46,7 +46,7 @@
                 @if (getActivePlayers(game) > 0) {
                   <p class="speedrun-active-players">
                     <span class="active-dot"></span>
-                    {{ getActivePlayers(game) }} jugador{{ getActivePlayers(game) !== 1 ? 'es' : '' }} activo{{ getActivePlayers(game) !== 1 ? 's' : '' }}
+                    {{ (getActivePlayers(game) !== 1 ? 'GAME.ACTIVE_PLAYERS_PLURAL' : 'GAME.ACTIVE_PLAYERS') | translate: { count: getActivePlayers(game) } }}
                   </p>
                 }
               </div>
@@ -55,10 +55,10 @@
         </section>
 
         @if (hasMore && !loadingMore && !searchQuery) {
-          <button class="btn-load-more" (click)="loadMore()">Cargar más juegos</button>
+          <button class="btn-load-more" (click)="loadMore()">{{ 'GAME.LOAD_MORE' | translate }}</button>
         }
         @if (loadingMore) {
-          <div class="state-msg">Cargando más juegos...</div>
+          <div class="state-msg">{{ 'GAME.LOADING_MORE' | translate }}</div>
         }
       }
 
@@ -71,7 +71,7 @@
           <input
             class="search-input"
             type="text"
-            placeholder="Buscar serie..."
+            [placeholder]="'GAME.SEARCH_SERIES' | translate"
             [(ngModel)]="seriesQuery"
             (input)="onSeriesSearch()"
           />
@@ -80,18 +80,18 @@
           }
         </div>
 
-        @if (loadingSeries) { <div class="state-msg">Cargando series...</div> }
+        @if (loadingSeries) { <div class="state-msg">{{ 'GAME.LOADING_SERIES' | translate }}</div> }
 
         <section class="series-grid">
           @for (s of filteredSeries; track s.id; let i = $index) {
             <div class="series-card" [style.animation-delay]="i * 0.04 + 's'">
               <div class="series-cover" [style.background-image]="'url(' + getSeriesCover(s) + ')'">
                 @if (getActiveSeriesPlayers(s) > 0) {
-                <div class="series-active-badge">
-                  <span class="active-dot"></span>
-                  {{ getActiveSeriesPlayers(s) }} boost{{ getActiveSeriesPlayers(s) !== 1 ? 's' : '' }}
-                </div>
-              }
+                  <div class="series-active-badge">
+                    <span class="active-dot"></span>
+                    {{ getActiveSeriesPlayers(s) }} boost{{ getActiveSeriesPlayers(s) !== 1 ? 's' : '' }}
+                  </div>
+                }
               </div>
               <div class="series-info">
                 <p class="series-name">{{ getSeriesName(s) }}</p>
@@ -101,7 +101,7 @@
         </section>
 
         @if (!loadingSeries && filteredSeries.length === 0) {
-          <div class="state-msg">No se encontraron series.</div>
+          <div class="state-msg">{{ 'GAME.NO_SERIES' | translate }}</div>
         }
       }
 
@@ -114,8 +114,8 @@
         <lucide-icon [img]="Trophy" size="22" color="var(--accent)"></lucide-icon>
       </span>
       <span class="btn-popular-text">
-        <span class="btn-popular-title">Juegos Populares</span>
-        <span class="btn-popular-sub">Ver el carrusel</span>
+        <span class="btn-popular-title">{{ 'POPULAR.SIDE_TITLE' | translate }}</span>
+        <span class="btn-popular-sub">{{ 'POPULAR.SIDE_SUB' | translate }}</span>
       </span>
       <span class="btn-popular-arrow">›</span>
     </button>
@@ -125,8 +125,8 @@
         <lucide-icon [img]="Target" size="22" color="var(--accent)"></lucide-icon>
       </span>
       <span class="btn-challenge-text">
-        <span class="btn-challenge-title">Challenges</span>
-        <span class="btn-challenge-sub">Ver todos los retos</span>
+        <span class="btn-challenge-title">{{ 'CHALLENGES.SIDE_TITLE' | translate }}</span>
+        <span class="btn-challenge-sub">{{ 'CHALLENGES.SIDE_SUB' | translate }}</span>
       </span>
       <span class="btn-challenge-arrow">›</span>
     </button>

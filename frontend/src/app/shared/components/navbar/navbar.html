@@ -6,25 +6,46 @@
     <ul class="navbar-links">
       <li>
         <a routerLink="/game" routerLinkActive="active" class="nav-link">
-          <span></span> Juegos
+          <span></span> {{ 'NAV.GAMES' | translate }}
         </a>
       </li>
       <li>
         <a routerLink="/games/popular-games" routerLinkActive="active" class="nav-link">
           <lucide-icon [img]="Trophy" size="16" color="var(--accent)"></lucide-icon>
-          Populares
+          {{ 'NAV.POPULAR' | translate }}
         </a>
       </li>
       <li>
         <a routerLink="/challenges" routerLinkActive="active" class="nav-link">
           <lucide-icon [img]="Target" size="16" color="var(--accent)"></lucide-icon>
-          Challenges
+          {{ 'NAV.CHALLENGES' | translate }}
         </a>
       </li>
     </ul>
-<button class="btn-nav btn-ghost btn-daltonism" (click)="toggleDaltonism()" [title]="daltonismActive ? 'Desactivar modo daltónico' : 'Activar modo daltónico'">
-  <lucide-icon [img]="daltonismActive ? EyeOff : Eye" size="16" color="var(--accent)"></lucide-icon>
-</button>
+    <div class="lang-menu" (clickOutside)="langMenuOpen = false">
+      <button class="btn-nav btn-ghost lang-btn" (click)="langMenuOpen = !langMenuOpen">
+        <span>{{ currentLang === 'es' ? '🇪🇸' : currentLang === 'en' ? '🇬🇧' : '🇨🇳' }}</span>
+        <span>{{ currentLang.toUpperCase() }}</span>
+        <lucide-icon [img]="ChevronDown" size="14" color="var(--accent)"></lucide-icon>
+      </button>
+      @if (langMenuOpen) {
+        <div class="lang-dropdown">
+          <button class="dropdown-item" (click)="changeLang('es')">
+            <span>🇪🇸</span> Español
+          </button>
+          <button class="dropdown-item" (click)="changeLang('en')">
+            <span>🇬🇧</span> English
+          </button>
+          <button class="dropdown-item" (click)="changeLang('cn')">
+            <span>🇨🇳</span> 中文
+          </button>
+        </div>
+      }
+    </div>
+    <button class="btn-nav btn-ghost btn-daltonism" (click)="toggleDaltonism()"
+      [title]="(daltonismActive ? 'NAV.DALTONISM_OFF' : 'NAV.DALTONISM_ON') | translate">
+      <lucide-icon [img]="daltonismActive ? EyeOff : Eye" size="16" color="var(--accent)"></lucide-icon>
+    </button>
     <div class="navbar-actions">
       @if (currentUser) {
         <div class="user-menu">
@@ -40,19 +61,19 @@
             <div class="user-dropdown">
               <a routerLink="/profile" class="dropdown-item" (click)="userMenuOpen = false">
                 <lucide-icon [img]="User" size="15"></lucide-icon>
-                Mi perfil
+                {{ 'NAV.PROFILE' | translate }}
               </a>
               <div class="dropdown-divider"></div>
               <button class="dropdown-item dropdown-item--danger" (click)="logout()">
                 <lucide-icon [img]="LogOut" size="15"></lucide-icon>
-                Cerrar sesión
+                {{ 'NAV.LOGOUT' | translate }}
               </button>
             </div>
           }
         </div>
       } @else {
-        <a routerLink="/login" class="btn-nav btn-ghost">Iniciar sesión</a>
-        <a routerLink="/register" class="btn-nav btn-accent">Registrarse</a>
+        <a routerLink="/login" class="btn-nav btn-ghost">{{ 'NAV.LOGIN' | translate }}</a>
+        <a routerLink="/register" class="btn-nav btn-accent">{{ 'NAV.REGISTER' | translate }}</a>
       }
     </div>
   </div>

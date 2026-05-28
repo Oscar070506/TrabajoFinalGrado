@@ -3,29 +3,17 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { UserAvatarComponent } from '../user-avatar/user-avatar';
 import { LucideAngularModule, Calendar, Clock, Twitch, Youtube, Twitter, Globe } from 'lucide-angular';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-/**
- * @component UserInfoComponent
- * @description Muestra la información personal de un usuario de speedrun.com:
- * avatar, nombre con color, pronombres, nacionalidad, fecha de registro,
- * última actividad y redes sociales.
- *
- * @example
- * <app-user-info [user]="userData"></app-user-info>
- */
 @Component({
   selector: 'app-user-info',
   standalone: true,
-  imports: [CommonModule, UserAvatarComponent, LucideAngularModule],
+  imports: [CommonModule, UserAvatarComponent, LucideAngularModule, TranslateModule],
   templateUrl: './user-info.html',
   styleUrls: ['./user-info.css']
 })
 export class UserInfoComponent implements OnInit {
-
-  /** Objeto usuario devuelto por la API de speedrun.com. */
   @Input() user: any = null;
-
-  /** Fecha de la run más reciente del usuario (última actividad). */
   lastActivity: string | null = null;
 
   readonly Calendar = Calendar;
@@ -39,19 +27,14 @@ export class UserInfoComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
     if (this.user?.id) this.fetchLastActivity(this.user.id);
   }
 
-  /**
-   * @method fetchLastActivity
-   * @description Obtiene la run más reciente del usuario para
-   * calcular su última actividad.
-   * @param {string} userId
-   */
   fetchLastActivity(userId: string): void {
     this.http.get<any>(`${this.API}/runs`, {
       params: { user: userId, orderby: 'date', direction: 'desc', max: 1 }
@@ -66,47 +49,29 @@ export class UserInfoComponent implements OnInit {
     });
   }
 
-  /**
-   * @method getNameStyle
-   * @description Devuelve el estilo CSS del nombre según `name-style` de la API.
-   * Soporta `solid` y `gradient`.
-   * @returns {any} Objeto de estilos para `[ngStyle]`.
-   */
   getNameStyle(): any {
     const style = this.user?.['name-style'];
     if (!style) return {};
-
     if (style.style === 'solid') {
       return { color: style.color?.light ?? 'var(--text-primary)' };
     }
-
     if (style.style === 'gradient') {
       const from = style['color-from']?.light ?? '#fff';
       const to   = style['color-to']?.light   ?? '#fff';
       return {
-        background:              `linear-gradient(90deg, ${from}, ${to})`,
+        background:                `linear-gradient(90deg, ${from}, ${to})`,
         '-webkit-background-clip': 'text',
         '-webkit-text-fill-color': 'transparent',
         'background-clip':         'text'
       };
     }
-
     return {};
   }
 
-  /**
-   * @method getCountry
-   * @returns {string}
-   */
   getCountry(): string {
     return this.user?.location?.country?.names?.international ?? null;
   }
 
-  /**
-   * @method getCountryFlag
-   * @description Devuelve el emoji de bandera a partir del código de país ISO 3166-1.
-   * @returns {string}
-   */
   getCountryFlag(): string {
     const code = this.user?.location?.country?.code;
     if (!code) return '';
@@ -115,61 +80,49 @@ export class UserInfoComponent implements OnInit {
     );
   }
 
-  /**
-   * @method getSignupDate
-   * @returns {string}
-   */
   getSignupDate(): string {
     const date = this.user?.signup;
-    if (!date) return 'Desconocida';
-    return new Date(date).toLocaleDateString('es-ES', {
+    if (!date) return this.translate.instant('USER.UNKNOWN_DATE');
+    const lang = this.translate.currentLang || 'es';
+    const localeMap: Record<string, string> = {
+      es: 'es-ES',
+      en: 'en-US',
+      cn: 'zh-CN'
+    };
+    return new Date(date).toLocaleDateString(localeMap[lang] || 'es-ES', {
       year: 'numeric', month: 'long', day: 'numeric'
     });
   }
 
-  /**
-   * @method getLastActivityLabel
-   * @description Devuelve una etiqueta legible de la última actividad.
-   * @returns {string}
-   */
   getLastActivityLabel(): string {
-    if (!this.lastActivity) return 'Sin actividad reciente';
+    if (!this.lastActivity) return this.translate.instant('USER.NO_ACTIVITY');
     const diff = Date.now() - new Date(this.lastActivity).getTime();
     const days = Math.floor(diff / 86400000);
-    if (days === 0) return 'Activo hoy';
-    if (days === 1) return 'Hace 1 día';
-    if (days < 30)  return `Hace ${days} días`;
+    if (days === 0) return this.translate.instant('USER.ACTIVITY.TODAY');
+    if (days === 1) return this.translate.instant('USER.ACTIVITY.ONE_DAY');
+    if (days < 30)  return this.translate.instant('USER.ACTIVITY.DAYS', { days });
     const months = Math.floor(days / 30);
-    if (months < 12) return `Hace ${months} ${months === 1 ? 'mes' : 'meses'}`;
+    if (months < 12) return this.translate.instant('USER.ACTIVITY.MONTHS', { months });
     const years = Math.floor(months / 12);
-    return `Hace ${years} ${years === 1 ? 'año' : 'años'}`;
+    return this.translate.instant('USER.ACTIVITY.YEARS', { years });
   }
 
-  /**
-   * @method getSocialLinks
-   * @description Devuelve las redes sociales disponibles del usuario.
-   * @returns {{ label: string; icon: string; url: string }[]}
-   */
   getSocialLinks(): { label: string; icon: any; url: string }[] {
     const links = [];
-    if (this.user?.twitch?.uri)  links.push({ label: 'Twitch',  icon: this.Twitch,  url: this.user.twitch.uri });
-    if (this.user?.youtube?.uri) links.push({ label: 'YouTube', icon: this.Youtube, url: this.user.youtube.uri });
-    if (this.user?.twitter?.uri) links.push({ label: 'Twitter', icon: this.Twitter, url: this.user.twitter.uri });
-    if (this.user?.weblink)      links.push({ label: 'Perfil',  icon: this.Globe,   url: this.user.weblink });
+    if (this.user?.twitch?.uri)  links.push({ label: 'Twitch',   icon: this.Twitch,  url: this.user.twitch.uri });
+    if (this.user?.youtube?.uri) links.push({ label: 'YouTube',  icon: this.Youtube, url: this.user.youtube.uri });
+    if (this.user?.twitter?.uri) links.push({ label: 'Twitter',  icon: this.Twitter, url: this.user.twitter.uri });
+    if (this.user?.weblink)      links.push({ label: this.translate.instant('USER.PROFILE'), icon: this.Globe, url: this.user.weblink });
     return links;
   }
 
-  /**
-   * @method getRole
-   * @returns {string}
-   */
   getRole(): string {
-    const roles: Record<string, string> = {
-      admin:     'Administrador',
-      moderator: 'Moderador',
-      user:      'Usuario',
-      banned:    'Baneado'
-    };
-    return roles[this.user?.role] ?? this.user?.role ?? 'Usuario';
+    const roleKey = this.user?.role;
+    if (!roleKey) return this.translate.instant('USER.ROLES.USER');
+    const validRoles = ['admin', 'moderator', 'user', 'banned'];
+    if (validRoles.includes(roleKey)) {
+      return this.translate.instant(`USER.ROLES.${roleKey.toUpperCase()}`);
+    }
+    return roleKey;
   }
 }

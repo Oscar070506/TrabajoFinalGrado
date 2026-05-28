@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
-
+import { TranslateModule } from '@ngx-translate/core';
 /**
  * @component GameSeries
  * @description Página de detalle de una serie. Muestra todos los juegos
@@ -16,7 +16,7 @@ import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/
 @Component({
   selector: 'app-series-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule,TranslateModule],
   templateUrl: './game-series.html',
   styleUrls: ['./game-series.css']
 })

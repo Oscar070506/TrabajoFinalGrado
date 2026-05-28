@@ -1,0 +1,208 @@
+{
+  "NAV": {
+    "GAMES": "Juegos",
+    "POPULAR": "Populares",
+    "CHALLENGES": "Challenges",
+    "DALTONISM_ON": "Activar modo daltónico",
+    "DALTONISM_OFF": "Desactivar modo daltónico",
+    "PROFILE": "Mi perfil",
+    "LOGOUT": "Cerrar sesión",
+    "LOGIN": "Iniciar sesión",
+    "REGISTER": "Registrarse"
+  },
+  "CHALLENGES": {
+    "LOADING": "Cargando challenges...",
+    "RULES_TITLE": "Reglas del Challenge",
+    "COMPLETED": "Completado",
+    "PRIZE_POOL": "Prize Pool",
+    "UNKNOWN": "Desconocido",
+    "VIEW": "Ver challenge",
+    "SIDE_TITLE": "Challenges",
+    "SIDE_SUB": "Ver todos los retos"
+  },
+  "FILTERS": {
+    "ALL_PLATFORMS": "Todas las plataformas",
+    "SEARCH": "Buscar juego...",
+    "ORDER": {
+      "ACTIVE_PLAYERS": "Jugadores activos",
+      "NEWEST": "Más recientes",
+      "OLDEST": "Más antiguos",
+      "NAME_AZ": "Nombre (A–Z)",
+      "NAME_ZA": "Nombre (Z–A)",
+      "RELEASE_NEW": "Lanzamiento (reciente)",
+      "RELEASE_OLD": "Lanzamiento (antiguo)"
+    }
+  },
+  "FOOTER": {
+    "EXPLORE": "EXPLORAR",
+    "SUPPORTER": "Beneficios de supporter",
+    "POPULAR_GAMES": "Juegos populares",
+    "STREAMS": "Streams en directo",
+    "NEWS": "Noticias",
+    "FORUMS": "Foros",
+    "ABOUT": "Acerca de",
+    "LEARN": "APRENDER",
+    "SUPPORT": "Centro de soporte",
+    "PARTNERSHIPS": "Partnerships",
+    "ADVERTISE": "Publicidad",
+    "PRIVACY": "Privacidad",
+    "TERMS": "Términos",
+    "DEVELOPER": "DESARROLLADOR",
+    "COPYRIGHT": "© {{ year }} Speedrun.com Redesign — Proyecto desarrollado por Oscar Piña Suárez"
+  },
+  "LEADERBOARD": {
+    "LOADING": "Cargando leaderboard…",
+    "TITLE": "Leaderboard",
+    "NO_CATEGORIES": "Las runs de este juego pueden estar registradas bajo el título base en speedrun.com.",
+    "NO_RECORDS": "No hay registros disponibles para esta categoría.",
+    "PLAYER": "Jugador",
+    "TIME": "Tiempo",
+    "DATE": "Fecha"
+  },
+  "SERIES": {
+    "BACK": "← Volver",
+    "SEARCH": "Buscar juego en la serie...",
+    "LOADING": "Cargando juegos de la serie...",
+    "NO_RESULTS": "No se encontraron juegos con ese nombre.",
+    "NO_GAMES": "Esta serie no tiene juegos disponibles."
+  },
+  "RUNS": {
+    "LOADING": "Cargando runs...",
+    "EMPTY": "No hay runs disponibles.",
+    "CATEGORY": "Categoría",
+    "TIME": "Tiempo",
+    "DATE": "Fecha",
+    "PLATFORM": "Plataforma"
+  },
+  "PROFILE": {
+    "ABOUT": {
+      "LOADING": "Cargando estadísticas...",
+      "SPEEDRUN_STATS": "Speedrun Stats",
+      "TOTAL_RUNS": "Total runs",
+      "FULL_GAME_RUNS": "Full game runs",
+      "LEVEL_RUNS": "Level runs",
+      "UNIQUE_GAMES": "Juegos únicos",
+      "UNIQUE_CATEGORIES": "Categorías únicas",
+      "TOTAL_TIME": "Tiempo total",
+      "FIRST_RUN": "Primera run",
+      "LAST_RUN": "Última run",
+      "COMMUNITY_STATS": "Community Stats",
+      "MODERATED_GAMES": "Juegos moderados",
+      "ERROR": "Error cargando estadísticas: {{ msg }}"
+    },
+    "RUNS": {
+      "LOADING": "Cargando runs...",
+      "EMPTY": "No hay runs disponibles.",
+      "CATEGORY": "Categoría",
+      "TIME": "Tiempo",
+      "DATE": "Fecha",
+      "PLATFORM": "Plataforma"
+    },
+    "TABS": {
+      "FULL_GAME_RUNS": "Full Game Runs",
+      "LEVEL_RUNS": "Level Runs",
+      "ABOUT": "Acerca de"
+    }
+  },
+  "USER": {
+    "DEFAULT_NAME": "Usuario",
+    "MEMBER_SINCE": "Miembro desde",
+    "UNKNOWN_DATE": "Desconocida",
+    "NO_ACTIVITY": "Sin actividad reciente",
+    "PROFILE": "Perfil",
+    "ACTIVITY": {
+      "TODAY": "Activo hoy",
+      "ONE_DAY": "Hace 1 día",
+      "DAYS": "Hace {{ days }} días",
+      "MONTHS": "Hace {{ months }} mes",
+      "YEARS": "Hace {{ years }} año"
+    },
+    "ROLES": {
+      "ADMIN": "Administrador",
+      "MODERATOR": "Moderador",
+      "USER": "Usuario",
+      "BANNED": "Baneado"
+    }
+  },
+  "LOGIN": {
+    "TITLE": "Inicia Sesión en Speedrun's",
+    "EMAIL": "Correo Electrónico:",
+    "EMAIL_PLACEHOLDER": "tu@correo.com",
+    "EMAIL_REQUIRED": "El correo es obligatorio.",
+    "EMAIL_INVALID": "Introduce un email válido.",
+    "PASSWORD": "Contraseña:",
+    "PASSWORD_REQUIRED": "La contraseña es obligatoria.",
+    "PASSWORD_MINLENGTH": "La contraseña debe tener al menos 4 caracteres.",
+    "LOADING": "Iniciando sesión...",
+    "SUBMIT": "Iniciar Sesión",
+    "NO_ACCOUNT": "¿No tienes una cuenta?",
+    "REGISTER_LINK": "Regístrate"
+  },
+  "REGISTER": {
+    "TITLE": "Regístrese en Speedrun's",
+    "USERNAME": "Nombre de usuario:",
+    "USERNAME_REQUIRED": "El nombre de usuario es obligatorio.",
+    "USERNAME_MINLENGTH": "Debe tener al menos 3 caracteres.",
+    "USERNAME_MAXLENGTH": "No puede superar los 20 caracteres.",
+    "USERNAME_SPACES": "El nombre de usuario no puede contener espacios.",
+    "USERNAME_PATTERN": "Solo se permiten letras, números, guion y guion bajo.",
+    "EMAIL": "Correo Electrónico:",
+    "EMAIL_REQUIRED": "El correo es obligatorio.",
+    "EMAIL_INVALID": "Introduce un email válido.",
+    "EMAIL_MAXLENGTH": "El email no puede superar los 100 caracteres.",
+    "PASSWORD": "Contraseña:",
+    "PASSWORD_REQUIRED": "La contraseña es obligatoria.",
+    "PASSWORD_MINLENGTH": "La contraseña debe tener al menos 6 caracteres.",
+    "PASSWORD_UPPERCASE": "Debe contener al menos una letra mayúscula.",
+    "PASSWORD_NUMBER": "Debe contener al menos un número.",
+    "REPEAT_PASSWORD": "Repite la contraseña:",
+    "REPEAT_REQUIRED": "Debes repetir la contraseña.",
+    "PASSWORD_MISMATCH": "Las contraseñas no coinciden.",
+    "FAVORITE_COLOR": "Color favorito:",
+    "LOADING": "Creando cuenta...",
+    "SUBMIT": "Crear cuenta",
+    "HAS_ACCOUNT": "¿Ya tienes una cuenta?",
+    "LOGIN_LINK": "Inicia Sesión"
+  },
+  "GAME": {
+    "LOADING": "Cargando juegos...",
+    "NOT_FOUND": "No se encontraron juegos.",
+    "LOAD_MORE": "Cargar más juegos",
+    "LOADING_MORE": "Cargando más juegos...",
+    "ACTIVE_PLAYERS": "{{ count }} jugador activo",
+    "ACTIVE_PLAYERS_PLURAL": "{{ count }} jugadores activos",
+    "TABS": {
+      "GAMES": "Juegos",
+      "SERIES": "Series"
+    },
+    "SEARCH": "Buscar juego...",
+    "SEARCH_SERIES": "Buscar serie...",
+    "LOADING_SERIES": "Cargando series...",
+    "NO_SERIES": "No se encontraron series."
+  },
+  "POPULAR": {
+    "LOADING": "Cargando juego...",
+    "RELEASE": "Lanzamiento:",
+    "BOOSTS": "Boosts",
+    "PLATFORMS": "Plataformas",
+    "PLATFORM_COUNT": "{{ count }} plataforma",
+    "PLATFORM_COUNT_PLURAL": "{{ count }} plataformas",
+    "VERIFICATION": "Verificación",
+    "REQUIRED": "Requerida",
+    "NOT_REQUIRED": "No requerida",
+    "VIDEO": "Vídeo",
+    "VIDEO_REQUIRED": "Requerido",
+    "VIDEO_OPTIONAL": "Opcional",
+    "EMULATOR": "Emulador",
+    "EMULATOR_ALLOWED": "Permitido",
+    "EMULATOR_NOT_ALLOWED": "No permitido",
+    "BASE_TIME": "Tiempo base",
+    "ROM_HACK": "ROM Hack",
+    "TYPE": "Tipo",
+    "RECENT_RUNS": "Runs recientes",
+    "RANKING": "Ranking popular",
+    "VIEW_SPEEDRUN": "🌐 Ver en speedrun.com",
+    "SIDE_TITLE": "Juegos Populares",
+    "SIDE_SUB": "Ver el carrusel"
+  }
+}

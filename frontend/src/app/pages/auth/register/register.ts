@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validatio
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth';
-
+import { TranslateModule } from '@ngx-translate/core';
 
 function passwordMatchValidator(form: AbstractControl): ValidationErrors | null {
   const pw  = form.get('password')?.value;
@@ -29,7 +29,7 @@ function strongPasswordValidator(control: AbstractControl): ValidationErrors | n
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule,TranslateModule],
   templateUrl: './register.html',
   styleUrls: ['./register.css']
 })

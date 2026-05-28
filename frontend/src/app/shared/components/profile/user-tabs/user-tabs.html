@@ -1,20 +1,20 @@
 <div class="tabs-bar">
-  <button class="tab-btn" [class.active]="activeTab === 'full-game-runs'" (click)="setTab('full-game-runs')">Full Game Runs</button>
-  <button class="tab-btn" [class.active]="activeTab === 'level-runs'" (click)="setTab('level-runs')">Level Runs</button>
-  <button class="tab-btn" [class.active]="activeTab === 'about'" (click)="setTab('about')">About</button>
+  <button class="tab-btn" [class.active]="activeTab === 'full-game-runs'" (click)="setTab('full-game-runs')">{{ 'PROFILE.TABS.FULL_GAME_RUNS' | translate }}</button>
+  <button class="tab-btn" [class.active]="activeTab === 'level-runs'" (click)="setTab('level-runs')">{{ 'PROFILE.TABS.LEVEL_RUNS' | translate }}</button>
+  <button class="tab-btn" [class.active]="activeTab === 'about'" (click)="setTab('about')">{{ 'PROFILE.TABS.ABOUT' | translate }}</button>
 </div>
 <div class="tab-content">
   @switch (activeTab) {
     @case ('full-game-runs') {
       @if (isLocal) {
-        <div class="empty-tab-msg">No hay runs disponibles.</div>
+        <div class="empty-tab-msg">{{ 'RUNS.EMPTY' | translate }}</div>
       } @else {
         <app-user-full-game-runs [userId]="userId"></app-user-full-game-runs>
       }
     }
     @case ('level-runs') {
       @if (isLocal) {
-        <div class="empty-tab-msg">No hay runs disponibles.</div>
+        <div class="empty-tab-msg">{{ 'RUNS.EMPTY' | translate }}</div>
       } @else {
         <app-user-level-runs [userId]="userId"></app-user-level-runs>
       }

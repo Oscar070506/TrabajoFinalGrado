@@ -1,27 +1,27 @@
 <section class="game-section" style="position: relative;">
   <div class="bg-gradient"></div>
   <div class="login-card" style="position: relative; z-index: 1;">
-    <h2 class="h2-title">Inicia Sesión en Speedrun's</h2>
+    <h2 class="h2-title">{{ 'LOGIN.TITLE' | translate }}</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
       <fieldset>
-        <label for="email">Correo Electrónico:</label>
-        <input type="text" id="email" formControlName="email" />
+        <label for="email">{{ 'LOGIN.EMAIL' | translate }}</label>
+        <input type="text" id="email" formControlName="email" [placeholder]="'LOGIN.EMAIL_PLACEHOLDER' | translate" />
         @if (email.touched) {
           @if (email.hasError('required')) {
-            <p class="error-msg">El correo es obligatorio.</p>
+            <p class="error-msg">{{ 'LOGIN.EMAIL_REQUIRED' | translate }}</p>
           } @else if (email.hasError('email')) {
-            <p class="error-msg">Introduce un email válido.</p>
+            <p class="error-msg">{{ 'LOGIN.EMAIL_INVALID' | translate }}</p>
           }
         }
       </fieldset>
       <fieldset>
-        <label for="clientPassword">Contraseña:</label>
+        <label for="clientPassword">{{ 'LOGIN.PASSWORD' | translate }}</label>
         <input type="password" id="clientPassword" formControlName="password" />
         @if (password.touched) {
           @if (password.hasError('required')) {
-            <p class="error-msg">La contraseña es obligatoria.</p>
+            <p class="error-msg">{{ 'LOGIN.PASSWORD_REQUIRED' | translate }}</p>
           } @else if (password.hasError('minlength')) {
-            <p class="error-msg">La contraseña debe tener al menos 4 caracteres.</p>
+            <p class="error-msg">{{ 'LOGIN.PASSWORD_MINLENGTH' | translate }}</p>
           }
         }
       </fieldset>
@@ -29,12 +29,12 @@
         <p class="error-msg server-error">{{ serverError }}</p>
       }
       <button type="submit" class="btn-submit" [disabled]="loginForm.invalid || loading">
-        {{ loading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
+        {{ (loading ? 'LOGIN.LOADING' : 'LOGIN.SUBMIT') | translate }}
       </button>
       <hr class="divider" />
       <div class="links-group">
-        <span>¿No tienes una cuenta?
-          <a routerLink="/register" class="sr-signup">Regístrate</a>
+        <span>{{ 'LOGIN.NO_ACCOUNT' | translate }}
+          <a routerLink="/register" class="sr-signup">{{ 'LOGIN.REGISTER_LINK' | translate }}</a>
         </span>
       </div>
     </form>

@@ -4,7 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { TranslateModule } from '@ngx-translate/core';
 import { TopEarnersComponent } from '../top-earners/top-earners';
+import { TranslateLoader } from '@ngx-translate/core';
 /**
  * @component CompletedChallengesComponent
  * @description Página de challenges de speedrun.com con scroll snapping.
@@ -14,7 +16,7 @@ import { TopEarnersComponent } from '../top-earners/top-earners';
 @Component({
   selector: 'app-completed-challenges',
   standalone: true,
-  imports: [CommonModule, RouterModule, TopEarnersComponent],
+  imports: [CommonModule, RouterModule, TopEarnersComponent, TranslateModule],
   templateUrl: './completed-challenges.html',
   styleUrls: ['./completed-challenges.css']
 })

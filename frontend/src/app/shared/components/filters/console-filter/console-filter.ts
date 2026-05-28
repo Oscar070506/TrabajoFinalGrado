@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * @component ConsoleFilterComponent
@@ -13,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-console-filter',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './console-filter.html',
   styleUrls: ['./console-filter.css']
 })

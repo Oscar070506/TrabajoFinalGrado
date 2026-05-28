@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 /**
  * @component OrderFilterComponent
@@ -13,7 +14,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-order-filter',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './order-filter.html',
   styleUrls: ['./order-filter.css']
 })
@@ -23,13 +24,13 @@ export class OrderFilterComponent implements OnInit {
   @Output() orderChanged = new EventEmitter<{ orderby: string; direction: string }>();
 
   readonly options = [
-    { label: 'Jugadores activos',     orderby: 'active-players', direction: 'desc' },
-    { label: 'Más recientes',         orderby: 'created',        direction: 'desc' },
-    { label: 'Más antiguos',          orderby: 'created',        direction: 'asc'  },
-    { label: 'Nombre (A–Z)',          orderby: 'name.int',       direction: 'asc'  },
-    { label: 'Nombre (Z–A)',          orderby: 'name.int',       direction: 'desc' },
-    { label: 'Lanzamiento (reciente)',orderby: 'released',       direction: 'desc' },
-    { label: 'Lanzamiento (antiguo)', orderby: 'released',       direction: 'asc'  },
+    { label: 'FILTERS.ORDER.ACTIVE_PLAYERS', orderby: 'active-players', direction: 'desc' },
+    { label: 'FILTERS.ORDER.NEWEST',         orderby: 'created',        direction: 'desc' },
+    { label: 'FILTERS.ORDER.OLDEST',         orderby: 'created',        direction: 'asc'  },
+    { label: 'FILTERS.ORDER.NAME_AZ',        orderby: 'name.int',       direction: 'asc'  },
+    { label: 'FILTERS.ORDER.NAME_ZA',        orderby: 'name.int',       direction: 'desc' },
+    { label: 'FILTERS.ORDER.RELEASE_NEW',    orderby: 'released',       direction: 'desc' },
+    { label: 'FILTERS.ORDER.RELEASE_OLD',    orderby: 'released',       direction: 'asc'  },
   ];
 
   /** Índice de la opción actualmente seleccionada. */

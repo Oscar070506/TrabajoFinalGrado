@@ -1,37 +1,33 @@
 <div class="series-page">
-
   <div class="series-header">
-    <button class="btn-back" (click)="goBack()">← Volver</button>
+    <button class="btn-back" (click)="goBack()">{{ 'SERIES.BACK' | translate }}</button>
     @if (seriesName) {
       <h1 class="series-title">{{ seriesName }}</h1>
     }
   </div>
-
   <div class="search-bar">
     <input
       type="text"
       [(ngModel)]="searchQuery"
       (input)="onSearch()"
-      placeholder="Buscar juego en la serie..."
+      [placeholder]="'SERIES.SEARCH' | translate"
       class="search-input"
     />
     @if (searchQuery) {
       <button class="btn-clear" (click)="clearSearch()">✕</button>
     }
   </div>
-
   @if (loading) {
-    <div class="state-msg">Cargando juegos de la serie...</div>
+    <div class="state-msg">{{ 'SERIES.LOADING' | translate }}</div>
   }
   @if (error) {
     <div class="state-msg error">{{ error }}</div>
   }
   @if (!loading && filteredGames.length === 0 && !error) {
     <div class="state-msg">
-      {{ searchQuery ? 'No se encontraron juegos con ese nombre.' : 'Esta serie no tiene juegos disponibles.' }}
+      {{ (searchQuery ? 'SERIES.NO_RESULTS' : 'SERIES.NO_GAMES') | translate }}
     </div>
   }
-
   @if (!loading && filteredGames.length > 0) {
     <section class="series-games-grid">
       @for (game of filteredGames; track game.id; let i = $index) {
@@ -44,5 +40,4 @@
       }
     </section>
   }
-
 </div>

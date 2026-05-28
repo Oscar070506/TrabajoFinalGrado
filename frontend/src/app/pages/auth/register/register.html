@@ -1,70 +1,65 @@
 <section class="game-section">
-    <div class="bg-gradient"></div>
-    <div class="register-card" style="position: relative; z-index: 1;">
-    <h2 class="h2-title">Regístrese en Speedrun's</h2>
-
+  <div class="bg-gradient"></div>
+  <div class="register-card" style="position: relative; z-index: 1;">
+    <h2 class="h2-title">{{ 'REGISTER.TITLE' | translate }}</h2>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
 
       <fieldset>
-        <label for="username">Nombre de usuario:</label>
+        <label for="username">{{ 'REGISTER.USERNAME' | translate }}</label>
         <input type="text" id="username" formControlName="username" />
-
         @if (username.touched) {
           @if (username.hasError('required') || username.hasError('whitespace')) {
-            <p class="error-msg">El nombre de usuario es obligatorio.</p>
+            <p class="error-msg">{{ 'REGISTER.USERNAME_REQUIRED' | translate }}</p>
           } @else if (username.hasError('minlength')) {
-            <p class="error-msg">Debe tener al menos 3 caracteres.</p>
+            <p class="error-msg">{{ 'REGISTER.USERNAME_MINLENGTH' | translate }}</p>
           } @else if (username.hasError('maxlength')) {
-            <p class="error-msg">No puede superar los 20 caracteres.</p>
+            <p class="error-msg">{{ 'REGISTER.USERNAME_MAXLENGTH' | translate }}</p>
           } @else if (username.hasError('hasSpaces')) {
-            <p class="error-msg">El nombre de usuario no puede contener espacios.</p>
+            <p class="error-msg">{{ 'REGISTER.USERNAME_SPACES' | translate }}</p>
           } @else if (username.hasError('pattern')) {
-            <p class="error-msg">Solo se permiten letras, números, guion y guion bajo.</p>
+            <p class="error-msg">{{ 'REGISTER.USERNAME_PATTERN' | translate }}</p>
           }
         }
       </fieldset>
 
       <fieldset>
-        <label for="email">Correo Electrónico:</label>
+        <label for="email">{{ 'REGISTER.EMAIL' | translate }}</label>
         <input type="text" id="email" formControlName="email" />
-
         @if (email.touched) {
           @if (email.hasError('required')) {
-            <p class="error-msg">El correo es obligatorio.</p>
+            <p class="error-msg">{{ 'REGISTER.EMAIL_REQUIRED' | translate }}</p>
           } @else if (email.hasError('email')) {
-            <p class="error-msg">Introduce un email válido.</p>
+            <p class="error-msg">{{ 'REGISTER.EMAIL_INVALID' | translate }}</p>
           } @else if (email.hasError('maxlength')) {
-            <p class="error-msg">El email no puede superar los 100 caracteres.</p>
+            <p class="error-msg">{{ 'REGISTER.EMAIL_MAXLENGTH' | translate }}</p>
           }
         }
       </fieldset>
 
       <fieldset>
-        <label for="password">Contraseña:</label>
+        <label for="password">{{ 'REGISTER.PASSWORD' | translate }}</label>
         <input type="password" id="password" formControlName="password" />
-
         @if (password.touched) {
           @if (password.hasError('required')) {
-            <p class="error-msg">La contraseña es obligatoria.</p>
+            <p class="error-msg">{{ 'REGISTER.PASSWORD_REQUIRED' | translate }}</p>
           } @else if (password.hasError('minlength')) {
-            <p class="error-msg">La contraseña debe tener al menos 6 caracteres.</p>
+            <p class="error-msg">{{ 'REGISTER.PASSWORD_MINLENGTH' | translate }}</p>
           } @else if (password.hasError('noUppercase')) {
-            <p class="error-msg">Debe contener al menos una letra mayúscula.</p>
+            <p class="error-msg">{{ 'REGISTER.PASSWORD_UPPERCASE' | translate }}</p>
           } @else if (password.hasError('noNumber')) {
-            <p class="error-msg">Debe contener al menos un número.</p>
+            <p class="error-msg">{{ 'REGISTER.PASSWORD_NUMBER' | translate }}</p>
           }
         }
       </fieldset>
 
       <fieldset>
-        <label for="repeatPassword">Repite la contraseña:</label>
+        <label for="repeatPassword">{{ 'REGISTER.REPEAT_PASSWORD' | translate }}</label>
         <input type="password" id="repeatPassword" formControlName="repeatPassword" />
-
         @if (repeatPassword.touched) {
           @if (repeatPassword.hasError('required')) {
-            <p class="error-msg">Debes repetir la contraseña.</p>
-          } @else if (registerForm.hasError('passwordMismatch')) {
-            <p class="error-msg">Las contraseñas no coinciden.</p>
+            <p class="error-msg">{{ 'REGISTER.REPEAT_REQUIRED' | translate }}</p>
+          } @else if (registerForm.hasError('passwordMismatch') && repeatPassword.touched) {
+            <p class="error-msg">{{ 'REGISTER.PASSWORD_MISMATCH' | translate }}</p>
           }
         }
       </fieldset>
@@ -74,14 +69,14 @@
       }
 
       <button type="submit" class="btn-submit" [disabled]="registerForm.invalid || loading">
-        {{ loading ? 'Creando cuenta...' : 'Crear cuenta' }}
+        {{ (loading ? 'REGISTER.LOADING' : 'REGISTER.SUBMIT') | translate }}
       </button>
 
       <hr class="divider" />
 
       <div class="links-group">
-        <span>¿Ya tienes una cuenta?
-          <a routerLink="/login" class="sr-signup">Inicia Sesión</a>
+        <span>{{ 'REGISTER.HAS_ACCOUNT' | translate }}
+          <a routerLink="/login" class="sr-signup">{{ 'REGISTER.LOGIN_LINK' | translate }}</a>
         </span>
       </div>
 

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { UserFullGameRuns } from '../user-full-game-runs/user-full-game-runs';
 import { UserLevelRuns } from '../user-level-runs/user-level-runs';
 import { UserAbout } from '../user-about/user-about';
-
+import { TranslateModule } from '@ngx-translate/core';
 /**
  * @component UserTabsComponent
  * @description Barra de pestañas del perfil de usuario.
@@ -15,7 +15,7 @@ import { UserAbout } from '../user-about/user-about';
 @Component({
   selector: 'app-user-tabs',
   standalone: true,
-  imports: [CommonModule, UserFullGameRuns, UserLevelRuns, UserAbout],
+  imports: [CommonModule, UserFullGameRuns, UserLevelRuns, UserAbout, TranslateModule],
   templateUrl: './user-tabs.html',
   styleUrls: ['./user-tabs.css']
 })

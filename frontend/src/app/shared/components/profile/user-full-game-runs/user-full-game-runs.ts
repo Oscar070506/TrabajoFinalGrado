@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
+import { TranslateModule } from '@ngx-translate/core';
 /**
  * @component UserFullGameRunsComponent
  * @description Muestra las personal bests de full game del usuario
@@ -12,7 +12,7 @@ import { catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-user-full-game-runs',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,TranslateModule],
   templateUrl: './user-full-game-runs.html',
   styleUrls: ['./user-full-game-runs.css']
 })

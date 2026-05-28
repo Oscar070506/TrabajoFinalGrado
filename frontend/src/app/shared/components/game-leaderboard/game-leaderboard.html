@@ -1,5 +1,4 @@
 <div class="leaderboard-container">
-
   @if (categories.length > 1) {
     <app-category-filters
       [categories]="categories"
@@ -7,33 +6,27 @@
       (categorySelected)="onCategorySelected($event)">
     </app-category-filters>
   }
-
   @if (loading) {
-    <div class="loading">Cargando leaderboard…</div>
+    <div class="loading">{{ 'LEADERBOARD.LOADING' | translate }}</div>
   }
-
   @if (error) {
     <div class="error">{{ error }}</div>
   }
-
   @if (!loading && !error) {
-
-    <h2 class="title">Leaderboard</h2>
-
+    <h2 class="title">{{ 'LEADERBOARD.TITLE' | translate }}</h2>
     @if (leaderboard.length === 0) {
       <p class="empty">
-        {{ categories.length === 0 ? 'Este juego no tiene categorías disponibles.' : 'No hay registros disponibles para esta categoría.' }}
+        {{ (categories.length === 0 ? 'LEADERBOARD.NO_CATEGORIES' : 'LEADERBOARD.NO_RECORDS') | translate }}
       </p>
     }
-
     @if (leaderboard.length > 0) {
       <table class="leaderboard-table">
         <thead>
           <tr>
             <th>#</th>
-            <th>Jugador</th>
-            <th>Tiempo</th>
-            <th>Fecha</th>
+            <th>{{ 'LEADERBOARD.PLAYER' | translate }}</th>
+            <th>{{ 'LEADERBOARD.TIME' | translate }}</th>
+            <th>{{ 'LEADERBOARD.DATE' | translate }}</th>
           </tr>
         </thead>
         <tbody>
@@ -51,10 +44,11 @@
                   {{ currentPage * pageSize + i + 1 }}
                 }
               </td>
-              
               <td>
                 @if (getPlayerId(run)) {
-                  <a [style.font-weight]="getPlayerColor(run) === 'var(--text-primary)' ? 'normal' : 'bold'" [style.color]="getPlayerColor(run)" [routerLink]="['/user', getPlayerId(run)]">{{ getPlayerName(run) }}</a>
+                  <a [style.font-weight]="getPlayerColor(run) === 'var(--text-primary)' ? 'normal' : 'bold'"
+                     [style.color]="getPlayerColor(run)"
+                     [routerLink]="['/user', getPlayerId(run)]">{{ getPlayerName(run) }}</a>
                 } @else {
                   {{ getPlayerName(run) }}
                 }
@@ -65,7 +59,6 @@
           }
         </tbody>
       </table>
-
       @if (leaderboard.length > pageSize) {
         <div class="pagination">
           <button class="page-btn" (click)="prevPage()" [disabled]="currentPage === 0">&#8249;</button>
@@ -74,7 +67,5 @@
         </div>
       }
     }
-
   }
-
 </div>

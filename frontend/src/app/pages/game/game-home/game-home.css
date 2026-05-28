@@ -152,25 +152,28 @@
   cursor: pointer;
   transition: background-color var(--transition), box-shadow var(--transition), transform var(--transition);
   box-shadow: 0 2px 12px var(--accent-glow);
+  transform: translateY(-1px);
+
 }
 
 .btn-load-more:hover {
   background-color: var(--accent-dark);
-  box-shadow: 0 4px 20px rgba(31,173,143,0.35);
+  box-shadow: 0 4px 20px var(--accent-glow);
   transform: translateY(-1px);
 }
 
 .btn-load-more:active { transform: translateY(0); box-shadow: none; }
 
 .side-panel {
-  position: relative;
+  position: sticky;
+  top: 90px;
   z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 12px;
   flex-shrink: 0;
   width: 220px;
-  align-self: flex-start; 
+  align-self: flex-start;
 }
 
 .btn-popular,

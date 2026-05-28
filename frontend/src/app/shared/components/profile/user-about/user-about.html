@@ -1,63 +1,56 @@
 <div class="about-wrapper">
-
   @if (loading) {
-    <div class="state-msg">Cargando estadísticas...</div>
+    <div class="state-msg">{{ 'PROFILE.ABOUT.LOADING' | translate }}</div>
   }
-
   @if (error) {
     <div class="state-msg error">{{ error }}</div>
   }
-
   @if (!loading && !error) {
-
     <div class="stats-section">
-      <h3 class="section-title">Speedrun Stats</h3>
+      <h3 class="section-title">{{ 'PROFILE.ABOUT.SPEEDRUN_STATS' | translate }}</h3>
       <div class="stats-grid">
         <div class="stat-card">
-          <span class="stat-label">Total runs</span>
+          <span class="stat-label">{{ 'PROFILE.ABOUT.TOTAL_RUNS' | translate }}</span>
           <span class="stat-value">{{ totalRuns }}</span>
         </div>
         <div class="stat-card">
-          <span class="stat-label">Full game runs</span>
+          <span class="stat-label">{{ 'PROFILE.ABOUT.FULL_GAME_RUNS' | translate }}</span>
           <span class="stat-value">{{ fullGameRuns }}</span>
         </div>
         <div class="stat-card">
-          <span class="stat-label">Level runs</span>
+          <span class="stat-label">{{ 'PROFILE.ABOUT.LEVEL_RUNS' | translate }}</span>
           <span class="stat-value">{{ levelRuns }}</span>
         </div>
         <div class="stat-card">
-          <span class="stat-label">Juegos únicos</span>
+          <span class="stat-label">{{ 'PROFILE.ABOUT.UNIQUE_GAMES' | translate }}</span>
           <span class="stat-value">{{ uniqueGames }}</span>
         </div>
         <div class="stat-card">
-          <span class="stat-label">Categorías únicas</span>
+          <span class="stat-label">{{ 'PROFILE.ABOUT.UNIQUE_CATEGORIES' | translate }}</span>
           <span class="stat-value">{{ uniqueCategories }}</span>
         </div>
         <div class="stat-card">
-          <span class="stat-label">Tiempo total</span>
+          <span class="stat-label">{{ 'PROFILE.ABOUT.TOTAL_TIME' | translate }}</span>
           <span class="stat-value">{{ totalTimeSecs | formatTime }}</span>
         </div>
         <div class="stat-card">
-          <span class="stat-label">Primera run</span>
+          <span class="stat-label">{{ 'PROFILE.ABOUT.FIRST_RUN' | translate }}</span>
           <span class="stat-value">{{ firstRun | timeAgo }}</span>
         </div>
         <div class="stat-card">
-          <span class="stat-label">Última run</span>
+          <span class="stat-label">{{ 'PROFILE.ABOUT.LAST_RUN' | translate }}</span>
           <span class="stat-value">{{ lastRun | timeAgo }}</span>
         </div>
       </div>
     </div>
-
     <div class="stats-section">
-      <h3 class="section-title">Community Stats</h3>
+      <h3 class="section-title">{{ 'PROFILE.ABOUT.COMMUNITY_STATS' | translate }}</h3>
       <div class="stats-grid">
         <div class="stat-card">
-          <span class="stat-label">Juegos moderados</span>
+          <span class="stat-label">{{ 'PROFILE.ABOUT.MODERATED_GAMES' | translate }}</span>
           <span class="stat-value">{{ gamesMod }}</span>
         </div>
       </div>
     </div>
-
   }
-
 </div>

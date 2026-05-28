@@ -8,6 +8,7 @@ import { debounceTime, distinctUntilChanged, catchError, switchMap } from 'rxjs/
 import { ConsoleFilterComponent } from '../../../shared/components/filters/console-filter/console-filter';
 import { OrderFilterComponent } from '../../../shared/components/filters/order-filter/order-filter';
 import { LucideAngularModule, Trophy, Target } from 'lucide-angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * @component GameHomeComponent
@@ -21,7 +22,7 @@ import { LucideAngularModule, Trophy, Target } from 'lucide-angular';
 @Component({
   selector: 'app-game-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, ConsoleFilterComponent, OrderFilterComponent, LucideAngularModule],
+  imports: [CommonModule, RouterModule, FormsModule, ConsoleFilterComponent, OrderFilterComponent, LucideAngularModule, TranslateModule],
   templateUrl: './game-home.html',
   styleUrls: ['./game-home.css']
 })

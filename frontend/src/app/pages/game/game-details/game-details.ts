@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { GameLeaderboardComponent } from '../../../shared/components/game-leaderboard/game-leaderboard';
-
+import { TranslateModule } from '@ngx-translate/core';
 /**
  * @component GameDetailsComponent
  * @description Página de detalle de un juego individual.
@@ -17,7 +17,7 @@ import { GameLeaderboardComponent } from '../../../shared/components/game-leader
 @Component({
   selector: 'app-game-details',
   standalone: true,
-  imports: [CommonModule, RouterModule, GameLeaderboardComponent],
+  imports: [CommonModule, RouterModule, GameLeaderboardComponent, TranslateModule],
   templateUrl: './game-details.html',
   styleUrls: ['./game-details.css']
 })

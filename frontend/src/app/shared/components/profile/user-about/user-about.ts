@@ -14,6 +14,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   templateUrl: './user-about.html',
   styleUrls: ['./user-about.css']
 })
+
 export class UserAbout implements OnInit {
   @Input() userId: string = '';
   @Input() isLocal: boolean = false;

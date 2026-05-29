@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { GameLeaderboardComponent } from '../../../shared/components/game-leaderboard/game-leaderboard';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 /**
  * @component GameDetailsComponent
  * @description Página de detalle de un juego individual.
@@ -49,12 +49,16 @@ export class GameDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService 
   ) {}
 
   /** @method ngOnInit */
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+    const lang = localStorage.getItem('lang') || 'es';
+    this.translate.setDefaultLang(lang);
+    this.translate.use(lang);
     if (id) this.fetchGame(id);
   }
 

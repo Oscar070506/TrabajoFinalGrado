@@ -35,6 +35,10 @@ body.daltonism [style*="background-image"] {
   filter: url('#daltonism-filter');
 }
 
+body.daltonism .daltonism-target {
+  filter: url('#daltonism-filter');
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

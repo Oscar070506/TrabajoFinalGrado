@@ -80,6 +80,7 @@
   -webkit-mask-image: linear-gradient(to right, black 40%, transparent 85%);
   mask-image: linear-gradient(to right, black 40%, transparent 85%);
 }
+
 .speedrun-info {
   display: flex;
   flex-direction: column;
@@ -153,7 +154,6 @@
   transition: background-color var(--transition), box-shadow var(--transition), transform var(--transition);
   box-shadow: 0 2px 12px var(--accent-glow);
   transform: translateY(-1px);
-
 }
 
 .btn-load-more:hover {
@@ -341,7 +341,7 @@
 
 .series-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); 
+  grid-template-columns: repeat(5, 1fr);
   gap: 14px;
   padding: 16px 0;
   width: 100%;
@@ -377,7 +377,7 @@
   opacity: 0;
   animation: fadeInUp 0.4s ease forwards;
   transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
-  position: relative; 
+  position: relative;
 }
 
 .series-card:hover {
@@ -417,7 +417,7 @@
 .series-name {
   font-size: 13px;
   font-weight: 700;
-  color: #ffffff; 
+  color: #ffffff;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -426,10 +426,7 @@
   text-shadow: 0 1px 4px rgba(0,0,0,0.8);
 }
 
-@media (max-width: 1400px) {
-  .series-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (max-width: 900px) {
-  .series-grid { grid-template-columns: repeat(2, 1fr); }
+/* Daltonism filter for CSS background-image elements */
+body.daltonism .daltonism-target {
+  filter: url('#daltonism-filter');
 }

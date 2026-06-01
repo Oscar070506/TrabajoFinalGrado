@@ -320,7 +320,7 @@ Los textos de la interfaz están traducidos a tres idiomas mediante `@ngx-transl
 |---|---|
 | `es.json` | Español |
 | `en.json` | Inglés |
-| `zh.json` | Chino simplificado |
+| `cn.json` | Chino simplificado |
 
 El idioma seleccionado se persiste en `localStorage` y se aplica en el arranque de la aplicación.
 

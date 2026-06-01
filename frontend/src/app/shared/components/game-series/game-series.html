@@ -31,10 +31,10 @@
   @if (!loading && filteredGames.length > 0) {
     <section class="series-games-grid">
       @for (game of filteredGames; track game.id; let i = $index) {
-        <div class="speedrun-card" (click)="onGameClick(game)" [style.animation-delay]="i * 0.05 + 's'">
-          <div class="speedrun-cover" [style.background-image]="'url(' + getCover(game) + ')'"></div>
-          <div class="speedrun-info">
-            <p class="speedrun-title">{{ getName(game) }}</p>
+        <div class="game-card" (click)="onGameClick(game)" [style.animation-delay]="i * 0.05 + 's'">
+          <img class="game-cover" [src]="getCover(game)" [alt]="getName(game)" />
+          <div class="game-info">
+            <p class="game-title">{{ getName(game) }}</p>
           </div>
         </div>
       }

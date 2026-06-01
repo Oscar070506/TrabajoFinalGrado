@@ -194,10 +194,23 @@ export class GameHomeComponent implements OnInit {
 
   /** Devuelve la URL de la portada de una serie o la imagen por defecto */
   getSeriesCover(s: any): string {
-    const cover = s?.assets?.['cover-medium']?.uri ?? s?.assets?.['cover-small']?.uri;
-    return cover && !cover.includes('no-cover') ? cover : 'assets/imgs/no-cover.png';
-  }
+    const bg    = s?.assets?.['background']?.uri;
+    const logo  = s?.assets?.['logo']?.uri;
+    const cover = s?.assets?.['cover-medium']?.uri;
 
+    const isValid = (uri: string | null | undefined): uri is string =>
+      !!uri && 
+      !uri.includes('no-image') && 
+      !uri.includes('1st.png') && 
+      !uri.includes('2nd.png') && 
+      !uri.includes('3rd.png') &&
+      !uri.includes('/images/logo.png');
+
+    if (isValid(bg))    return bg;
+    if (isValid(logo))  return logo;
+    if (isValid(cover)) return cover;
+    return 'assets/imgs/no-cover.png';
+  }
   /** Navega a la página de detalle de la serie seleccionada */
   onSeriesClick(s: any): void {
     this.router.navigate(['/series', s.id]);

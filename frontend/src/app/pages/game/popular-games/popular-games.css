@@ -90,7 +90,7 @@
   box-shadow: 0 0 20px rgba(31, 173, 143, 0.2), 0 4px 24px rgba(0, 0, 0, 0.7);
 }
 .carousel-btn--prev { left: 24px; }
-.carousel-btn--next { right: 520px; }
+.carousel-btn--next { right: 545px; }
 
 .slide-layout {
   position: relative;

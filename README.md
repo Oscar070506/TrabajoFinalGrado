@@ -134,51 +134,53 @@ TrabajoFinalGrado/
 │   └── requirements.txt
 │
 └── frontend/
-    └── src/
-        └── app/
-            ├── core/
-            │   └── services/
-            │       └── auth.ts
-            ├── pages/
-            │   ├── auth/
-            │   │   ├── login/
-            │   │   └── register/
-            │   ├── game/
-            │   │   ├── challenges/
-            │   │   ├── game-details/
-            │   │   ├── game-home/
-            │   │   └── popular-games/
-            │   ├── home/
-            │   ├── not-found/
-            │   ├── runs/
-            │   └── user/
-            │       ├── my-profile/
-            │       └── user-profile/
-            └── shared/
-                ├── color-picker/
-                ├── components/
-                │   ├── challenges/
-                │   ├── filters/
-                │   │   ├── category-filters/
-                │   │   ├── console-filter/
-                │   │   └── order-filter/
-                │   ├── footer/
-                │   ├── game-leaderboard/
-                │   ├── game-series/
-                │   ├── loading-spinner/
-                │   ├── navbar/
-                │   └── profile/
-                │       ├── user-about/
-                │       ├── user-avatar/
-                │       ├── user-full-game-runs/
-                │       ├── user-info/
-                │       ├── user-level-runs/
-                │       └── user-tabs/
-                └── pipes/
-                    ├── format-time-pipe/
-                    └── time-ago-pipe/
+└── src/
+└── app/
+├── core/
+│   └── services/
+│       ├── auth.ts
+│       ├── pop-up-video.ts
+│       ├── runs.ts
+│       └── daltonism.ts
+├── pages/
+│   ├── auth/
+│   │   ├── login/
+│   │   └── register/
+│   ├── game/
+│   │   ├── challenges/
+│   │   ├── game-details/
+│   │   ├── game-home/
+│   │   └── popular-games/
+│   ├── home/
+│   ├── not-found/
+│   └── user/
+│       ├── my-profile/
+│       └── user-profile/
+└── shared/
+├── color-picker/
+├── components/
+│   ├── challenges/
+│   ├── filters/
+│   │   ├── category-filters/
+│   │   ├── console-filter/
+│   │   └── order-filter/
+│   ├── footer/
+│   ├── game-leaderboard/
+│   ├── game-series/
+│   ├── loading-spinner/
+│   ├── navbar/
+│   └── profile/
+│       ├── user-about/
+│       ├── user-avatar/
+│       ├── user-full-game-runs/
+│       ├── user-info/
+│       ├── user-level-runs/
+│       └── user-tabs/
+└── pipes/
+├── format-time-pipe/
+├── save-pipe/
+└── time-ago-pipe/
 ```
-
 ---
 
 ## Páginas del frontend
@@ -204,8 +206,8 @@ TrabajoFinalGrado/
 |---|---|
 | `app-navbar` | Barra de navegación con selector de idioma, modo daltónico y dropdown de usuario |
 | `app-footer` | Footer con enlaces de speedrun.com |
-| `app-game-leaderboard` | Tabla de clasificación con paginación, filtro de categorías y fallback |
-| `app-category-filters` | Filtro de categorías per-game y per-level |
+| `app-game-leaderboard` | Tabla de clasificación con paginación y filtro de categorías. Recibe `[gameId]` y resuelve internamente las categorías y la URL del leaderboard usando el link que devuelve la propia API. Incluye fallback iterativo por categoría ante errores 400 |
+| `app-category-filters` | Filtro de categorías per-game. Emite la URL del leaderboard directamente desde el link de la API, sin construirla a mano |
 | `app-console-filter` | Filtro por plataforma/consola |
 | `app-order-filter` | Filtro de ordenación con fallback automático |
 | `app-user-info` | Cabecera del perfil de usuario (avatar, nombre, rol, redes) |
@@ -239,7 +241,12 @@ TrabajoFinalGrado/
 - Carrusel de juegos ordenados por runs verificadas recientes
 - Panel lateral con información del juego, stats y metadata del ruleset
 - Leaderboard integrado con filtro de categorías y paginación
-- Fallback descriptivo para juegos sin categorías directas
+- Fallback iterativo por categoría: si una categoría devuelve error 400, el componente prueba automáticamente la siguiente hasta encontrar un leaderboard válido
+
+### Leaderboard
+- El `@Input` es `gameId` — el componente resuelve internamente las categorías y construye la URL del leaderboard usando el link `leaderboard` que devuelve la propia API, evitando URLs construidas a mano
+- Soporte para juegos con una sola categoría per-game o múltiples
+- Fallback descriptivo si ninguna categoría tiene leaderboard disponible
 
 ### Challenges
 - Vista en tres tercios: reglas, podio central y top earners
@@ -257,7 +264,7 @@ TrabajoFinalGrado/
 - Modo daltónico con paleta alternativa persistida en localStorage
 - Internacionalización completa en español, inglés y chino (ngx-translate)
 - Fondo animado con efecto fluido mediante CSS puro (GPU-accelerated)
-- Diseño responsive con breakpoints a 900px y 1400px
+- Diseño responsive adaptado a móvil con breakpoint a 768px: layout de una columna, tabla del leaderboard con scroll horizontal y botones de navegación reposicionados
 
 ---
 
@@ -270,7 +277,7 @@ La aplicación consume la API pública de speedrun.com v1 (`https://www.speedrun
 | Endpoint | Uso |
 |---|---|
 | `GET /games` | Catálogo de juegos con filtros de plataforma, orden y búsqueda |
-| `GET /games/:id/categories` | Categorías per-game y per-level de un juego |
+| `GET /games/:id/categories` | Categorías per-game de un juego. Se usa el link `leaderboard` de cada categoría para obtener la URL directamente de la API |
 | `GET /runs` | Runs recientes verificadas para jugadores activos y conteos |
 | `GET /leaderboards/:gameId/category/:categoryId` | Leaderboard de una categoría con embed de jugadores |
 | `GET /users/:id` | Datos de perfil de un usuario (incluyendo name-style para colores) |

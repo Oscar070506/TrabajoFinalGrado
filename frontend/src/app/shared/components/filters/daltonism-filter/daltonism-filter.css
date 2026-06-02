@@ -1,0 +1,74 @@
+.daltonism-menu {
+  position: relative;
+}
+
+/* Botón principal */
+.btn-daltonism {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+.btn-daltonism:hover {
+  background: var(--accent-glow);
+  border-color: var(--border-accent);
+}
+
+.btn-daltonism.active {
+  background: var(--accent-glow);
+  border-color: var(--border-accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Dropdown */
+.daltonism-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 190px;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.daltonism-dropdown .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background var(--transition);
+  width: 100%;
+  text-align: left;
+}
+
+.daltonism-dropdown .dropdown-item:hover {
+  background: var(--bg-card-hover);
+}
+
+.daltonism-dropdown .dropdown-item.selected {
+  background: var(--accent-glow);
+  color: var(--accent);
+}
+
+.daltonism-dropdown .dropdown-item.selected lucide-icon {
+  color: var(--accent) !important;
+}

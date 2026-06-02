@@ -42,10 +42,7 @@
         </div>
       }
     </div>
-    <button class="btn-nav btn-ghost btn-daltonism" (click)="toggleDaltonism()"
-      [title]="(daltonismActive ? 'NAV.DALTONISM_OFF' : 'NAV.DALTONISM_ON') | translate">
-      <lucide-icon [img]="daltonismActive ? EyeOff : Eye" size="16" color="var(--accent)"></lucide-icon>
-    </button>
+    <app-daltonism-filter />
     <div class="navbar-actions">
       @if (currentUser) {
         <div class="user-menu">

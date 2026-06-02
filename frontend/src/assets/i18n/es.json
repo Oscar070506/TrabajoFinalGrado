@@ -14,7 +14,7 @@
     "LOADING": "Cargando challenges...",
     "RULES_TITLE": "Reglas del Challenge",
     "COMPLETED": "Completado",
-    "PRIZE_POOL": "Prize Pool",
+    "PRIZE_POOL": "Premio acumulado",
     "UNKNOWN": "Desconocido",
     "VIEW": "Ver challenge",
     "SIDE_TITLE": "Challenges",
@@ -43,7 +43,7 @@
     "ABOUT": "Acerca de",
     "LEARN": "APRENDER",
     "SUPPORT": "Centro de soporte",
-    "PARTNERSHIPS": "Partnerships",
+    "PARTNERSHIPS": "Asociaciones",
     "ADVERTISE": "Publicidad",
     "PRIVACY": "Privacidad",
     "TERMS": "Términos",
@@ -52,7 +52,7 @@
   },
   "LEADERBOARD": {
     "LOADING": "Cargando leaderboard…",
-    "TITLE": "Leaderboard",
+    "TITLE": "Clasificación",
     "NO_CATEGORIES": "Las runs de este juego pueden estar registradas bajo el título base en speedrun.com.",
     "NO_RECORDS": "No hay registros disponibles para esta categoría.",
     "PLAYER": "Jugador",
@@ -77,16 +77,16 @@
   "PROFILE": {
     "ABOUT": {
       "LOADING": "Cargando estadísticas...",
-      "SPEEDRUN_STATS": "Speedrun Stats",
+      "SPEEDRUN_STATS": "Estadísticas de Speedrun",
       "TOTAL_RUNS": "Total runs",
-      "FULL_GAME_RUNS": "Full game runs",
-      "LEVEL_RUNS": "Level runs",
+      "FULL_GAME_RUNS": "Runs de juego completo",
+      "LEVEL_RUNS": "Runs por niveles",
       "UNIQUE_GAMES": "Juegos únicos",
       "UNIQUE_CATEGORIES": "Categorías únicas",
       "TOTAL_TIME": "Tiempo total",
       "FIRST_RUN": "Primera run",
       "LAST_RUN": "Última run",
-      "COMMUNITY_STATS": "Community Stats",
+      "COMMUNITY_STATS": "Estadísticas de la comunidad",
       "MODERATED_GAMES": "Juegos moderados",
       "ERROR": "Error cargando estadísticas: {{ msg }}"
     },
@@ -99,8 +99,8 @@
       "PLATFORM": "Plataforma"
     },
     "TABS": {
-      "FULL_GAME_RUNS": "Full Game Runs",
-      "LEVEL_RUNS": "Level Runs",
+      "FULL_GAME_RUNS": "Runs completas",
+      "LEVEL_RUNS": "Runs por niveles",
       "ABOUT": "Acerca de"
     }
   },
@@ -114,8 +114,8 @@
       "TODAY": "Activo hoy",
       "ONE_DAY": "Hace 1 día",
       "DAYS": "Hace {{ days }} días",
-      "MONTHS": "Hace {{ months }} mes",
-      "YEARS": "Hace {{ years }} año"
+      "MONTHS": "Hace {{ months }} meses",
+      "YEARS": "Hace {{ years }} años"
     },
     "ROLES": {
       "ADMIN": "Administrador",
@@ -139,7 +139,7 @@
     "REGISTER_LINK": "Regístrate"
   },
   "REGISTER": {
-    "TITLE": "Regístrese en Speedrun's",
+    "TITLE": "Regístrate en Speedrun's",
     "USERNAME": "Nombre de usuario:",
     "USERNAME_REQUIRED": "El nombre de usuario es obligatorio.",
     "USERNAME_MINLENGTH": "Debe tener al menos 3 caracteres.",
@@ -183,7 +183,7 @@
   "POPULAR": {
     "LOADING": "Cargando juego...",
     "RELEASE": "Lanzamiento:",
-    "BOOSTS": "Boosts",
+    "BOOSTS": "Impulsos",
     "PLATFORMS": "Plataformas",
     "PLATFORM_COUNT": "{{ count }} plataforma",
     "PLATFORM_COUNT_PLURAL": "{{ count }} plataformas",
@@ -204,5 +204,14 @@
     "VIEW_SPEEDRUN": "🌐 Ver en speedrun.com",
     "SIDE_TITLE": "Juegos Populares",
     "SIDE_SUB": "Ver el carrusel"
+  },
+  "TOP_EARNERS": {
+    "TITLE": "Mayores Ganadores",
+    "RANK": "#",
+    "PLAYER": "Jugador",
+    "ACHIEVEMENTS": "Logros",
+    "LOADING": "Cargando...",
+    "PREV": "‹",
+    "NEXT": "›"
   }
 }

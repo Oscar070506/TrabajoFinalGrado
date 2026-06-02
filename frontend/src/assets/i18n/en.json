@@ -114,8 +114,8 @@
       "TODAY": "Active today",
       "ONE_DAY": "1 day ago",
       "DAYS": "{{ days }} days ago",
-      "MONTHS": "{{ months }} month ago",
-      "YEARS": "{{ years }} year ago"
+      "MONTHS": "{{ months }} months ago",
+      "YEARS": "{{ years }} years ago"
     },
     "ROLES": {
       "ADMIN": "Administrator",
@@ -204,5 +204,14 @@
     "VIEW_SPEEDRUN": "🌐 View on speedrun.com",
     "SIDE_TITLE": "Popular Games",
     "SIDE_SUB": "View the carousel"
+  },
+  "TOP_EARNERS": {
+    "TITLE": "Top Earners",
+    "RANK": "#",
+    "PLAYER": "Player",
+    "ACHIEVEMENTS": "Achievements",
+    "LOADING": "Loading...",
+    "PREV": "‹",
+    "NEXT": "›"
   }
 }

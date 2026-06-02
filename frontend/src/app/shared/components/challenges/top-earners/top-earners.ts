@@ -4,11 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { forkJoin, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-top-earners',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './top-earners.html',
   styleUrls: ['./top-earners.css']
 })

@@ -204,5 +204,14 @@
     "VIEW_SPEEDRUN": "🌐 在 speedrun.com 查看",
     "SIDE_TITLE": "热门游戏",
     "SIDE_SUB": "查看轮播"
+  },
+  "TOP_EARNERS": {
+    "TITLE": "收入最高者",
+    "RANK": "#",
+    "PLAYER": "玩家",
+    "ACHIEVEMENTS": "成就",
+    "LOADING": "加载中...",
+    "PREV": "‹",
+    "NEXT": "›"
   }
 }

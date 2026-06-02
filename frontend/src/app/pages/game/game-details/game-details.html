@@ -77,7 +77,9 @@
         </aside>
 
         <main class="leaderboard-panel">
-          <app-game-leaderboard [leaderboardUrl]="getLeaderboardUrl(game)"></app-game-leaderboard>
+          @if (game) {
+            <app-game-leaderboard [gameId]="game.id"></app-game-leaderboard>
+          }
         </main>
 
       </div>

@@ -55,11 +55,14 @@ export class GameDetailsComponent implements OnInit {
 
   /** @method ngOnInit */
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
     const lang = localStorage.getItem('lang') || 'es';
     this.translate.setDefaultLang(lang);
     this.translate.use(lang);
-    if (id) this.fetchGame(id);
+    
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) this.fetchGame(id);
+    });
   }
 
   /**
@@ -67,25 +70,30 @@ export class GameDetailsComponent implements OnInit {
    * @description Obtiene los datos del juego desde la API usando su ID.
    * @param {string} id - ID del juego en speedrun.com.
    */
-  fetchGame(id: string): void {
-    this.loading = true;
-    this.error   = null;
+    fetchGame(id: string): void {
+      this.loading = true;
+      this.error   = null;
 
-    this.http.get<any>(`${this.API}/games/${id}`, {
-      headers: this.HEADERS
-    }).subscribe({
-      next: res => {
-        this.game    = res.data;
-        this.loading = false;
-        this.cdr.detectChanges();
-      },
-      error: err => {
-        this.error   = `Error ${err.status}: ${err.message}`;
-        this.loading = false;
-        this.cdr.detectChanges();
-      }
-    });
-  }
+      this.http.get<any>(`${this.API}/games/${id}`, {
+        headers: this.HEADERS
+      }).subscribe({
+        next: res => {
+          console.log('API response:', res);
+          setTimeout(() => {
+            this.game    = res.data;
+            this.loading = false;
+            this.cdr.detectChanges();
+          }, 0);
+        },
+        error: err => {
+          setTimeout(() => {
+            this.error   = `Error ${err.status}: ${err.message}`;
+            this.loading = false;
+            this.cdr.detectChanges();
+          }, 0);
+        }
+      });
+    }
 
   /**
    * @method goBack
@@ -152,6 +160,10 @@ export class GameDetailsComponent implements OnInit {
    * @returns {string}
    */
   getLeaderboardUrl(game: any): string {
-    return game?.links?.find((l: any) => l.rel === 'leaderboard')?.uri ?? '';
+    const categoriesUrl = game?.links?.find((l: any) => l.rel === 'categories')?.uri ?? '';
+    if (!categoriesUrl) return '';
+    const match = categoriesUrl.match(/games\/([^/]+)\/categories/);
+    const gameId = match ? match[1] : '';
+    return gameId ? `https://www.speedrun.com/api/v1/leaderboards/${gameId}/category/` : '';
   }
 }

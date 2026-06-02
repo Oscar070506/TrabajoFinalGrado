@@ -14,13 +14,14 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class GameLeaderboardComponent implements OnInit, OnChanges {
 
-  @Input() leaderboardUrl: string = '';
+  @Input() gameId: string = '';
 
   leaderboard: any[] = [];
   paginated: any[] = [];
   categories: any[] = [];
   activeCategoryId: string = '';
   currentPage: number = 0;
+  private currentGameId: string = '';
   readonly pageSize: number = 10;
   loading: boolean = false;
   error: string | null = null;
@@ -35,26 +36,41 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    if (this.leaderboardUrl) this.init(this.leaderboardUrl);
+    if (this.gameId) setTimeout(() => this.init(this.gameId), 0);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['leaderboardUrl'] && this.leaderboardUrl) {
-      this.init(this.leaderboardUrl);
+    const change = changes['gameId'];
+    if (change && this.gameId && this.gameId !== change.previousValue) {
+      setTimeout(() => this.init(this.gameId), 0);
     }
   }
 
-  init(url: string): void {
-    const match = url.match(/leaderboards\/([^/]+)\/category\/([^/]+)/);
-    if (!match) return;
-    const gameId     = match[1];
-    const categoryId = match[2];
-    this.activeCategoryId = categoryId;
+  init(gameId: string): void {
+    this.currentGameId = gameId;
     this.loading = true;
     this.error   = null;
 
     this.loadCategories(gameId, () => {
-      this.fetchLeaderboardWithFallback(url, gameId);
+      if (this.categories.length > 0) {
+        const firstCategory   = this.categories[0];
+        this.activeCategoryId = firstCategory.id;
+        this.cdr.detectChanges();
+
+        const url = firstCategory.links?.find((l: any) => l.rel === 'leaderboard')?.uri;
+        if (!url) {
+          this.error   = 'No se encontró el leaderboard para esta categoría.';
+          this.loading = false;
+          this.cdr.detectChanges();
+          return;
+        }
+
+        this.fetchLeaderboardWithFallback(url, gameId);
+      } else {
+        this.error   = 'No se encontraron categorías para este juego.';
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -78,16 +94,42 @@ export class GameLeaderboardComponent implements OnInit, OnChanges {
         this.processLeaderboardResponse(res);
       },
       error: err => {
-        if (err.status === 400 && this.categories.length > 0) {
-          const firstCategory   = this.categories[0];
-          const fallbackUrl     = `${this.API}/leaderboards/${gameId}/category/${firstCategory.id}`;
-          this.activeCategoryId = firstCategory.id;
-          this.cdr.detectChanges();
-          this.fetchLeaderboard(fallbackUrl);
-        } else if (err.status === 400 && this.categories.length === 0) {
-          this.error   = 'Las runs de este juego pueden estar registradas bajo el título base en speedrun.com.';
+        if (err.status === 400) {
+          this.tryNextCategory(gameId, 1);
+        } else {
+          this.error   = `Error cargando leaderboard: ${err.message}`;
           this.loading = false;
           this.cdr.detectChanges();
+        }
+      }
+    });
+  }
+
+  tryNextCategory(gameId: string, index: number): void {
+    if (index >= this.categories.length) {
+      this.error   = 'No se encontró ningún leaderboard disponible para este juego.';
+      this.loading = false;
+      this.cdr.detectChanges();
+      return;
+    }
+
+    const category        = this.categories[index];
+    this.activeCategoryId = category.id;
+    this.cdr.detectChanges();
+
+    const url = category.links?.find((l: any) => l.rel === 'leaderboard')?.uri;
+    if (!url) {
+      this.tryNextCategory(gameId, index + 1);
+      return;
+    }
+
+    this.http.get<any>(url, { params: { embed: 'players' } }).subscribe({
+      next: res => {
+        this.processLeaderboardResponse(res);
+      },
+      error: err => {
+        if (err.status === 400) {
+          this.tryNextCategory(gameId, index + 1);
         } else {
           this.error   = `Error cargando leaderboard: ${err.message}`;
           this.loading = false;

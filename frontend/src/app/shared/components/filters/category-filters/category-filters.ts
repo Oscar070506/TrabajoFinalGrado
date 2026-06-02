@@ -23,4 +23,6 @@ export class CategoryFiltersComponent {
     const url = category.links?.find((l: any) => l.rel === 'leaderboard')?.uri;
     if (url) this.categorySelected.emit(url);
   }
+
+  
 }

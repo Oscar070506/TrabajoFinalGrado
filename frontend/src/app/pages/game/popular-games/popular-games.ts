@@ -138,10 +138,6 @@ export class PopularGamesComponent implements OnInit {
     return date ? String(date).substring(0, 4) : '';
   }
 
-  getLeaderboardUrl(game: any): string {
-    return game?.links?.find((l: any) => l.rel === 'leaderboard')?.uri ?? '';
-  }
-
   onGameClick(): void {
     if (this.currentGame) {
       this.router.navigate(['/game', this.currentGame.id]);

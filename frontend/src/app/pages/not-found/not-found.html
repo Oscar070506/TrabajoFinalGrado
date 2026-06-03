@@ -1,26 +1,20 @@
 <div class="not-found">
-
   <div class="bg-gradient"></div>
-
   <div class="scene">
     <div class="number-container">
       <span class="num float-1">4</span>
       <span class="num zero float-2">0</span>
       <span class="num float-3">4</span>
     </div>
-
     <img class="char-image" [src]="randomImage" alt="404 character" />
-
     <div class="particles">
       @for (p of particles; track $index) {
         <div class="particle" [style]="p"></div>
       }
     </div>
   </div>
-
   <div class="content">
-    <p class="oops">P.S. La página que buscabas no existe</p>
-    <a routerLink="/game" class="btn-home">VOLVER AL INICIO</a>
+    <p class="oops">{{ 'GAME.NOT_FOUND' | translate }}</p>
+    <a routerLink="/game" class="btn-home">{{ 'GAME.BACK' | translate }}</a>
   </div>
-
 </div>

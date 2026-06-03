@@ -9,8 +9,6 @@
   background: #161a1d;
   border-bottom: 1px solid var(--border);
   width: 100%;
-  container-type: inline-size;
-  container-name: navbar;
 }
 
 .navbar-inner {
@@ -20,7 +18,7 @@
   height: 72px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 24px;
 }
 
 .navbar-logo {
@@ -31,7 +29,7 @@
 }
 
 .home-logo {
-  height: clamp(22px, 3.5vw, 30px);
+  height: 30px;
   width: auto;
 }
 
@@ -198,7 +196,6 @@
   position: relative;
   display: flex;
   align-items: center;
-  flex-shrink: 0;
 }
 
 .lang-btn {
@@ -220,7 +217,7 @@
   backdrop-filter: blur(16px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  z-index: 9999;
+  z-index: 999;
   animation: dropdownIn 0.15s ease;
 }
 
@@ -239,7 +236,6 @@
   padding: 0;
   border-radius: var(--radius-btn);
   cursor: pointer;
-  flex-shrink: 0;
 }
 
 .btn-daltonism.active {
@@ -256,7 +252,6 @@
   cursor: pointer;
   padding: 4px;
   flex-shrink: 0;
-  margin-left: 4px;
 }
 
 .burger span {
@@ -273,18 +268,10 @@
 .burger span.open:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .burger span.open:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-.navbar-mobile-extras {
-  display: none;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-  margin-left: auto;
-}
-
 .mobile-menu {
   display: flex;
   flex-direction: column;
-  padding: 8px 12px 16px;
+  padding: 8px 12px 20px;
   border-top: 1px solid var(--border);
   gap: 2px;
   animation: slideDown 0.2s ease;
@@ -324,76 +311,76 @@
   margin: 6px 0;
 }
 
-@container navbar (max-width: 700px) {
+.mobile-filters {
+  padding: 4px 0;
+}
+
+.mobile-lang-options {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 4px;
+}
+
+.mobile-lang-btn {
+  flex: 1;
+  padding: 10px 4px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.mobile-lang-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.mobile-lang-btn.active {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.mobile-daltonism {
+  flex-shrink: 0;
+  position: relative;
+}
+
+.mobile-daltonism .daltonism-dropdown {
+  left: auto;
+  right: 0;
+  top: auto;
+  bottom: calc(100% + 8px);
+  z-index: 9999;
+}
+
+@media (max-width: 900px) {
   .navbar-inner {
-    padding: 0 14px;
-    height: 58px;
-    gap: 8px;
+    padding: 0 16px;
+    height: 60px;
+    gap: 12px;
   }
 
-  .home-logo {
-    height: 24px;
-    max-width: 130px;
-  }
+  .navbar-logo { flex: 1; min-width: 0; }
+  .home-logo { max-width: 140px; height: 26px; }
 
-  .navbar-links         { display: none; }
-  .navbar-actions       { display: none; }
-  .lang-menu            { display: none; }
-  app-daltonism-filter  { display: none; }
+  .navbar-links        { display: none; }
+  .navbar-actions      { display: none; }
+  .lang-menu           { display: none; }
+  app-daltonism-filter { display: none; }
 
-  .navbar-mobile-extras {
+  .mobile-menu app-daltonism-filter {
     display: flex;
-  }
-
-  .navbar-mobile-extras app-daltonism-filter {
-    display: flex;
-  }
-
-  .navbar-mobile-extras .lang-menu {
-    display: flex;
-    position: relative;
-  }
-
-  .navbar-mobile-extras .lang-dropdown {
-    right: 0;
-    left: auto;
-    top: calc(100% + 8px);
-  }
-
-  .navbar-mobile-extras .daltonism-dropdown {
-    right: 0;
-    left: auto;
-    top: calc(100% + 8px);
-    min-width: 180px;
   }
 
   .burger { display: flex; }
-}
-
-@supports not (container-type: inline-size) {
-  @media (max-width: 700px) {
-    .navbar-inner {
-      padding: 0 14px;
-      height: 58px;
-      gap: 8px;
-    }
-
-    .home-logo {
-      height: 24px;
-      max-width: 130px;
-    }
-
-    .navbar-links         { display: none; }
-    .navbar-actions       { display: none; }
-    .lang-menu            { display: none; }
-    app-daltonism-filter  { display: none; }
-
-    .navbar-mobile-extras { display: flex; }
-    .navbar-mobile-extras app-daltonism-filter { display: flex; }
-    .navbar-mobile-extras .lang-menu { display: flex; position: relative; }
-    .navbar-mobile-extras .lang-dropdown { right: 0; left: auto; top: calc(100% + 8px); }
-    .navbar-mobile-extras .daltonism-dropdown { right: 0; left: auto; top: calc(100% + 8px); min-width: 180px; }
-
-    .burger { display: flex; }
-  }
 }

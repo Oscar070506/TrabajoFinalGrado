@@ -72,25 +72,6 @@
       }
     </div>
 
-    <!-- En mobile: daltonism + lang siempre visibles junto al burger -->
-    <div class="navbar-mobile-extras">
-      <app-daltonism-filter />
-      <div class="lang-menu" (clickOutside)="langMenuOpen = false">
-        <button class="btn-nav btn-ghost lang-btn" (click)="langMenuOpen = !langMenuOpen">
-          <span>{{ currentLang === 'es' ? '🇪🇸' : currentLang === 'en' ? '🇬🇧' : '🇨🇳' }}</span>
-          <span>{{ currentLang.toUpperCase() }}</span>
-          <lucide-icon [img]="ChevronDown" size="14" color="var(--accent)"></lucide-icon>
-        </button>
-        @if (langMenuOpen) {
-          <div class="lang-dropdown">
-            <button class="dropdown-item" (click)="changeLang('es')"><span>🇪🇸</span> Español</button>
-            <button class="dropdown-item" (click)="changeLang('en')"><span>🇬🇧</span> English</button>
-            <button class="dropdown-item" (click)="changeLang('cn')"><span>🇨🇳</span> 中文</button>
-          </div>
-        }
-      </div>
-    </div>
-
     <button class="burger" (click)="mobileMenuOpen = !mobileMenuOpen" aria-label="Menú">
       <span [class.open]="mobileMenuOpen"></span>
       <span [class.open]="mobileMenuOpen"></span>
@@ -109,7 +90,20 @@
       <a routerLink="/challenges" routerLinkActive="active" class="mobile-link" (click)="mobileMenuOpen = false">
         {{ 'NAV.CHALLENGES' | translate }}
       </a>
+
       <div class="mobile-divider"></div>
+
+      <div class="mobile-filters">
+        <div class="mobile-lang-options">
+          <button class="mobile-lang-btn" [class.active]="currentLang === 'es'" (click)="changeLang('es')">🇪🇸 ES</button>
+          <button class="mobile-lang-btn" [class.active]="currentLang === 'en'" (click)="changeLang('en')">🇬🇧 EN</button>
+          <button class="mobile-lang-btn" [class.active]="currentLang === 'cn'" (click)="changeLang('cn')">🇨🇳 中文</button>
+          <app-daltonism-filter class="mobile-daltonism" />
+        </div>
+      </div>
+
+      <div class="mobile-divider"></div>
+
       @if (currentUser) {
         <a routerLink="/profile" class="mobile-link" (click)="mobileMenuOpen = false">
           {{ 'NAV.PROFILE' | translate }}

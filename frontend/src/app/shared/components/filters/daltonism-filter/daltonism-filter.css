@@ -2,7 +2,6 @@
   position: relative;
 }
 
-/* Botón principal */
 .btn-daltonism {
   display: flex;
   align-items: center;
@@ -27,7 +26,6 @@
   box-shadow: 0 0 10px var(--accent-glow);
 }
 
-/* Dropdown */
 .daltonism-dropdown {
   position: absolute;
   top: calc(100% + 8px);
@@ -40,8 +38,15 @@
   flex-direction: column;
   gap: 2px;
   min-width: 190px;
-  z-index: 100;
+  z-index: 9999;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+:host-context(.mobile-daltonism) .daltonism-dropdown {
+  top: auto;
+  bottom: calc(100% + 8px);
+  right: 0;
+  left: auto;
 }
 
 .daltonism-dropdown .dropdown-item {

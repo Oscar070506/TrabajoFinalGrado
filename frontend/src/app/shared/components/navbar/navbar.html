@@ -3,6 +3,7 @@
     <a class="navbar-logo" routerLink="/home">
       <img src="/homeLogo.png" alt="Speedrun's" class="home-logo">
     </a>
+
     <ul class="navbar-links">
       <li>
         <a routerLink="/game" routerLinkActive="active" class="nav-link">
@@ -22,6 +23,7 @@
         </a>
       </li>
     </ul>
+
     <div class="lang-menu" (clickOutside)="langMenuOpen = false">
       <button class="btn-nav btn-ghost lang-btn" (click)="langMenuOpen = !langMenuOpen">
         <span>{{ currentLang === 'es' ? '🇪🇸' : currentLang === 'en' ? '🇬🇧' : '🇨🇳' }}</span>
@@ -30,19 +32,15 @@
       </button>
       @if (langMenuOpen) {
         <div class="lang-dropdown">
-          <button class="dropdown-item" (click)="changeLang('es')">
-            <span>🇪🇸</span> Español
-          </button>
-          <button class="dropdown-item" (click)="changeLang('en')">
-            <span>🇬🇧</span> English
-          </button>
-          <button class="dropdown-item" (click)="changeLang('cn')">
-            <span>🇨🇳</span> 中文
-          </button>
+          <button class="dropdown-item" (click)="changeLang('es')"><span>🇪🇸</span> Español</button>
+          <button class="dropdown-item" (click)="changeLang('en')"><span>🇬🇧</span> English</button>
+          <button class="dropdown-item" (click)="changeLang('cn')"><span>🇨🇳</span> 中文</button>
         </div>
       }
     </div>
+
     <app-daltonism-filter />
+
     <div class="navbar-actions">
       @if (currentUser) {
         <div class="user-menu">
@@ -73,5 +71,41 @@
         <a routerLink="/register" class="btn-nav btn-accent">{{ 'NAV.REGISTER' | translate }}</a>
       }
     </div>
+
+    <button class="burger" (click)="mobileMenuOpen = !mobileMenuOpen" aria-label="Menú">
+      <span [class.open]="mobileMenuOpen"></span>
+      <span [class.open]="mobileMenuOpen"></span>
+      <span [class.open]="mobileMenuOpen"></span>
+    </button>
   </div>
+
+  @if (mobileMenuOpen) {
+    <div class="mobile-menu">
+      <a routerLink="/game" routerLinkActive="active" class="mobile-link" (click)="mobileMenuOpen = false">
+        {{ 'NAV.GAMES' | translate }}
+      </a>
+      <a routerLink="/games/popular-games" routerLinkActive="active" class="mobile-link" (click)="mobileMenuOpen = false">
+        {{ 'NAV.POPULAR' | translate }}
+      </a>
+      <a routerLink="/challenges" routerLinkActive="active" class="mobile-link" (click)="mobileMenuOpen = false">
+        {{ 'NAV.CHALLENGES' | translate }}
+      </a>
+      <div class="mobile-divider"></div>
+      @if (currentUser) {
+        <a routerLink="/profile" class="mobile-link" (click)="mobileMenuOpen = false">
+          {{ 'NAV.PROFILE' | translate }}
+        </a>
+        <button class="mobile-link accent" (click)="logout(); mobileMenuOpen = false">
+          {{ 'NAV.LOGOUT' | translate }}
+        </button>
+      } @else {
+        <a routerLink="/login" class="mobile-link" (click)="mobileMenuOpen = false">
+          {{ 'NAV.LOGIN' | translate }}
+        </a>
+        <a routerLink="/register" class="mobile-link accent" (click)="mobileMenuOpen = false">
+          {{ 'NAV.REGISTER' | translate }}
+        </a>
+      }
+    </div>
+  }
 </nav>

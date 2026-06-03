@@ -18,6 +18,7 @@ export class Navbar implements OnInit, OnDestroy {
   userMenuOpen = false;
   currentUser: any = null;
   langMenuOpen = false;
+  mobileMenuOpen = false;
   currentLang = 'es';
 
   readonly ChevronDown = ChevronDown;

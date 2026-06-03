@@ -137,6 +137,7 @@
   box-shadow: 0 0 20px var(--accent-glow);
   transform: translateY(-1px);
 }
+
 .user-dropdown {
   position: absolute;
   top: calc(100% + 10px);
@@ -221,7 +222,7 @@
 .mobile-menu {
   display: flex;
   flex-direction: column;
-  padding: 12px 24px 20px;
+  padding: 12px 16px 20px;
   border-top: 1px solid var(--border);
   gap: 4px;
   animation: slideDown 0.2s ease;
@@ -240,6 +241,12 @@
   color: var(--text-muted);
   text-decoration: none;
   transition: color var(--transition), background var(--transition);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .mobile-link:hover {
@@ -253,12 +260,6 @@
   height: 1px;
   background: var(--border);
   margin: 8px 0;
-}
-
-@media (max-width: 900px) {
-  .navbar-links,
-  .navbar-actions { display: none; }
-  .burger { display: flex; }
 }
 
 .btn-daltonism {
@@ -310,4 +311,18 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .navbar-links,
+  .navbar-actions,
+  .lang-menu { display: none; }
+
+  .burger { display: flex; }
+
+  .navbar-inner {
+    padding: 0 16px;
+    height: 60px;
+    gap: 0;
+  }
 }

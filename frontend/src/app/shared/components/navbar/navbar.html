@@ -72,6 +72,25 @@
       }
     </div>
 
+    <!-- En mobile: daltonism + lang siempre visibles junto al burger -->
+    <div class="navbar-mobile-extras">
+      <app-daltonism-filter />
+      <div class="lang-menu" (clickOutside)="langMenuOpen = false">
+        <button class="btn-nav btn-ghost lang-btn" (click)="langMenuOpen = !langMenuOpen">
+          <span>{{ currentLang === 'es' ? '🇪🇸' : currentLang === 'en' ? '🇬🇧' : '🇨🇳' }}</span>
+          <span>{{ currentLang.toUpperCase() }}</span>
+          <lucide-icon [img]="ChevronDown" size="14" color="var(--accent)"></lucide-icon>
+        </button>
+        @if (langMenuOpen) {
+          <div class="lang-dropdown">
+            <button class="dropdown-item" (click)="changeLang('es')"><span>🇪🇸</span> Español</button>
+            <button class="dropdown-item" (click)="changeLang('en')"><span>🇬🇧</span> English</button>
+            <button class="dropdown-item" (click)="changeLang('cn')"><span>🇨🇳</span> 中文</button>
+          </div>
+        }
+      </div>
+    </div>
+
     <button class="burger" (click)="mobileMenuOpen = !mobileMenuOpen" aria-label="Menú">
       <span [class.open]="mobileMenuOpen"></span>
       <span [class.open]="mobileMenuOpen"></span>

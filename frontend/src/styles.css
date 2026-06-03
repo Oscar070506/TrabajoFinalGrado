@@ -39,6 +39,7 @@ body.daltonism-deuteranopia {
   --border-accent: rgba(232, 160, 0, 0.5);
   --gradient-color-1: rgba(232, 160, 0, 0.25);
   --gradient-color-2: rgba(232, 160, 0, 0.1);
+  filter: url('#filter-deuteranopia');
 }
 
 body.daltonism-protanopia {
@@ -48,6 +49,7 @@ body.daltonism-protanopia {
   --border-accent: rgba(0, 119, 204, 0.5);
   --gradient-color-1: rgba(0, 119, 204, 0.25);
   --gradient-color-2: rgba(0, 119, 204, 0.1);
+  filter: url('#filter-protanopia');
 }
 
 body.daltonism-tritanopia {
@@ -57,17 +59,6 @@ body.daltonism-tritanopia {
   --border-accent: rgba(204, 51, 0, 0.5);
   --gradient-color-1: rgba(204, 51, 0, 0.25);
   --gradient-color-2: rgba(204, 51, 0, 0.1);
-}
-
-body.daltonism-deuteranopia *:not(svg):not(lucide-icon) {
-  filter: url('#filter-deuteranopia');
-}
-
-body.daltonism-protanopia *:not(svg):not(lucide-icon) {
-  filter: url('#filter-protanopia');
-}
-
-body.daltonism-tritanopia *:not(svg):not(lucide-icon) {
   filter: url('#filter-tritanopia');
 }
 

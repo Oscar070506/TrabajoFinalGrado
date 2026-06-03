@@ -6,13 +6,7 @@ import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { TranslateModule } from '@ngx-translate/core';
 import { TopEarnersComponent } from '../top-earners/top-earners';
-import { TranslateLoader } from '@ngx-translate/core';
-/**
- * @component CompletedChallengesComponent
- * @description Página de challenges de speedrun.com con scroll snapping.
- * Cada challenge ocupa la pantalla completa con fondo difuminado,
- * portada, premio y top 3 centrado.
- */
+
 @Component({
   selector: 'app-completed-challenges',
   standalone: true,
@@ -25,11 +19,11 @@ export class CompletedChallengesComponent implements OnInit {
   challenges: any[] = [];
   loading: boolean = true;
   error: string | null = null;
+  activeTabs: Record<number, string> = {};
 
   private readonly API_V2 = 'https://www.speedrun.com/api/v2';
   private readonly BASE   = 'https://www.speedrun.com';
 
-  /** IDs extraídos de las URLs de los challenges. */
   private readonly CHALLENGE_IDS: string[] = [
     '0z3180yv', 'vxpr07pl', 'jm3q7mpn', 'dz357epg', 'e7yk8nyl',
     'vx308zp2', 'kwyj2pgm', '9x32q3l6', '1r3x8pj0', 'jm3qmpnq',
@@ -65,47 +59,37 @@ export class CompletedChallengesComponent implements OnInit {
     });
   }
 
-  /**
-   * @method getBackground
-   * @description Devuelve la URL del background del tema del challenge.
-   */
+  scrollToNext(currentId: string): void {
+    const slides = document.querySelectorAll('.challenge-slide');
+    const ids = this.challenges.map(c => c.challenge.id);
+    const currentIndex = ids.indexOf(currentId);
+    if (currentIndex < slides.length - 1) {
+      slides[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
   getBackground(c: any): string {
     const bg = c?.theme?.staticAssets?.find((a: any) => a.assetType === 'background');
     return bg ? `${this.BASE}${bg.path}` : '';
   }
 
-  /**
-   * @method getCover
-   * @description Devuelve la URL de la portada del challenge.
-   */
   getCover(c: any): string {
     return c?.challenge?.coverImagePath
       ? `${this.BASE}${c.challenge.coverImagePath}`
       : '';
   }
 
-  /**
-   * @method getLogo
-   */
   getLogo(c: any): string {
     const logo = c?.theme?.staticAssets?.find((a: any) => a.assetType === 'logo');
     return logo ? `${this.BASE}${logo.path}` : '';
   }
 
-  /**
-   * @method getPrizePool
-   * @description Devuelve el prize pool formateado en dólares.
-   */
   getPrizePool(c: any): string {
     const amount = c?.challenge?.prizeConfig?.prizePool;
     if (!amount) return '';
     return `$${(amount / 100).toLocaleString('en-US')}`;
   }
 
-  /**
-   * @method getTop3
-   * @description Devuelve los 3 primeros puestos con datos de usuario.
-   */
   getTop3(c: any): { place: number; user: any; prize: string }[] {
     const standings: any[] = c?.standingList ?? [];
     const users: any[]     = c?.userList     ?? [];
@@ -121,19 +105,11 @@ export class CompletedChallengesComponent implements OnInit {
       });
   }
 
-  /**
-   * @method getAvatar
-   */
   getAvatar(user: any): string {
     const img = user?.staticAssets?.find((a: any) => a.assetType === 'image');
     return img ? `${this.BASE}${img.path}` : '';
   }
 
-  /**
-   * @method getTrophy
-   * @param {number} index - Posición global (base 0).
-   * @returns {string | null}
-   */
   getTrophy(index: number): string | null {
     if (index === 0) return 'https://www.speedrun.com/images/1st.png';
     if (index === 1) return 'https://www.speedrun.com/images/2nd.png';
@@ -141,19 +117,13 @@ export class CompletedChallengesComponent implements OnInit {
     return null;
   }
 
-  /**
-   * @method isCompleted
-   */
   isCompleted(c: any): boolean {
     return c?.challenge?.phase === 3;
   }
 
-  /**
-   * @method getChallengeLink
-   */
   getChallengeLink(c: any): string {
-    const id  = c?.challenge?.id;
-    const url = c?.challenge?.url;
+    const id   = c?.challenge?.id;
+    const url  = c?.challenge?.url;
     const game = c?.game?.url;
     return `https://www.speedrun.com/challenges/${id}-${game}-${url}`;
   }
@@ -164,5 +134,10 @@ export class CompletedChallengesComponent implements OnInit {
 
   getChallengeName(c: any): string {
     return c?.challenge?.name ?? '';
+  }
+
+
+  setTab(idx: number, tab: string): void {
+    this.activeTabs[idx] = tab;
   }
 }

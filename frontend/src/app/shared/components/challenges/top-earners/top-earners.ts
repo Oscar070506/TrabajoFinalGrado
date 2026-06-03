@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { forkJoin, of } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-top-earners',
   standalone: true,
@@ -28,7 +29,7 @@ export class TopEarnersComponent implements OnInit {
 
   paginated: any[] = [];
   currentPage: number = 0;
-  readonly pageSize: number = 10;
+  pageSize: number = 10;
   protected readonly Math = Math;
 
   loading: boolean = false;
@@ -50,6 +51,7 @@ export class TopEarnersComponent implements OnInit {
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+    this.pageSize = window.innerWidth <= 768 ? 5 : 10;
     this.fetchAll();
   }
 

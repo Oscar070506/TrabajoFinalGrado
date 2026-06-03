@@ -109,7 +109,6 @@
   white-space: pre-wrap;
 }
 
-
 .slide-content {
   height: 72vh;
   display: flex;
@@ -125,7 +124,7 @@
   height: 72vh;
   width: 100%;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
 }
@@ -228,7 +227,6 @@
   box-shadow: 0 4px 24px rgba(0,0,0,0.6);
 }
 
-
 .top3-entry.first {
   transform: scale(1.08);
   background: rgba(10, 12, 14, 0.9);
@@ -323,6 +321,10 @@
   filter: brightness(1.4);
 }
 
+.btn-next-challenge {
+  display: none;
+}
+
 .state-loading {
   height: 100vh;
   display: flex;
@@ -350,4 +352,108 @@
   align-items: center;
   justify-content: center;
   color: #ff6b6b;
+}
+.mobile-layout { display: none; }
+
+@media (max-width: 768px) {
+  .slide-layout { display: none; }
+
+  .challenge-slide {
+    height: auto;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    scroll-snap-align: none;
+  }
+
+  .slide-bg {
+    height: 200px;
+    position: relative;
+    transform: none;
+    filter: none;
+  }
+
+  .slide-fade-top,
+  .slide-fade-bottom { display: none; }
+
+  .mobile-layout {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background: #0a0e12;
+    padding: 16px;
+    gap: 16px;
+    min-height: calc(100vh - 200px);
+  }
+
+  .mobile-tabs {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1.5px solid var(--border);
+    padding-bottom: 0;
+  }
+
+  .mobile-tab {
+    flex: 1;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    border-bottom: 2.5px solid transparent;
+    margin-bottom: -1.5px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color var(--transition), border-color var(--transition);
+  }
+
+  .mobile-tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .mobile-podio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    flex: 1;
+  }
+
+  .mobile-earners {
+    flex: 1;
+    min-height: 300px;
+  }
+
+.btn-next-challenge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(10, 12, 14, 0.85);
+  border: 1.5px solid var(--border);
+  color: var(--text-primary);
+  font-size: 2rem;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+  transition: border-color var(--transition), color var(--transition);
+  padding-bottom: 2px;
+  margin: 0 auto 100px;
+}
+
+  .btn-next-challenge:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .challenges-page,
+  .challenges-scroll {
+    height: auto;
+    overflow: visible;
+  }
 }

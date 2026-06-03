@@ -1,17 +1,13 @@
 <div class="leaderboard-container">
-
   <div class="leaderboard-header">
     <h2 class="leaderboard-title">{{ 'TOP_EARNERS.TITLE' | translate }}</h2>
   </div>
-
   @if (loading) {
     <div class="state-msg">{{ 'TOP_EARNERS.LOADING' | translate }}</div>
   }
-
   @if (error) {
     <div class="state-msg error">{{ error }}</div>
   }
-
   @if (!loading && !error) {
     <table class="leaderboard-table">
       <thead>
@@ -24,19 +20,17 @@
       <tbody>
         @for (earner of paginated; track earner.userId; let i = $index) {
           <tr class="leaderboard-row"
-            [class.gold-row]="currentPage * 10 + i === 0"
-            [class.silver-row]="currentPage * 10 + i === 1"
-            [class.bronze-row]="currentPage * 10 + i === 2"
+            [class.gold-row]="currentPage * pageSize + i === 0"
+            [class.silver-row]="currentPage * pageSize + i === 1"
+            [class.bronze-row]="currentPage * pageSize + i === 2"
             [routerLink]="['/user', earner.userId]">
-
             <td class="col-rank">
-              @if (getTrophy(currentPage * 10 + i); as trophy) {
-                <img [src]="trophy" class="trophy-icon" [alt]="'#' + (currentPage * 10 + i + 1)" />
+              @if (getTrophy(currentPage * pageSize + i); as trophy) {
+                <img [src]="trophy" class="trophy-icon" [alt]="'#' + (currentPage * pageSize + i + 1)" />
               } @else {
-                {{ currentPage * 10 + i + 1 }}
+                {{ currentPage * pageSize + i + 1 }}
               }
             </td>
-
             <td class="col-player">
               <div class="player-cell">
                 @if (earner.avatar) {
@@ -47,7 +41,6 @@
                 <span class="player-name" [style.color]="getNameColor(earner)">{{ earner.name }}</span>
               </div>
             </td>
-
             <td class="col-achievements">
               <div class="achievements-cell">
                 <span class="total-amount">{{ formatAmount(earner.totalAmount) }}</span>
@@ -58,12 +51,10 @@
                 </div>
               </div>
             </td>
-
           </tr>
         }
       </tbody>
     </table>
-
     @if (earners.length > pageSize) {
       <div class="pagination">
         <button class="page-btn" (click)="prevPage()" [disabled]="currentPage === 0">{{ 'TOP_EARNERS.PREV' | translate }}</button>
@@ -72,5 +63,4 @@
       </div>
     }
   }
-
 </div>

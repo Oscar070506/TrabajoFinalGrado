@@ -16,72 +16,87 @@
       <button class="carousel-btn carousel-btn--prev" (click)="prev()">&#8249;</button>
       <button class="carousel-btn carousel-btn--next" (click)="next()">&#8250;</button>
       <div class="slide-layout">
-        <div class="game-panel">
-          <div class="panel-header">
-            <img class="panel-cover" [src]="getCover(currentGame)" [alt]="getName(currentGame)" />
-            <div class="panel-title-block">
-              <h1 class="game-title">{{ getName(currentGame) }}</h1>
-              @if (currentGame?.names?.japanese) {
-                <p class="game-title-jp">{{ currentGame.names.japanese }}</p>
-              }
-              @if (getReleaseYear(currentGame)) {
-                <span class="game-year">{{ 'POPULAR.RELEASE' | translate }} {{ currentGame?.['release-date'] ?? getReleaseYear(currentGame) }}</span>
-              }
-              @if (currentGame?.weblink) {
-                <a class="game-weblink" [href]="currentGame.weblink" target="_blank">{{ 'POPULAR.VIEW_SPEEDRUN' | translate }}</a>
-              }
-            </div>
+        <div class="mobile-scroll-area">
+          <div class="mobile-top-bar">
+            <span class="mobile-section-title">{{ 'POPULAR.TITLE' | translate }}</span>
+            <span class="mobile-rank-badge"># {{ currentIndex + 1 }}</span>
           </div>
-          <div class="panel-divider"></div>
-          <div class="panel-stats">
-            <div class="stat-block">
-              <span class="stat-value">{{ currentGame?._runCount ?? '—' }}</span>
-              <span class="stat-label">{{ 'POPULAR.RECENT_RUNS' | translate }}</span>
-            </div>
-            <div class="stat-block">
-              <span class="stat-value">{{ currentGame?.boostReceived ?? 0 }}</span>
-              <span class="stat-label">{{ 'POPULAR.BOOSTS' | translate }}</span>
-            </div>
-            <div class="stat-block">
-              <span class="stat-value"># {{ currentIndex + 1 }}</span>
-              <span class="stat-label">{{ 'POPULAR.RANKING' | translate }}</span>
-            </div>
-          </div>
-          <div class="panel-divider"></div>
-          <div class="panel-meta">
-            <div class="meta-row">
-              <span class="meta-key">{{ 'POPULAR.PLATFORMS' | translate }}</span>
-              <span class="meta-val">
-                {{ (currentGame?.platforms?.length !== 1 ? 'POPULAR.PLATFORM_COUNT_PLURAL' : 'POPULAR.PLATFORM_COUNT') | translate: { count: currentGame?.platforms?.length ?? 0 } }}
-              </span>
-            </div>
-            <div class="meta-row">
-              <span class="meta-key">{{ 'POPULAR.VERIFICATION' | translate }}</span>
-              <span class="meta-val">{{ (currentGame?.ruleset?.['require-verification'] ? 'POPULAR.REQUIRED' : 'POPULAR.NOT_REQUIRED') | translate }}</span>
-            </div>
-            <div class="meta-row">
-              <span class="meta-key">{{ 'POPULAR.VIDEO' | translate }}</span>
-              <span class="meta-val">{{ (currentGame?.ruleset?.['require-video'] ? 'POPULAR.VIDEO_REQUIRED' : 'POPULAR.VIDEO_OPTIONAL') | translate }}</span>
-            </div>
-            <div class="meta-row">
-              <span class="meta-key">{{ 'POPULAR.EMULATOR' | translate }}</span>
-              <span class="meta-val">{{ (currentGame?.ruleset?.['emulators-allowed'] ? 'POPULAR.EMULATOR_ALLOWED' : 'POPULAR.EMULATOR_NOT_ALLOWED') | translate }}</span>
-            </div>
-            <div class="meta-row">
-              <span class="meta-key">{{ 'POPULAR.BASE_TIME' | translate }}</span>
-              <span class="meta-val">{{ currentGame?.ruleset?.['default-time'] ?? '—' }}</span>
-            </div>
-            @if (currentGame?.romhack) {
-              <div class="meta-row">
-                <span class="meta-key">{{ 'POPULAR.TYPE' | translate }}</span>
-                <span class="meta-val meta-badge">{{ 'POPULAR.ROM_HACK' | translate }}</span>
+          <div class="game-panel">
+            <div class="panel-header">
+              <img class="panel-cover" [src]="getCover(currentGame)" [alt]="getName(currentGame)" />
+              <div class="panel-title-block">
+                <h1 class="game-title">{{ getName(currentGame) }}</h1>
+                @if (currentGame?.names?.japanese) {
+                  <p class="game-title-jp">{{ currentGame.names.japanese }}</p>
+                }
+                @if (getReleaseYear(currentGame)) {
+                  <span class="game-year">{{ 'POPULAR.RELEASE' | translate }} {{ currentGame?.['release-date'] ?? getReleaseYear(currentGame) }}</span>
+                }
+                @if (currentGame?.weblink) {
+                  <a class="game-weblink" [href]="currentGame.weblink" target="_blank">{{ 'POPULAR.VIEW_SPEEDRUN' | translate }}</a>
+                }
               </div>
-            }
+            </div>
+            <div class="panel-divider"></div>
+            <div class="panel-stats">
+              <div class="stat-block">
+                <span class="stat-value">{{ currentGame?._runCount ?? '—' }}</span>
+                <span class="stat-label">{{ 'POPULAR.RECENT_RUNS' | translate }}</span>
+              </div>
+              <div class="stat-block">
+                <span class="stat-value">{{ currentGame?.boostReceived ?? 0 }}</span>
+                <span class="stat-label">{{ 'POPULAR.BOOSTS' | translate }}</span>
+              </div>
+              <div class="stat-block">
+                <span class="stat-value"># {{ currentIndex + 1 }}</span>
+                <span class="stat-label">{{ 'POPULAR.RANKING' | translate }}</span>
+              </div>
+            </div>
+            <div class="panel-divider"></div>
+            <div class="panel-meta">
+              <div class="meta-row">
+                <span class="meta-key">{{ 'POPULAR.PLATFORMS' | translate }}</span>
+                <span class="meta-val">
+                  {{ (currentGame?.platforms?.length !== 1 ? 'POPULAR.PLATFORM_COUNT_PLURAL' : 'POPULAR.PLATFORM_COUNT') | translate: { count: currentGame?.platforms?.length ?? 0 } }}
+                </span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">{{ 'POPULAR.VERIFICATION' | translate }}</span>
+                <span class="meta-val">{{ (currentGame?.ruleset?.['require-verification'] ? 'POPULAR.REQUIRED' : 'POPULAR.NOT_REQUIRED') | translate }}</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">{{ 'POPULAR.VIDEO' | translate }}</span>
+                <span class="meta-val">{{ (currentGame?.ruleset?.['require-video'] ? 'POPULAR.VIDEO_REQUIRED' : 'POPULAR.VIDEO_OPTIONAL') | translate }}</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">{{ 'POPULAR.EMULATOR' | translate }}</span>
+                <span class="meta-val">{{ (currentGame?.ruleset?.['emulators-allowed'] ? 'POPULAR.EMULATOR_ALLOWED' : 'POPULAR.EMULATOR_NOT_ALLOWED') | translate }}</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">{{ 'POPULAR.BASE_TIME' | translate }}</span>
+                <span class="meta-val">{{ currentGame?.ruleset?.['default-time'] ?? '—' }}</span>
+              </div>
+              @if (currentGame?.romhack) {
+                <div class="meta-row">
+                  <span class="meta-key">{{ 'POPULAR.TYPE' | translate }}</span>
+                  <span class="meta-val meta-badge">{{ 'POPULAR.ROM_HACK' | translate }}</span>
+                </div>
+              }
+            </div>
+            <div class="panel-divider"></div>
           </div>
-          <div class="panel-divider"></div>
-        </div>
-        <div class="leaderboard-panel">
-          <app-game-leaderboard [gameId]="currentGame.id"></app-game-leaderboard>
+          <div class="leaderboard-panel">
+            <app-game-leaderboard [gameId]="currentGame.id"></app-game-leaderboard>
+          </div>
+          <div class="mobile-pagination">
+            <button class="page-btn page-btn--prev" (click)="prev()">&#8249;</button>
+            <div class="page-counter">
+              <span class="page-current">{{ currentIndex + 1 }}</span>
+              <span class="page-sep">/</span>
+              <span class="page-total">{{ games.length }}</span>
+            </div>
+            <button class="page-btn page-btn--next" (click)="next()">&#8250;</button>
+          </div>
         </div>
       </div>
       <div class="carousel-indicators">

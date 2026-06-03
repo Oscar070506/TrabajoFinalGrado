@@ -178,7 +178,8 @@
     "SEARCH": "Buscar juego...",
     "SEARCH_SERIES": "Buscar serie...",
     "LOADING_SERIES": "Cargando series...",
-    "NO_SERIES": "No se encontraron series."
+    "NO_SERIES": "No se encontraron series.",
+    "BACK": "Volver"
   },
   "POPULAR": {
     "LOADING": "Cargando juego...",

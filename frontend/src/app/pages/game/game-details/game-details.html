@@ -10,78 +10,84 @@
       <div class="slide-bg" [style.background-image]="'url(' + getBackground(game) + ')'"></div>
       <div class="slide-fade slide-fade--left"></div>
       <div class="slide-fade slide-fade--right"></div>
-      <button class="carousel-btn carousel-btn--prev" (click)="goBack()">‹</button>
+
+      <button class="carousel-btn carousel-btn--prev" (click)="goBack()">&#8249;</button>
+
       <div class="slide-layout">
-        <aside class="game-panel">
-          <div class="panel-header">
-            <img class="panel-cover" [src]="getCover(game)" [alt]="getName(game)" />
-            <div class="panel-title-block">
-              <h1 class="game-title">{{ getName(game) }}</h1>
-              @if (game?.names?.japanese) {
-                <p class="game-title-jp">{{ game.names.japanese }}</p>
-              }
-              @if (getReleaseYear(game)) {
-                <span class="game-year">{{ 'POPULAR.RELEASE' | translate }} {{ game?.['release-date'] ?? getReleaseYear(game) }}</span>
-              }
-              @if (game?.weblink) {
-                <a class="game-weblink" [href]="game.weblink" target="_blank">{{ 'POPULAR.VIEW_SPEEDRUN' | translate }}</a>
-              }
-            </div>
+        <div class="mobile-scroll-area">
+
+          <div class="mobile-top-bar">
+            <button class="mobile-back-btn" (click)="goBack()">&#8249; {{ 'GAME.BACK' | translate }}</button>
           </div>
 
-          <div class="panel-divider"></div>
-
-          <div class="panel-stats">
-            <div class="stat-block">
-              <span class="stat-value">{{ game?.boostReceived ?? 0 }}</span>
-              <span class="stat-label">{{ 'POPULAR.BOOSTS' | translate }}</span>
-            </div>
-            <div class="stat-block">
-              <span class="stat-value">{{ game?.platforms?.length ?? 0 }}</span>
-              <span class="stat-label">{{ 'POPULAR.PLATFORMS' | translate }}</span>
-            </div>
-          </div>
-
-          <div class="panel-divider"></div>
-
-          <div class="panel-meta">
-            <div class="meta-row">
-              <span class="meta-key">{{ 'POPULAR.PLATFORMS' | translate }}</span>
-              <span class="meta-val">
-                {{ (game?.platforms?.length !== 1 ? 'POPULAR.PLATFORM_COUNT_PLURAL' : 'POPULAR.PLATFORM_COUNT') | translate: { count: game?.platforms?.length ?? 0 } }}
-              </span>
-            </div>
-            <div class="meta-row">
-              <span class="meta-key">{{ 'POPULAR.VERIFICATION' | translate }}</span>
-              <span class="meta-val">{{ (game?.ruleset?.['require-verification'] ? 'POPULAR.REQUIRED' : 'POPULAR.NOT_REQUIRED') | translate }}</span>
-            </div>
-            <div class="meta-row">
-              <span class="meta-key">{{ 'POPULAR.VIDEO' | translate }}</span>
-              <span class="meta-val">{{ (game?.ruleset?.['require-video'] ? 'POPULAR.VIDEO_REQUIRED' : 'POPULAR.VIDEO_OPTIONAL') | translate }}</span>
-            </div>
-            <div class="meta-row">
-              <span class="meta-key">{{ 'POPULAR.EMULATOR' | translate }}</span>
-              <span class="meta-val">{{ (game?.ruleset?.['emulators-allowed'] ? 'POPULAR.EMULATOR_ALLOWED' : 'POPULAR.EMULATOR_NOT_ALLOWED') | translate }}</span>
-            </div>
-            <div class="meta-row">
-              <span class="meta-key">{{ 'POPULAR.BASE_TIME' | translate }}</span>
-              <span class="meta-val">{{ game?.ruleset?.['default-time'] ?? '—' }}</span>
-            </div>
-            @if (game?.romhack) {
-              <div class="meta-row">
-                <span class="meta-key">{{ 'POPULAR.TYPE' | translate }}</span>
-                <span class="meta-val meta-badge">{{ 'POPULAR.ROM_HACK' | translate }}</span>
+          <aside class="game-panel">
+            <div class="panel-header">
+              <img class="panel-cover" [src]="getCover(game)" [alt]="getName(game)" />
+              <div class="panel-title-block">
+                <h1 class="game-title">{{ getName(game) }}</h1>
+                @if (game?.names?.japanese) {
+                  <p class="game-title-jp">{{ game.names.japanese }}</p>
+                }
+                @if (getReleaseYear(game)) {
+                  <span class="game-year">{{ 'POPULAR.RELEASE' | translate }} {{ game?.['release-date'] ?? getReleaseYear(game) }}</span>
+                }
+                @if (game?.weblink) {
+                  <a class="game-weblink" [href]="game.weblink" target="_blank">{{ 'POPULAR.VIEW_SPEEDRUN' | translate }}</a>
+                }
               </div>
+            </div>
+            <div class="panel-divider"></div>
+            <div class="panel-stats">
+              <div class="stat-block">
+                <span class="stat-value">{{ game?.boostReceived ?? 0 }}</span>
+                <span class="stat-label">{{ 'POPULAR.BOOSTS' | translate }}</span>
+              </div>
+              <div class="stat-block">
+                <span class="stat-value">{{ game?.platforms?.length ?? 0 }}</span>
+                <span class="stat-label">{{ 'POPULAR.PLATFORMS' | translate }}</span>
+              </div>
+            </div>
+            <div class="panel-divider"></div>
+            <div class="panel-meta">
+              <div class="meta-row">
+                <span class="meta-key">{{ 'POPULAR.PLATFORMS' | translate }}</span>
+                <span class="meta-val">
+                  {{ (game?.platforms?.length !== 1 ? 'POPULAR.PLATFORM_COUNT_PLURAL' : 'POPULAR.PLATFORM_COUNT') | translate: { count: game?.platforms?.length ?? 0 } }}
+                </span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">{{ 'POPULAR.VERIFICATION' | translate }}</span>
+                <span class="meta-val">{{ (game?.ruleset?.['require-verification'] ? 'POPULAR.REQUIRED' : 'POPULAR.NOT_REQUIRED') | translate }}</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">{{ 'POPULAR.VIDEO' | translate }}</span>
+                <span class="meta-val">{{ (game?.ruleset?.['require-video'] ? 'POPULAR.VIDEO_REQUIRED' : 'POPULAR.VIDEO_OPTIONAL') | translate }}</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">{{ 'POPULAR.EMULATOR' | translate }}</span>
+                <span class="meta-val">{{ (game?.ruleset?.['emulators-allowed'] ? 'POPULAR.EMULATOR_ALLOWED' : 'POPULAR.EMULATOR_NOT_ALLOWED') | translate }}</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">{{ 'POPULAR.BASE_TIME' | translate }}</span>
+                <span class="meta-val">{{ game?.ruleset?.['default-time'] ?? '—' }}</span>
+              </div>
+              @if (game?.romhack) {
+                <div class="meta-row">
+                  <span class="meta-key">{{ 'POPULAR.TYPE' | translate }}</span>
+                  <span class="meta-val meta-badge">{{ 'POPULAR.ROM_HACK' | translate }}</span>
+                </div>
+              }
+            </div>
+            <div class="panel-divider"></div>
+          </aside>
+
+          <main class="leaderboard-panel">
+            @if (game) {
+              <app-game-leaderboard [gameId]="game.id"></app-game-leaderboard>
             }
-          </div>
-        </aside>
+          </main>
 
-        <main class="leaderboard-panel">
-          @if (game) {
-            <app-game-leaderboard [gameId]="game.id"></app-game-leaderboard>
-          }
-        </main>
-
+        </div>
       </div>
     </div>
   }

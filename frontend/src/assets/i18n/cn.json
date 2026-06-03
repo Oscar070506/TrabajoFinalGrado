@@ -178,7 +178,9 @@
     "SEARCH": "搜索游戏...",
     "SEARCH_SERIES": "搜索系列...",
     "LOADING_SERIES": "加载系列中...",
-    "NO_SERIES": "未找到系列。"
+    "NO_SERIES": "未找到系列。",
+    "BACK": "返回"
+
   },
   "POPULAR": {
     "LOADING": "加载游戏中...",

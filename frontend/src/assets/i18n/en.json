@@ -178,7 +178,9 @@
     "SEARCH": "Search game...",
     "SEARCH_SERIES": "Search series...",
     "LOADING_SERIES": "Loading series...",
-    "NO_SERIES": "No series found."
+    "NO_SERIES": "No series found.",
+    "BACK": "Return"
+
   },
   "POPULAR": {
     "LOADING": "Loading game...",
